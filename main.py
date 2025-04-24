@@ -60,6 +60,7 @@ print('''
 API_ID = os.getenv("API_ID")  # من ملف .env
 API_HASH = os.getenv("API_HASH")  # من ملف .env
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # من ملف .env
+token = BOT_TOKEN
 app = Client(f'{Dev_Zaid}r3d', API_ID, API_HASH, bot_token=BOT_TOKEN,
     plugins={"root": "Plugins"}
   )
