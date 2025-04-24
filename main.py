@@ -27,15 +27,7 @@ except Exception as e:
         owner_id = int(r.get(f'{Dev_Zaid}botowner'))
      text = 'token = "{}"\nowner_id = {}'
      www.write(text.format(token, owner_id))
-
-    
-
-
-if not r.get(f'{Dev_Zaid}botowner'):
-    owner_id = int(input('[+] Enter SUDO ID : '))
-    r.set(f'{Dev_Zaid}botowner', owner_id)
-else:
-    owner_id = int(r.get(f'{Dev_Zaid}botowner'))
+owner_id = 0
 print('''
 10% 
 ███▒▒▒▒▒▒▒ ''')
@@ -77,54 +69,6 @@ def Find(text):
   m = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s!()\[\]{};:'\".,<>?«»“”‘’]))"
   url = re.findall(m,text)  
   return [x[0] for x in url]
-  
-# @app.on_message(filters.group & filters.regex("^انستا "), group=-1)
-# async def instaDownlo(c,m):
-#   if not r.get(f'{m.chat.id}:disableINSTA:{Dev_Zaid}') and Find(m.text):
-#     url = Find(m.text)[0]
-#     rep = await m.reply("...")
-#     await m.reply_chat_action(enums.ChatAction.TYPING)
-#     msg = await userbot.send_message("instasavegrambot", url)
-#     await rep.edit("Wait ...")
-#     await asyncio.sleep(20)
-#     await m.reply_chat_action(enums.ChatAction.UPLOAD_DOCUMENT)
-#     msg = await userbot.get_messages("instasavegrambot",msg.id+1)
-#     await rep.delete()
-#     if msg.media_group_id:
-#        r.set("media:insta", f"{m.chat.id}&&&{m.id}", ex=10)
-#        msg = await userbot.copy_media_group("iwwbot", "instasavegrambot",msg.id)
-#     else:
-#        msg = await msg.download("./")
-#        try:
-#           return await m.reply_video(msg)
-#        except:
-#           pass
-#        try:
-#           return await m.reply_animation(msg)
-#        except:
-#           pass
-       
-#        try:
-#           return await m.reply_photo(msg)
-#        except:
-#           pass
-       
-#        try:
-#           return await m.reply_document(msg)
-#        except:
-#           pass
-#        os.remove(msg)
-    
-     
-# @app.on_message(filters.private & filters.user(1920230442))
-# async def mediagCopy(c,m):
-#    if r.get("media:insta") and m.media_group_id:
-#       chat_id = r.get("media:insta").split("&&&")[0]
-#       id = r.get("media:insta").split("&&&")[1]
-#       await c.copy_media_group(int(chat_id), m.from_user.id, m.id,reply_to_message_id=int(id))
-#       r.delete("media:insta")
-      
-
 app.start()
 # userbot.start()
 print('''
@@ -149,11 +93,4 @@ print('''
 
 100% 
 ██████████''')
-if r.get(f'DevGroup:{Dev_Zaid}'):
-  id = int(r.get(f'DevGroup:{Dev_Zaid}'))
-  try:
-    app.send_message(id, "تم اتشغيل البوت بنجاح ✔️")
-  except:
-    pass
-idle()
   
