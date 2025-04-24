@@ -43,7 +43,7 @@ print('''
 to_config += f"\ntoken = '{token}'"
 to_config += f"\nDev_Zaid = token.split(':')[0]"
 to_config += f"\nsudo_id = {owner_id}"
-username = "kkajdjwjbot"
+username = "@kkajdjwjbot"
 to_config += f"\nbotUsername = '{username}'"
 to_config += "\nfrom kvsqlite.sync import Client as DB"
 to_config += "\nytdb = DB('ytdb.sqlite')"
