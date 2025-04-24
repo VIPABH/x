@@ -1,7 +1,7 @@
 import time, redis, os, json, re, requests, asyncio 
 from pyrogram import *
 r = redis.Redis('localhost',decode_responses=True)
-
+print(r)
 to_config = """
 import redis
 r = redis.Redis('localhost',decode_responses=True)
