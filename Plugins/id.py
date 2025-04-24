@@ -227,57 +227,46 @@ def get_my_rank(c,m,k):
         return m.reply(f'`{get.bio}`')
 
 
-if text in ['المجموعه', 'المجموعة']:
-    get = await c.invoke(GetFullChannel(channel=await c.resolve_peer(m.chat.id)))
-    
-    if get.full_chat.exported_invite:
+   if text == 'المجموعه' or text == 'المجموعة':
+      get = c.invoke(GetFullChannel(channel=c.resolve_peer(m.chat.id)))
+      if get.full_chat.exported_invite:
         link = get.full_chat.exported_invite.link
-    else:
+      else:
         link = 'مافي رابط'
-    
-    admins = get.full_chat.admins_count
-    kicked = get.full_chat.kicked_count
-    count = get.full_chat.participants_count
-    
-    if m.chat.photo:
+      admins = get.full_chat.admins_count
+      kicked = get.full_chat.kicked_count
+      count = get.full_chat.participants_count
+      if m.chat.photo:
         type = 'photo'
         if m.chat.username:
-            photo = f'https://t.me/{m.chat.username}'
+          photo = f'https://t.me/{m.chat.username}'
         else:
-            photo = await c.download_media(m.chat.photo.big_file_id)
-    else:
+          photo = c.download_media(m.chat.photo.big_file_id)
+      else:
         type = 'text'
-    
-    text = (
-        f'معلومات المجموعة:\n\n'
-        f'{k} الاسم ↢ {m.chat.title}\n'
-        f'{k} الايدي ↢ {m.chat.id}\n'
-        f'{k} عدد الاعضاء ↢ ( {count} )\n'
-        f'{k} عدد المشرفين ↢ ( {admins} )\n'
-        f'{k} عدد المحظورين ↢ ( {kicked} )\n'
-        f'{k} الرابط ↢ {link}'
-    )
-    
-    if type == 'photo':
-        await m.reply_photo(photo, caption=text)
-        try:
-            os.remove(photo)
-        except:
-            pass
-    else:
-        await m.reply(text, disable_web_page_preview=True)
-        if text == 'جهاتي' and not r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'):
-            contacts = 0
-        else:
-            contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
-        return m.reply(f'{k} عدد جهاتك ↢ {contacts}')
+      text = f'معلومات المجموعة:\n\n{k} الاسم ↢ {m.chat.title}\n{k} الايدي ↢ {m.chat.id}\n{k} عدد الاعضاء ↢ ( {count} )\n{k} عدد المشرفين ↢ ( {admins} )\n{k} عدد المحظورين ↢ ( {kicked} )\n{k} الرابط ↢ {link} '
+      if type == 'photo':
+         m.reply_photo(photo, caption=text)
+         try:
+           os.remove(photo)
+         except:
+           pass
+         return
+      else:
+         return m.reply(text, disable_web_page_preview=True)
 
-    if text == 'افتاري':
-        if r.get(f'{m.chat.id}:disableAV:{Dev_Zaid}'):
-            return False
-        if not m.from_user.photo:
-            return m.reply(f'{k} ماقدر اجيب افتارك ارسل نقطه خاص وارجع جرب')
-        else:
+   if text == 'جهاتي':
+     if not r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'):
+       contacts = 0
+     else:
+       contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
+     return m.reply(f'{k} عدد جهاتك ↢ {contacts}')
+
+   if text == 'افتاري':
+     if r.get(f'{m.chat.id}:disableAV:{Dev_Zaid}'): return False
+     if not m.from_user.photo:
+       return m.reply(f'{k} ماقدر اجيب افتارك ارسل نقطه خاص وارجع جرب')
+     else:
        if m.from_user.username:
          photo = f'http://t.me/{m.from_user.username}'
        else:
