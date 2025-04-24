@@ -266,16 +266,17 @@ if text in ['المجموعه', 'المجموعة']:
             pass
     else:
         await m.reply(text, disable_web_page_preview=True)
-       if text == 'جهاتي' and not r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'):
-       contacts = 0
-     else:
-       contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
-     return m.reply(f'{k} عدد جهاتك ↢ {contacts}')
+        if text == 'جهاتي' and not r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'):
+            contacts = 0
+        else:
+            contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
+        return m.reply(f'{k} عدد جهاتك ↢ {contacts}')
 
-   if text == 'افتاري':
-     if r.get(f'{m.chat.id}:disableAV:{Dev_Zaid}'): return False
-     if not m.from_user.photo:
-       return m.reply(f'{k} ماقدر اجيب افتارك ارسل نقطه خاص وارجع جرب')
+    if text == 'افتاري':
+        if r.get(f'{m.chat.id}:disableAV:{Dev_Zaid}'):
+            return False
+        if not m.from_user.photo:
+            return m.reply(f'{k} ماقدر اجيب افتارك ارسل نقطه خاص وارجع جرب')
      else:
        if m.from_user.username:
          photo = f'http://t.me/{m.from_user.username}'
