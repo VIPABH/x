@@ -11,7 +11,8 @@ print('''
 Loading…
 █▒▒▒▒▒▒▒▒▒''')
 print('\n\n')
-
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # من ملف .env
+token = BOT_TOKEN
 try:
   from information import *
   Dev_Zaid = token.split(':')[0]
