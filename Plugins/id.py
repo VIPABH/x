@@ -277,7 +277,7 @@ if text in ['المجموعه', 'المجموعة']:
             return False
         if not m.from_user.photo:
             return m.reply(f'{k} ماقدر اجيب افتارك ارسل نقطه خاص وارجع جرب')
-     else:
+        else:
        if m.from_user.username:
          photo = f'http://t.me/{m.from_user.username}'
        else:
