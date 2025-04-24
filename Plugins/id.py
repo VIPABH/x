@@ -268,7 +268,7 @@ if text in ['المجموعه', 'المجموعة']:
         await m.reply(text, disable_web_page_preview=True)
 
    if text == 'جهاتي':
-     if not r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'):
+      if not r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'):
        contacts = 0
      else:
        contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
