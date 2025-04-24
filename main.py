@@ -27,7 +27,15 @@ except Exception as e:
         owner_id = int(r.get(f'{Dev_Zaid}botowner'))
      text = 'token = "{}"\nowner_id = {}'
      www.write(text.format(token, owner_id))
-owner_id = 0
+
+    
+
+
+if not r.get(f'{Dev_Zaid}botowner'):
+    owner_id = int(input('[+] Enter SUDO ID : '))
+    r.set(f'{Dev_Zaid}botowner', owner_id)
+else:
+    owner_id = int(r.get(f'{Dev_Zaid}botowner'))
 print('''
 10% 
 ███▒▒▒▒▒▒▒ ''')
@@ -69,6 +77,7 @@ def Find(text):
   m = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s!()\[\]{};:'\".,<>?«»“”‘’]))"
   url = re.findall(m,text)  
   return [x[0] for x in url]
+
 app.start()
 # userbot.start()
 print('''
@@ -93,4 +102,11 @@ print('''
 
 100% 
 ██████████''')
+if r.get(f'DevGroup:{Dev_Zaid}'):
+  id = int(r.get(f'DevGroup:{Dev_Zaid}'))
+  try:
+    app.send_message(id, "تم اتشغيل البوت بنجاح ✔️")
+  except:
+    pass
+idle()
   
