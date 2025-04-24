@@ -20,7 +20,7 @@ except Exception as e:
   with open ('information.py','w+') as www:
      Dev_Zaid = token.split(':')[0]
      if not r.get(f'{Dev_Zaid}botowner'):
-       owner_id = 20004921
+       owner_id = 7811364724
        r.set(f'{Dev_Zaid}botowner', owner_id)
      else:
         owner_id = int(r.get(f'{Dev_Zaid}botowner'))
