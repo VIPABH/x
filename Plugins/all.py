@@ -96,10 +96,8 @@ comments = [
   'للاسف ايديك تلوث بصري ):',
   'جابك الله انت وأيديك على شكل جبر خاطر لقلبّي'
 ]
-
 @Client.on_message(filters.group, group=9)
 def addmsgCount(c,m):
-
    if r.get(f'{m.from_user.id}:mute:{m.chat.id}{Dev_Zaid}'):  return
    if not r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.from_user.id}'):
       r.set(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.from_user.id}', 1)
@@ -107,24 +105,18 @@ def addmsgCount(c,m):
       get = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.from_user.id}'))
       r.set(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.from_user.id}', get+1)
    r.set(f"{m.from_user.id}:bankName", m.from_user.first_name[:25])
-
 @Client.on_edited_message(filters.group, group=10)
 def addeditedmsgCount(c,m):
-
    if r.get(f'{m.from_user.id}:mute:{m.chat.id}{Dev_Zaid}'):  return
    if not r.get(f'{m.chat.id}:TotalEDMsgs:{m.from_user.id}{Dev_Zaid}'):
       r.set(f'{m.chat.id}:TotalEDMsgs:{m.from_user.id}{Dev_Zaid}', 1)
    else:
       get = int(r.get(f'{m.chat.id}:TotalEDMsgs:{m.from_user.id}{Dev_Zaid}'))
       r.set(f'{m.chat.id}:TotalEDMsgs:{m.from_user.id}{Dev_Zaid}', get+1)
-
 @Client.on_message(filters.text & filters.group, group=11)
 def rankGetHandler(c,m):
    k = r.get(f'{Dev_Zaid}:botkey')
    Thread(target=get_my_rank,args=(c,m,k)).start()
-
-
-
 def get_my_rank(c,m,k):
    if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):  return
    if r.get(f'{m.chat.id}:mute:{Dev_Zaid}') and not admin_pls(m.from_user.id,m.chat.id):  return
@@ -148,22 +140,17 @@ def get_my_rank(c,m,k):
      else:
        groups = len(r.smembers(f'{m.from_user.id}:groups'))
        return m.reply(f'{k} عدد مجموعاتك ↼ ( {groups} )')
-
    if text == 'انشائي':
       create_date = get_creation_date(m.from_user.id)
       return m.reply(f'{k} الانشاء ( {create_date} )')
-
    if text == 'الانشاء' and not m.reply_to_message:
       create_date = get_creation_date(m.from_user.id)
       return m.reply(f'{k} الانشاء ( {create_date} )')
-
    if (text == 'الانشاء' or text == 'انشائه') and m.reply_to_message:
       create_date = get_creation_date(m.reply_to_message.from_user.id)
       return m.reply(f'{k} الانشاء ( {create_date} )')
-
    if text == 'اسمي':
      return m.reply(m.from_user.first_name, disable_web_page_preview=True)
-
    if text == 'معلوماتي':
       msgs = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.from_user.id}'))
       if msgs > 50:
@@ -188,10 +175,14 @@ def get_my_rank(c,m,k):
          contacts = 0
       else:
          contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
-      if m.from_user and m.from_user.username:
-         username = f"@{m.from_user.username}"
-      else:
-         username = 'مافي يوزر'
+         if hasattr(m.from_user, "usernames") and m.from_user.usernames:
+            username = ""
+            for u in m.from_user.usernames:
+               username += f"@{u} "
+               elif m.from_user and m.from_user.username:
+               username = f"@{m.from_user.username}"
+            else:
+               username = "مافي يوزر"
       rank = get_rank(m.from_user.id,m.chat.id)
       text = f'''
 ⚘ المعلومات
@@ -206,7 +197,6 @@ def get_my_rank(c,m,k):
 ❁ التفاعل ↼ {tfa3l}
 '''
       return m.reply(text)
-
    if text == 'بايو' and m.reply_to_message and m.reply_to_message.from_user:
       if r.get(f'{m.chat.id}:disableBio:{Dev_Zaid}'):  return
       get = c.get_chat(m.reply_to_message.from_user.id)
@@ -214,7 +204,6 @@ def get_my_rank(c,m,k):
         return m.reply(f'{k} ماعنده بايو')
       else:
         return m.reply(f'`{get.bio}`')
-
    if text == 'بايو' and not m.reply_to_message:
       if r.get(f'{m.chat.id}:disableBio:{Dev_Zaid}'):  return
       get = c.get_chat(m.from_user.id)
@@ -222,11 +211,8 @@ def get_my_rank(c,m,k):
         return m.reply(f'{k} ماعندك بايو')
       else:
         return m.reply(f'`{get.bio}`')
-
-
    if text == 'المجموعه' or text == 'المجموعة':
        get = c.invoke(GetFullChannel(channel=c.resolve_peer(m.chat.id)))
-   
        link = get.full_chat.exported_invite.link if get.full_chat.exported_invite else 'مافي رابط'
        admins = get.full_chat.admins_count
        kicked = get.full_chat.kicked_count
@@ -998,8 +984,6 @@ def get_my_rank(c,m,k):
               return m.reply_photo(file_id, caption=text)
          else:
            return m.reply(text, disable_web_page_preview=True)
-
-
 @Client.on_message(filters.new_chat_members, group=1)
 def addContact(c,m):
   for me in m.new_chat_members:
@@ -1009,29 +993,3 @@ def addContact(c,m):
       else:
         co = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
         r.set(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}',co+1)
-
-
-'''
-
-@Client.on_message(filters.text & filters.group, group=17)
-def setIDHandler(c,m):
-    k = r.get(f'{Dev_Zaid}:botkey')
-    set_id(c,m,k)
-
-
-def set_id(c,m,k):
-   if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):  return
-   if r.get(f'{m.from_user.id}:mute:{m.chat.id}{Dev_Zaid}'):  return
-   if r.get(f'{m.from_user.id}:mute:{Dev_Zaid}'):  return
-   if r.get(f'{m.chat.id}:addCustom:{m.from_user.id}{Dev_Zaid}'):  return
-   if r.get(f'{m.chat.id}addCustomG:{m.from_user.id}{Dev_Zaid}'):  return
-   text = m.text
-   if r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}'):
-       text = r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}')
-   if r.get(f'Custom:{Dev_Zaid}&text={text}'):
-       text = r.get(f'Custom:{Dev_Zaid}&text={text}')
-
-'''
-
-
-
