@@ -403,17 +403,16 @@ def getInfo(c, query):
         query.answer(f'{k} مر على البحث اكثر من دقيقة ابحث مرة ثانية', show_alert=True)
         return query.message.delete()
     
-    if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):
-        return
-    if r.get(f':disableYT:{Dev_Zaid}'):
+    if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}') and r.get(f':disableYT:{Dev_Zaid}'):
         return
 
     query.message.delete()
     vid_id = query.data.split("GET")[1]
-    # OriImage = Image.open(f'{vid_id}.jpg')
-    # blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
-    # blurImage.save(f'{vid_id}.jpg')
+    OriImage = Image.open(f'{vid_id}.jpg')
+    blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
+    blurImage.save(f'{vid_id}.jpg')
     url = f'https://youtu.be/{vid_id}'
+    xx = {vid_id}.jpg
     reply_markup = InlineKeyboardMarkup(
       [
         [
@@ -426,7 +425,7 @@ def getInfo(c, query):
       ]
     )
     query.message.reply_to_message.reply_photo(
-      #  photo,
+       xx,
        caption=f'@ssxzl ~ {url}',
        reply_markup=reply_markup
     )
