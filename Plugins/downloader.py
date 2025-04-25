@@ -411,7 +411,7 @@ def getInfo(c, query):
 
     query.message.delete()
 
-    vid_id = query.data.split("GET")[1]
+    vid_id = query.data.split("GET")
     cccc = 3
     print(vid_id, cccc)
     xx = f"{vid_id}.jpg"
