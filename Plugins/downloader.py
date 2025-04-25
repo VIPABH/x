@@ -8,7 +8,7 @@ from threading import Thread
 from pyrogram import *
 from pyrogram.enums import *
 from shazamio import Shazam
-from pyrogram.types import *
+from pyrogram.types import *,
 from config import *
 from helpers.Ranks import *
 from helpers.Ranks import isLockCommand
@@ -52,14 +52,14 @@ def yt_func(c,m,k,channel):
      query = text.split(None,1)[1]
      results=Y88F8(query,max_results=1).to_dict()
      res = results[0]
-     title = res['title']
-     duration= int(time_to_seconds(res['duration']))
-     duration_string = time.strftime('%M:%S', time.gmtime(duration))
+    #  title = res['title']
+    #  duration= int(time_to_seconds(res['duration']))
+    #  duration_string = time.strftime('%M:%S', time.gmtime(duration))
      if ytdb.get(f'ytvideo{res["id"]}'):
         aud = ytdb.get(f'ytvideo{res["id"]}')
         duration_string = time.strftime('%M:%S', time.gmtime(aud["duration"]))
         return m.reply_audio(aud["audio"],caption=f'@{channel} ~ {duration_string} ⏳',reply_markup=rep)
-     url = f'https://youtu.be/3BBcIc0uHso'
+     url = f'https://youtu.be/{res["id"]}'
      cc = 1
      print(url, cc)
      yt = YouTube(url)
