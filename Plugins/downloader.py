@@ -394,7 +394,7 @@ import requests
 
 def getInfo(c, query):
     user_id = query.data.split("GET")[0]
-
+    print(user_id)
     if not query.from_user.id == int(user_id):
         return
 
@@ -409,6 +409,7 @@ def getInfo(c, query):
     query.message.delete()
 
     vid_id = query.data.split("GET")[1]
+    print(vid_id)
     xx = f"{vid_id}.jpg"
     url = f'https://youtu.be/{vid_id}'
     if not os.path.exists(xx):
