@@ -20,7 +20,7 @@ from pyrogram import *
 from pyrogram.enums import *
 from pyrogram.types import *
 from config import *
-from .all import list_UwU
+# from .all import list_UwU
 from helpers.Ranks import *
 from helpers.quran import *
 from helpers.memes import *
