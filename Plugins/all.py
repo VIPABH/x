@@ -175,9 +175,9 @@ def get_my_rank(c,m,k):
          contacts = 0
       else:
          contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
-      if hasattr(m.from_user, "usernames") and m.from_user.usernames:
+      if hasattr(m.from_user, "username") and m.from_user.username:
           username = ""
-          for u in m.from_user.usernames:
+          for u in m.from_user.username:
              username += f"@{u} "
           else:
              username = "مافي يوزر"
