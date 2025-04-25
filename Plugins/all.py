@@ -188,11 +188,8 @@ def get_my_rank(c,m,k):
          contacts = 0
       else:
          contacts = int(r.get(f'{m.chat.id}TotalContacts{m.from_user.id}{Dev_Zaid}'))
-      if m.from_user.username:
-         username = f'@{m.from_user.username}'
-      if m.from_user.usernames:
-         username = ''
-         for i in m.from_user.usernames: username += f"@{i.username} "
+      if m.from_user and m.from_user.username:
+         username = f"@{m.from_user.username}"
       else:
          username = 'مافي يوزر'
       rank = get_rank(m.from_user.id,m.chat.id)
