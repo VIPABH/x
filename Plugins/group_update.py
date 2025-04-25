@@ -376,7 +376,7 @@ def get_rngp(c,m):
       m.reply(random.choice(bot_r))
    
    if text == name:
-     m.reply(random.choice(bot_name))
+     m.reply(random.choice(BotName))
      
    '''
    if text in list_UwU:
