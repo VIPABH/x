@@ -427,10 +427,7 @@ def getInfo(c, query):
 
         photo_path = f'{vid_id}.jpg'
         url = f'https://youtu.be/{vid_id}'
-
-        # هنا تقدر تكمل إرسال الرسالة أو العرض حسب ما تريده
-        # مثل إرسال الصورة أو الرد باستخدام InlineKeyboardMarkup
-
+        channel = "ssxzl"
     except Exception as e:
         print(f"[getInfo ERROR] {e}")
         query.answer("فشل في جلب معلومات الفيديو، تأكد من الرابط أو جرب لاحقًا.", show_alert=True)
