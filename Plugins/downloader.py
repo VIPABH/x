@@ -409,10 +409,10 @@ def getInfo(c, query):
         return
 
     query.message.delete()
-    vid_id = query.data.split("GET")[1]
-    OriImage = Image.open(f'{vid_id}.jpg')
-    blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
-    blurImage.save(f'{vid_id}.jpg')
+    # vid_id = query.data.split("GET")[1]
+    # OriImage = Image.open(f'{vid_id}.jpg')
+    # blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
+    # blurImage.save(f'{vid_id}.jpg')
     url = f'https://youtu.be/{vid_id}'
     reply_markup = InlineKeyboardMarkup(
       [
