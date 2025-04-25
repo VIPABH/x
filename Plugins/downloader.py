@@ -426,6 +426,7 @@ def getInfo(c, query):
         # photo_path = f'{vid_id}.jpg'
         url = f'https://youtu.be/{vid_id}'
         x = "ssxzl"
+        url = f'https://youtu.be/{vid_id}'
     except Exception as e:
         print(f"[getInfo ERROR] {e}")
         query.answer("فشل في جلب معلومات الفيديو، تأكد من الرابط أو جرب لاحقًا.", show_alert=True)
