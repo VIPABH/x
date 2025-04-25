@@ -394,27 +394,34 @@ import requests
 
 def getInfo(c, query):
     user_id = query.data.split("GET")[0]
-    
+
     if not query.from_user.id == int(user_id):
         return
-    
+
     if not r.get(f'{query.message.id}:one_minute:{user_id}'):
         k = r.get(f'{Dev_Zaid}:botkey')
         query.answer(f'{k} مر على البحث اكثر من دقيقة ابحث مرة ثانية', show_alert=True)
         return query.message.delete()
-    
+
     if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}') and r.get(f':disableYT:{Dev_Zaid}'):
         return
 
     query.message.delete()
+
     vid_id = query.data.split("GET")[1]
-    OriImage = Image.open(f'{vid_id}.jpg')
-    blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
-    blurImage.save(f'{vid_id}.jpg')
-    url = f'https://youtu.be/{vid_id}'
     xx = f"{vid_id}.jpg"
-    reply_markup = InlineKeyboardMarkup(
-      [
+    channel = r.get(f'{Dev_Zaid}:BotChannel') or 'w7G_BoT'
+    url = f'https://youtu.be/{vid_id}'
+    if not os.path.exists(xx):
+       yt = YouTube(url)
+       photo_url = yt.thumbnail_url
+       photo_data = requests.get(photo_url).content
+       with open(xx, 'wb') as f:
+          f.write(photo_data)
+          OriImage = Image.open(xx)
+          blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
+          blurImage.save(xx)
+        [
         [
           InlineKeyboardButton ("♫ ملف صوتي", callback_data=f'{user_id}AUDIO{vid_id}'),
           InlineKeyboardButton ("❖ فيديو", callback_data=f'{user_id}VIDEO{vid_id}'),
@@ -423,7 +430,7 @@ def getInfo(c, query):
           InlineKeyboardButton ('🧚‍♀️', url='https://t.me/ssxzl')
         ]
       ]
-    )
+    
     query.message.reply_to_message.reply_photo(
        xx,
        caption=f'@ssxzl ~ {url}',
