@@ -442,7 +442,7 @@ def getInfo(c, query):
     )
     query.message.reply_to_message.reply_photo(
       #  photo,
-       caption=f'@{channel} ~ {url}',
+       caption=f'@ssxzl ~ {url}',
        reply_markup=reply_markup
     )
     #os.remove(f'{vid_id}.jpg')
