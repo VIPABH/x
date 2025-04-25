@@ -425,7 +425,7 @@ def getInfo(c, query):
         blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
         blurImage.save(f'{vid_id}.jpg')
 
-        photo_path = f'{vid_id}.jpg'
+        # photo_path = f'{vid_id}.jpg'
         url = f'https://youtu.be/{vid_id}'
         x = "ssxzl"
     except Exception as e:
@@ -438,7 +438,7 @@ def getInfo(c, query):
           InlineKeyboardButton ("❖ فيديو", callback_data=f'{user_id}VIDEO{vid_id}'),
         ],
         [
-          InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{x}')
+          InlineKeyboardButton ('🧚‍♀️', url='https://t.me/ssxzl')
         ]
       ]
     )
