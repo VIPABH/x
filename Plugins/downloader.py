@@ -179,7 +179,7 @@ def yt_func(c,m,k,channel):
      string_d = time.strftime('%M:%S', time.gmtime(duration))
      uploader=vid_data['uploader']
      uploader_url=vid_data['uploader_url']
-     creator=vid_data['creator']
+    #  creator=vid_data['creator']
      file_name=vid_data['url']
      url=vid_data['original_url']
      likes=vid_data['like_count']
