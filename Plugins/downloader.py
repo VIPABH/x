@@ -1,18 +1,4 @@
-'''
 
-
-██████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
 
 import yt_dlp,os, requests, re, time, wget, random, json 
 from yt_dlp import YoutubeDL
@@ -22,7 +8,7 @@ from threading import Thread
 from pyrogram import *
 from pyrogram.enums import *
 from shazamio import Shazam
-from pyrogram.types import *
+from pyrogram.types import *,
 from config import *
 from helpers.Ranks import *
 from helpers.Ranks import isLockCommand
@@ -47,7 +33,6 @@ def ytdownloaderHandler(c,m):
     k = r.get(f'{Dev_Zaid}:botkey')
     channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
     Thread(target=yt_func,args=(c,m,k,channel)).start()
-    
 def yt_func(c,m,k,channel):
    if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):
         return False 
@@ -61,22 +46,6 @@ def yt_func(c,m,k,channel):
        InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{channel}')
      ]]
    )
-
-   if text.startswith('يوت '):
-     if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}'):  return
-     if r.get(f':disableYT:{Dev_Zaid}'):  return
-     query = text.split(None,1)[1]
-     keyboard= []
-     results=Y88F8(query,max_results=5).to_dict()
-     for res in results:
-       title = res['title']
-       id = res['id']
-       keyboard.append([InlineKeyboardButton (title, callback_data=f'{m.from_user.id}GET{id}')])     
-     a = m.reply(f'{k} البحث ~ {query}',reply_markup=InlineKeyboardMarkup (keyboard), disable_web_page_preview=True)
-     r.set(f'{a.id}:one_minute:{m.from_user.id}', 1, ex=60)
-     return True
-     
-   
    if text.startswith('بحث ') or text.startswith('yt '):
      if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}'):  return
      if r.get(f':disableYT:{Dev_Zaid}'):  return
@@ -90,7 +59,7 @@ def yt_func(c,m,k,channel):
         aud = ytdb.get(f'ytvideo{res["id"]}')
         duration_string = time.strftime('%M:%S', time.gmtime(aud["duration"]))
         return m.reply_audio(aud["audio"],caption=f'@{channel} ~ {duration_string} ⏳',reply_markup=rep)
-     url = f'https://youtu.be/{res["id"]}'
+     url = f'https://youtu.be/3BBcIc0uHso'
      cc = 1
      print(url, cc)
      yt = YouTube(url)
@@ -118,7 +87,7 @@ def yt_func(c,m,k,channel):
          os.remove(thumb)
          return True
   
-   if text == "نسخة اليوتيوب" and m.from_user.id == 6168217372:
+   if text == "نسخة اليوتيوب" and m.from_user.id == 1910015590:
      if not ytdb.keys(): return m.reply("تخزين اليوتيوب فاضي")
      else:
         videos = []
@@ -411,7 +380,7 @@ def getInfo(c, query):
 
     query.message.delete()
 
-    vid_id = query.data.split("GET")
+    vid_id = query.data.split("GET")[1]
     cccc = 3
     print(vid_id, cccc)
     xx = f"{vid_id}.jpg"
