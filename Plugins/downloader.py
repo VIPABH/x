@@ -410,11 +410,11 @@ def getInfo(c, query):
 
     vid_id = query.data.split("GET")[1]
     xx = f"{vid_id}.jpg"
-    channel = r.get(f'{Dev_Zaid}:BotChannel') or 'w7G_BoT'
     url = f'https://youtu.be/{vid_id}'
     if not os.path.exists(xx):
        yt = YouTube(url)
        photo_url = yt.thumbnail_url
+       print(photo_url)
        photo_data = requests.get(photo_url).content
        with open(xx, 'wb') as f:
           f.write(photo_data)
