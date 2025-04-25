@@ -67,7 +67,7 @@ def yt_func(c,m,k,channel):
      if r.get(f':disableYT:{Dev_Zaid}'):  return
      query = text.split(None,1)[1]
      keyboard= []
-     results=Y88F8(query,max_results=4).to_dict()
+     results=Y88F8(query,max_results=5).to_dict()
      for res in results:
        title = res['title']
        id = res['id']
@@ -91,6 +91,7 @@ def yt_func(c,m,k,channel):
         duration_string = time.strftime('%M:%S', time.gmtime(aud["duration"]))
         return m.reply_audio(aud["audio"],caption=f'@{channel} ~ {duration_string} ⏳',reply_markup=rep)
      url = f'https://youtu.be/{res["id"]}'
+     print(url)
      yt = YouTube(url)
      if yt.length > 15555555:
          return m.reply("صوت فوق 25 دقيقة ما اقدر انزله",reply_markup=rep)
