@@ -440,58 +440,58 @@ def getInfo(c, query):
     #os.remove(f'{vid_id}.jpg')
     
 
-@Client.on_callback_query(filters.regex("AUDIO"))
-async def get_audii(c, query):
-    Thread(target=audio_down,args=(c,query)).start()
+# @Client.on_callback_query(filters.regex("AUDIO"))
+# async def get_audii(c, query):
+#     Thread(target=audio_down,args=(c,query)).start()
 
 
-def audio_down(c, query):
-    user_id = query.data.split("AUDIO")[0]
-    vid_id = query.data.split("AUDIO")[1]
-    if not query.from_user.id == int(user_id):
-      return False
-    if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):  return
-    if r.get(f':disableYT:{Dev_Zaid}'):  return
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
-    rep = InlineKeyboardMarkup (
-     [[
-       InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{channel}')
-     ]]
-    )
-    if ytdb.get(f'ytvideo{vid_id}'):
-       aud = ytdb.get(f'ytvideo{vid_id}')
-       query.edit_message_caption(f"@{channel} :)", reply_markup=rep)
-       duration= aud["duration"]
-       sec = time.strftime('%M:%S', time.gmtime(duration))
-       return query.message.reply_audio(aud["audio"],caption=f'@{channel} ~ ⏳ {sec}')       
-    url = f'https://youtu.be/{vid_id}'
-    query.edit_message_caption("جاري التحميل ..", reply_markup=rep)    
-    #ydl_ops = {"format": "bestaudio[ext=m4a]"}
-    ydl_ops = {"format": "bestaudio[ext=m4a]",'forceduration':True, "username": "oauth2", "password": ''}
-    with yt_dlp.YoutubeDL(ydl_ops) as ydl:
-        info = ydl.extract_info(url, download=False)
-        if int(info['duration']) > 1555555555555:
-          return query.edit_message_caption("صوت اكثر من 25 دقيقة مقدر انزله",reply_markup=rep)
-        audio_file = ydl.prepare_filename(info)
-        ydl.process_info(info)
-    query.edit_message_caption("✈️✈️✈️✈️✈️", reply_markup=rep)
-    duration= int(info['duration'])
-    sec = time.strftime('%M:%S', time.gmtime(duration))
-    os.rename(audio_file,audio_file.replace(".m4a",".mp3"))
-    audio_file = audio_file.replace(".m4a",".mp3")
-    a = query.message.reply_audio(
-      audio_file,
-      title=info['title'],
-      duration=int(info['duration']),
-      performer=info['channel'],
-      caption=f'@{channel} ~ ⏳ {sec}',
-    )
-    query.edit_message_caption(f"@{channel} :)", reply_markup=rep)    
-    ytdb.set(f'ytvideo{vid_id}',{"type":"audio","audio":a.audio.file_id,"duration":a.audio.duration})
-    os.remove(audio_file)
+# def audio_down(c, query):
+#     user_id = query.data.split("AUDIO")[0]
+#     vid_id = query.data.split("AUDIO")[1]
+#     if not query.from_user.id == int(user_id):
+#       return False
+#     if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):  return
+#     if r.get(f':disableYT:{Dev_Zaid}'):  return
+#     channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
+#     rep = InlineKeyboardMarkup (
+#      [[
+#        InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{channel}')
+#      ]]
+#     )
+#     if ytdb.get(f'ytvideo{vid_id}'):
+#        aud = ytdb.get(f'ytvideo{vid_id}')
+#        query.edit_message_caption(f"@{channel} :)", reply_markup=rep)
+#        duration= aud["duration"]
+#        sec = time.strftime('%M:%S', time.gmtime(duration))
+#        return query.message.reply_audio(aud["audio"],caption=f'@{channel} ~ ⏳ {sec}')       
+#     url = f'https://youtu.be/{vid_id}'
+#     query.edit_message_caption("جاري التحميل ..", reply_markup=rep)    
+#     #ydl_ops = {"format": "bestaudio[ext=m4a]"}
+#     ydl_ops = {"format": "bestaudio[ext=m4a]",'forceduration':True, "username": "oauth2", "password": ''}
+#     with yt_dlp.YoutubeDL(ydl_ops) as ydl:
+#         info = ydl.extract_info(url, download=False)
+#         if int(info['duration']) > 1555555555555:
+#           return query.edit_message_caption("صوت اكثر من 25 دقيقة مقدر انزله",reply_markup=rep)
+#         audio_file = ydl.prepare_filename(info)
+#         ydl.process_info(info)
+#     query.edit_message_caption("✈️✈️✈️✈️✈️", reply_markup=rep)
+#     duration= int(info['duration'])
+#     sec = time.strftime('%M:%S', time.gmtime(duration))
+#     os.rename(audio_file,audio_file.replace(".m4a",".mp3"))
+#     audio_file = audio_file.replace(".m4a",".mp3")
+#     a = query.message.reply_audio(
+#       audio_file,
+#       title=info['title'],
+#       duration=int(info['duration']),
+#       performer=info['channel'],
+#       caption=f'@{channel} ~ ⏳ {sec}',
+#     )
+#     query.edit_message_caption(f"@{channel} :)", reply_markup=rep)    
+#     ytdb.set(f'ytvideo{vid_id}',{"type":"audio","audio":a.audio.file_id,"duration":a.audio.duration})
+#     os.remove(audio_file)
 
 
-"""
+
 @Client.on_callback_query(filters.regex("AUDIO"))
 def get_audii(c, query):
     Thread(target=audio_down,args=(c,query)).start()
@@ -536,63 +536,63 @@ def audio_down(c, query):
     
     r.set(f'ytvideo{vid_id}',b.link)
     os.remove(f'{vid_id}.mp3')
-"""
 
-@Client.on_callback_query(filters.regex("VIDEO"))
-def get_video(c, query):
-   Thread(target=video_down,args=(c,query)).start()
 
-def video_down(c, query):
-    user_id = query.data.split("VIDEO")[0]
-    vid_id = query.data.split("VIDEO")[1]
-    if not query.from_user.id == int(user_id):
-      return False
-    if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):  return
-    if r.get(f':disableYT:{Dev_Zaid}'):  return
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
-    rep = InlineKeyboardMarkup (
-     [[
-       InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{channel}')
-     ]]
-    )
-    if ytdb.get(f'ytvideoV{vid_id}'):
-       vid = ytdb.get(f'ytvideoV{vid_id}')
-       query.edit_message_caption(f"@{channel} :)", reply_markup=rep)
-       duration=vid["duration"]
-       sec = time.strftime('%M:%S', time.gmtime(duration))
-       return query.message.reply_video(vid["video"],caption=f'@{channel} ~ ⏳ {sec}')
-    url = f'https://youtu.be/{vid_id}'
-    query.edit_message_caption("جاري التحميل ..", reply_markup=rep)
-    with yt_dlp.YoutubeDL({}) as ydl:
-        info = ydl.extract_info(url, download=False)
-        if int(info['duration']) > 1555555555:
-          return query.edit_message_caption("فيديو اكثر من 25 دقيقة مقدر انزله",reply_markup=rep)
-    ydl_opts = {
-        "format": "best",
-        "keepvideo": True,
-        "prefer_ffmpeg": False,
-        "geo_bypass": True,
-        "outtmpl": "%(title)s.%(ext)s",
-        "quite": True,
-        "username": "oauth2", 
-        "password": ''
-    }
-    with YoutubeDL(ydl_opts) as ytdl:
-        ytdl_data = ytdl.extract_info(url, download=True)
-        file_name = ytdl.prepare_filename(ytdl_data)
-    query.edit_message_caption("✈️✈️✈️✈️✈️", reply_markup=rep)
-    duration= int(info['duration'])
-    sec = time.strftime('%M:%S', time.gmtime(duration))
-    a = query.message.reply_video(
-      file_name,
-      duration=int(info['duration']),
-      caption=f'@{channel} ~ ⏳ {sec}',
-    )
-    query.edit_message_caption(f"@{channel} :)", reply_markup=rep)    
-    ytdb.set(f'ytvideoV{vid_id}',{"type":"video","video":a.video.file_id,"duration":a.video.duration})
-    os.remove(file_name)
+# @Client.on_callback_query(filters.regex("VIDEO"))
+# def get_video(c, query):
+#    Thread(target=video_down,args=(c,query)).start()
 
-"""
+# def video_down(c, query):
+#     user_id = query.data.split("VIDEO")[0]
+#     vid_id = query.data.split("VIDEO")[1]
+#     if not query.from_user.id == int(user_id):
+#       return False
+#     if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):  return
+#     if r.get(f':disableYT:{Dev_Zaid}'):  return
+#     channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
+#     rep = InlineKeyboardMarkup (
+#      [[
+#        InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{channel}')
+#      ]]
+#     )
+#     if ytdb.get(f'ytvideoV{vid_id}'):
+#        vid = ytdb.get(f'ytvideoV{vid_id}')
+#        query.edit_message_caption(f"@{channel} :)", reply_markup=rep)
+#        duration=vid["duration"]
+#        sec = time.strftime('%M:%S', time.gmtime(duration))
+#        return query.message.reply_video(vid["video"],caption=f'@{channel} ~ ⏳ {sec}')
+#     url = f'https://youtu.be/{vid_id}'
+#     query.edit_message_caption("جاري التحميل ..", reply_markup=rep)
+#     with yt_dlp.YoutubeDL({}) as ydl:
+#         info = ydl.extract_info(url, download=False)
+#         if int(info['duration']) > 1555555555:
+#           return query.edit_message_caption("فيديو اكثر من 25 دقيقة مقدر انزله",reply_markup=rep)
+#     ydl_opts = {
+#         "format": "best",
+#         "keepvideo": True,
+#         "prefer_ffmpeg": False,
+#         "geo_bypass": True,
+#         "outtmpl": "%(title)s.%(ext)s",
+#         "quite": True,
+#         "username": "oauth2", 
+#         "password": ''
+#     }
+#     with YoutubeDL(ydl_opts) as ytdl:
+#         ytdl_data = ytdl.extract_info(url, download=True)
+#         file_name = ytdl.prepare_filename(ytdl_data)
+#     query.edit_message_caption("✈️✈️✈️✈️✈️", reply_markup=rep)
+#     duration= int(info['duration'])
+#     sec = time.strftime('%M:%S', time.gmtime(duration))
+#     a = query.message.reply_video(
+#       file_name,
+#       duration=int(info['duration']),
+#       caption=f'@{channel} ~ ⏳ {sec}',
+#     )
+#     query.edit_message_caption(f"@{channel} :)", reply_markup=rep)    
+#     ytdb.set(f'ytvideoV{vid_id}',{"type":"video","video":a.video.file_id,"duration":a.video.duration})
+#     os.remove(file_name)
+
+
 @Client.on_callback_query(filters.regex("VIDEO"))
 async def get_video(c, query):
     Thread(target=video_down,args=(c,query)).start()
@@ -635,4 +635,3 @@ def video_down(c, query):
     
     r.set(f'ytvideoV{vid_id}',b.link)    
     os.remove(f'{vid_id}.mp4')
-"""
