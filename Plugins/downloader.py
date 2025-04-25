@@ -394,7 +394,6 @@ import requests
 
 def getInfo(c, query):
     user_id = query.data.split("GET")[0]
-    vid_id = query.data.split("GET")[1]
     
     if not query.from_user.id == int(user_id):
         return
@@ -410,27 +409,12 @@ def getInfo(c, query):
         return
 
     query.message.delete()
-
-    try:
-        yt = YouTube(f'https://youtu.be/{vid_id}')
-        # title = yt.title
-
-        # تحميل الصورة المصغرة
-        # photo = requests.get(yt.thumbnail_url).content
-        # with open(f'{vid_id}.jpg', 'wb') as ww:
-            # ww.write(photo)
-        OriImage = Image.open(f'{vid_id}.jpg')
-        blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
-        blurImage.save(f'{vid_id}.jpg')
-
-        # photo_path = f'{vid_id}.jpg'
-        url = f'https://youtu.be/{vid_id}'
-        x = "ssxzl"
-        url = f'https://youtu.be/{vid_id}'
-    except Exception as e:
-        print(f"[getInfo ERROR] {e}")
-        query.answer("فشل في جلب معلومات الفيديو، تأكد من الرابط أو جرب لاحقًا.", show_alert=True)
-        reply_markup = InlineKeyboardMarkup(
+    vid_id = query.data.split("GET")[1]
+    OriImage = Image.open(f'{vid_id}.jpg')
+    blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
+    blurImage.save(f'{vid_id}.jpg')
+    url = f'https://youtu.be/{vid_id}'
+    reply_markup = InlineKeyboardMarkup(
       [
         [
           InlineKeyboardButton ("♫ ملف صوتي", callback_data=f'{user_id}AUDIO{vid_id}'),
