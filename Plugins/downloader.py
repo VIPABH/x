@@ -413,14 +413,12 @@ def getInfo(c, query):
 
     try:
         yt = YouTube(f'https://youtu.be/{vid_id}')
-        title = yt.title
+        # title = yt.title
 
         # تحميل الصورة المصغرة
-        photo = requests.get(yt.thumbnail_url).content
-        with open(f'{vid_id}.jpg', 'wb') as ww:
-            ww.write(photo)
-
-        # عمل Blur للصورة
+        # photo = requests.get(yt.thumbnail_url).content
+        # with open(f'{vid_id}.jpg', 'wb') as ww:
+            # ww.write(photo)
         OriImage = Image.open(f'{vid_id}.jpg')
         blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
         blurImage.save(f'{vid_id}.jpg')
@@ -443,7 +441,7 @@ def getInfo(c, query):
       ]
     )
     query.message.reply_to_message.reply_photo(
-       photo,
+      #  photo,
        caption=f'@{channel} ~ {url}',
        reply_markup=reply_markup
     )
