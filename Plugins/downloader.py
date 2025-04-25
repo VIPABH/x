@@ -427,7 +427,7 @@ def getInfo(c, query):
 
         photo_path = f'{vid_id}.jpg'
         url = f'https://youtu.be/{vid_id}'
-        channel = "ssxzl"
+        x = "ssxzl"
     except Exception as e:
         print(f"[getInfo ERROR] {e}")
         query.answer("فشل في جلب معلومات الفيديو، تأكد من الرابط أو جرب لاحقًا.", show_alert=True)
@@ -438,7 +438,7 @@ def getInfo(c, query):
           InlineKeyboardButton ("❖ فيديو", callback_data=f'{user_id}VIDEO{vid_id}'),
         ],
         [
-          InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{channel}')
+          InlineKeyboardButton ('🧚‍♀️', url=f'https://t.me/{x}')
         ]
       ]
     )
