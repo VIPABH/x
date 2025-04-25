@@ -421,7 +421,7 @@ def getInfo(c, query):
           OriImage = Image.open(xx)
           blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
           blurImage.save(xx)
-        [
+          [
         [
           InlineKeyboardButton ("♫ ملف صوتي", callback_data=f'{user_id}AUDIO{vid_id}'),
           InlineKeyboardButton ("❖ فيديو", callback_data=f'{user_id}VIDEO{vid_id}'),
