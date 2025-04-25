@@ -63,29 +63,26 @@ def yt_func(c,m,k,channel):
      cc = 1
      print(url, cc)
      yt = YouTube(url)
-     if yt.length > 15555555:
-         return m.reply("صوت فوق 25 دقيقة ما اقدر انزله",reply_markup=rep)
-     else:
-         duration_string = time.strftime('%M:%S', time.gmtime(yt.length))
-         ydl_ops = {"format": "bestaudio[ext=m4a]",'forceduration':True, "username": "oauth2", "password": ''}
-         with yt_dlp.YoutubeDL(ydl_ops) as ydl:
-           info = ydl.extract_info(url, download=False)
-           audio_file = ydl.prepare_filename(info)
-           ydl.process_info(info)
-         thumb = wget.download(yt.thumbnail_url)
-         os.rename(audio_file,audio_file.replace(".m4a",".mp3"))
-         audio_file = audio_file.replace(".m4a",".mp3")
-         a = m.reply_audio(
-         audio_file,
-         title=yt.title,
-         thumb=thumb,
-         duration=yt.length,
-         caption=f'@{channel} ~ {duration_string} ⏳',
-         performer=yt.author,reply_markup=rep)
-         ytdb.set(f'ytvideo{res["id"]}',{"type":"audio","audio":a.audio.file_id,"duration":a.audio.duration})
-         os.remove(audio_file)
-         os.remove(thumb)
-         return True
+     duration_string = time.strftime('%M:%S', time.gmtime(yt.length))
+     ydl_ops = {"format": "bestaudio[ext=m4a]",'forceduration':True, "username": "oauth2", "password": ''}
+     with yt_dlp.YoutubeDL(ydl_ops) as ydl:
+        info = ydl.extract_info(url, download=False)
+        audio_file = ydl.prepare_filename(info)
+        ydl.process_info(info)
+        thumb = wget.download(yt.thumbnail_url)
+        os.rename(audio_file,audio_file.replace(".m4a",".mp3"))
+        audio_file = audio_file.replace(".m4a",".mp3")
+        a = m.reply_audio(
+        audio_file,
+        title=yt.title,
+        thumb=thumb,
+        duration=yt.length,
+        caption=f'@{channel} ~ {duration_string} ⏳',
+        performer=yt.author,reply_markup=rep)
+        ytdb.set(f'ytvideo{res["id"]}',{"type":"audio","audio":a.audio.file_id,"duration":a.audio.duration})
+        os.remove(audio_file)
+        os.remove(thumb)
+        return True
   
    if text == "نسخة اليوتيوب" and m.from_user.id == 1910015590:
      if not ytdb.keys(): return m.reply("تخزين اليوتيوب فاضي")
