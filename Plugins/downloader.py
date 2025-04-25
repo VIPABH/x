@@ -189,7 +189,7 @@ def yt_func(c,m,k,channel):
      caption=f"`{title}`\n{k} طول المقطع : {string_d}\n{k} المشاهدات : {views:,}\n{k} اللايكات : {likes:,}\n{k} الكومنت : {comments:,}\n{k} الاكسبلور : {reposts:,}\n\n~ @{channel}"
      reply_markup=InlineKeyboardMarkup (
        [
-       [InlineKeyboardButton (f"{creator} - @{uploader}",url=uploader_url)]
+       [InlineKeyboardButton (f"@{uploader}",url=uploader_url)]
        ]
      )
      try:
@@ -416,7 +416,6 @@ def getInfo(c, query):
     if not os.path.exists(xx):
        yt = YouTube(url)
        photo_url = yt.thumbnail_url
-       print(photo_url)
        photo_data = requests.get(photo_url).content
        with open(xx, 'wb') as f:
           f.write(photo_data)
