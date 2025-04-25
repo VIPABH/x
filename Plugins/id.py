@@ -251,7 +251,7 @@ def get_my_rank(c,m,k):
          try:
            os.remove(photo)
          except:
-           pass
+            m.reply(f'حدث خطأ: {str(e)}')
          return
       else:
          return m.reply(text, disable_web_page_preview=True)
