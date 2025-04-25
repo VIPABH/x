@@ -8,7 +8,7 @@ from threading import Thread
 from pyrogram import *
 from pyrogram.enums import *
 from shazamio import Shazam
-from pyrogram.types import *,
+from pyrogram.types import *
 from config import *
 from helpers.Ranks import *
 from helpers.Ranks import isLockCommand
