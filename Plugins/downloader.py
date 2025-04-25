@@ -388,33 +388,53 @@ async def SoundCloud(c, query):
 def get_info(c,query):
     Thread(target=getInfo,args=(c,query)).start()
 
+from pytube import YouTube
+from PIL import Image, ImageFilter
+import requests
+
 def getInfo(c, query):
     user_id = query.data.split("GET")[0]
     vid_id = query.data.split("GET")[1]
+    
     if not query.from_user.id == int(user_id):
-      return
+        return
+    
     if not r.get(f'{query.message.id}:one_minute:{user_id}'):
-      k = r.get(f'{Dev_Zaid}:botkey')
-      query.answer(f'{k} مر على البحث اكثر من دقيقة ابحث مرة ثانية',show_alert=True)
-      return query.message.delete()
-    if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):  return
-    if r.get(f':disableYT:{Dev_Zaid}'):  return
+        k = r.get(f'{Dev_Zaid}:botkey')
+        query.answer(f'{k} مر على البحث اكثر من دقيقة ابحث مرة ثانية', show_alert=True)
+        return query.message.delete()
+    
+    if r.get(f'{query.message.chat.id}:disableYT:{Dev_Zaid}'):
+        return
+    if r.get(f':disableYT:{Dev_Zaid}'):
+        return
+
     query.message.delete()
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
-    yt = YouTube(f'https://youtu.be/{vid_id}')
-    #title = yt.title
-    """
-    photo = requests.get(yt.thumbnail_url).content
-    with open(f'{vid_id}.jpg', 'wb') as ww:
-       ww.write(photo)
-    OriImage = Image.open(f'{vid_id}.jpg')
-    blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
-    blurImage.save(f'{vid_id}.jpg')
-    photo = f'{vid_id}.jpg'
-    """
-    photo = yt.thumbnail_url
-    url = f'https://youtu.be/{vid_id}'
-    reply_markup = InlineKeyboardMarkup(
+
+    try:
+        yt = YouTube(f'https://youtu.be/{vid_id}')
+        title = yt.title
+
+        # تحميل الصورة المصغرة
+        photo = requests.get(yt.thumbnail_url).content
+        with open(f'{vid_id}.jpg', 'wb') as ww:
+            ww.write(photo)
+
+        # عمل Blur للصورة
+        OriImage = Image.open(f'{vid_id}.jpg')
+        blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
+        blurImage.save(f'{vid_id}.jpg')
+
+        photo_path = f'{vid_id}.jpg'
+        url = f'https://youtu.be/{vid_id}'
+
+        # هنا تقدر تكمل إرسال الرسالة أو العرض حسب ما تريده
+        # مثل إرسال الصورة أو الرد باستخدام InlineKeyboardMarkup
+
+    except Exception as e:
+        print(f"[getInfo ERROR] {e}")
+        query.answer("فشل في جلب معلومات الفيديو، تأكد من الرابط أو جرب لاحقًا.", show_alert=True)
+        reply_markup = InlineKeyboardMarkup(
       [
         [
           InlineKeyboardButton ("♫ ملف صوتي", callback_data=f'{user_id}AUDIO{vid_id}'),
