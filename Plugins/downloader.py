@@ -412,7 +412,7 @@ def getInfo(c, query):
     blurImage = OriImage.filter(ImageFilter.BoxBlur(10))
     blurImage.save(f'{vid_id}.jpg')
     url = f'https://youtu.be/{vid_id}'
-    xx = {vid_id}.jpg
+    xx = f"{vid_id}.jpg"
     reply_markup = InlineKeyboardMarkup(
       [
         [
