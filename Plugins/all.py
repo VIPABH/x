@@ -662,8 +662,8 @@ def guardResponseFunction(c, m, k, channel):
                     r.set(f"{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}", 1, ex=60)
                     return m.reply(
                         warner.format(mention, k, reason), disable_web_page_preview=True
-                    )if r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}') and (m.caption or m.text):
-  
+                    )
+                if r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}') and (m.caption or m.text):
     if r.get(f"{m.chat.id}:enableVerify:{Dev_Zaid}") and m.new_chat_members:
         for me in m.new_chat_members:
             if not pre_pls(me.id, m.chat.id):
