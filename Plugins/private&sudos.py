@@ -1,10 +1,3 @@
-'''
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
-
 import random, re, time, json, html, httpx, requests 
 import urllib.parse
 import os
@@ -828,7 +821,7 @@ async def printSS(c: Client, m: Message):
         except BaseException as e:  # skipcq
             await m.reply_text(str(e))
 
-timeout = httpx.Timeout(40, pool=None)
+timeout = httpx.Timeout(40.0)
 http = httpx.AsyncClient(http2=True, timeout=timeout)
 
 strings_print = {
