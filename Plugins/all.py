@@ -187,19 +187,19 @@ from pyrogram.errors import UserNotParticipant, FloodWait
 async def on_zbi(c: Client, m: Message):
     name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "ليو"
     text = m.text
-    if text.startswith(f"{name} "):
-        text = text.replace(f"{name} ", "")
-    if r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}"):
-        text = r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}")
-    if r.get(f"Custom:{Dev_Zaid}&text={text}"):
-        text = r.get(f"Custom:{Dev_Zaid}&text={text}")
-
+    if text:
+        if text.startswith(f"{name} "):
+            text = text.replace(f"{name} ", "", 1)
+        custom_text_chat = r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}")
+        custom_text_global = r.get(f"Custom:{Dev_Zaid}&text={text}")
+        if custom_text_chat:
+            text = custom_text_chat
+        elif custom_text_global:
+            text = custom_text_global
     if r.get(f"inDontCheck:{Dev_Zaid}"):
         return m.continue_propagation()
-
     if dev_pls(m.from_user.id, m.chat.id):
         return
-
     if (
         text.startswith("تفعيل ")
         or text.startswith("تعطيل ")
