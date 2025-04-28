@@ -1,10 +1,3 @@
-'''
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
 import random,re, time, akinator, string
 from threading import Thread 
 from pyrogram import *
@@ -1005,17 +998,7 @@ def gamesFunc(c,m,k,channel):
        if r.get(f'{m.from_user.id}:marriedWomen:{m.chat.id}{Dev_Zaid}'):
          getUser = c.get_users(int(r.get(f'{m.from_user.id}:marriedWomen:{m.chat.id}{Dev_Zaid}')))
          txt = r.get(f'{m.from_user.id}:MARRYTEXT:{m.chat.id}{Dev_Zaid}').format(k=k,two=getUser.mention(getUser.first_name[:10]),one=m.from_user.mention(m.from_user.first_name[:10]))
-         return m.reply(txt)         
-   
-   if text == "سورس" or text == "السورس":
-    return m.reply_photo(
-        "https://gcdnb.pbrd.co/images/bOMz1R4wG9xF.jpg",
-        caption="سورس فلير حماية الكروبات، ارفعه مشرف بكروبك واحميها:",
-        reply_markup=InlineKeyboardMarkup(
-            [[InlineKeyboardButton("الدخول البوت 💥", url="https://t.me/w7G_BoT")]]
-        )
-    )
-   
+         return m.reply(txt)            
    if text== 'طلاق' and r.get(f'{m.from_user.id}:marriedMan:{m.chat.id}{Dev_Zaid}'):
      getUser = c.get_users(int(r.get(f'{m.from_user.id}:marriedMan:{m.chat.id}{Dev_Zaid}')))
      floos = int(r.get(f'{m.from_user.id}:MARRYMONEY:{m.chat.id}{Dev_Zaid}'))
@@ -1787,5 +1770,3 @@ def get_emoji_bank(count):
      return '🥉 ) '
   else:
      return f' {count}  ) '
-     
-     
