@@ -458,9 +458,6 @@ def audio_down(c, query):
     query.edit_message_caption(f"@{channel} :)", reply_markup=rep)    
     ytdb.set(f'ytvideo{vid_id}',{"type":"audio","audio":a.audio.file_id,"duration":a.audio.duration})
     os.remove(audio_file)
-
-
-"""
 @Client.on_callback_query(filters.regex("AUDIO"))
 def get_audii(c, query):
     Thread(target=audio_down,args=(c,query)).start()
@@ -505,8 +502,6 @@ def audio_down(c, query):
     
     r.set(f'ytvideo{vid_id}',b.link)
     os.remove(f'{vid_id}.mp3')
-"""
-
 @Client.on_callback_query(filters.regex("VIDEO"))
 def get_video(c, query):
    Thread(target=video_down,args=(c,query)).start()
@@ -561,7 +556,7 @@ def video_down(c, query):
     ytdb.set(f'ytvideoV{vid_id}',{"type":"video","video":a.video.file_id,"duration":a.video.duration})
     os.remove(file_name)
 
-"""
+
 @Client.on_callback_query(filters.regex("VIDEO"))
 async def get_video(c, query):
     Thread(target=video_down,args=(c,query)).start()
@@ -604,4 +599,3 @@ def video_down(c, query):
     
     r.set(f'ytvideoV{vid_id}',b.link)    
     os.remove(f'{vid_id}.mp4')
-"""
