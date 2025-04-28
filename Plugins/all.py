@@ -664,47 +664,6 @@ def guardResponseFunction(c, m, k, channel):
                         warner.format(mention, k, reason), disable_web_page_preview=True
                     )if r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}') and (m.caption or m.text):
   
-    if r.get(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}") and m.new_chat_members:
-        if m.from_user.first_name:
-            if (
-                m.from_user.first_name in persianInformation["names"]
-                or m.from_user.id in persianInformation["ids"]
-                or "ه‍" in m.from_user.first_name
-                or "ی" in m.from_user.first_name
-                or "ک" in m.from_user.first_name
-                or "چ" in m.from_user.first_name
-                or "👙" in m.from_user.first_name
-            ) and not pre_pls(m.from_user.id, m.chat.id):
-                if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}"):
-                    m.reply(
-                        """
-「 {} 」
-{} تم حظره لاشتباهه ببوت إيراني
-☆
-""".format(m.from_user.mention, k)
-                    )
-                return c.ban_chat_member(m.chat.id, m.from_user.id)
-
-        if m.from_user.last_name:
-            if (
-                m.from_user.last_name in persianInformation["last_names"]
-                or m.from_user.id in persianInformation["ids"]
-                or "ه‍" in m.from_user.last_name
-                or "ی" in m.from_user.last_name
-                or "ک" in m.from_user.last_name
-                or "چ" in m.from_user.last_name
-                or "👙" in m.from_user.last_name
-            ) and not pre_pls(m.from_user.id, m.chat.id):
-                if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}"):
-                    m.reply(
-                        """
-「 {} 」
-{} تم حظره لاشتباهه ببوت إيراني
-☆
-""".format(m.from_user.mention, k)
-                    )
-                return c.ban_chat_member(m.chat.id, m.from_user.id)
-
     if r.get(f"{m.chat.id}:enableVerify:{Dev_Zaid}") and m.new_chat_members:
         for me in m.new_chat_members:
             if not pre_pls(me.id, m.chat.id):
