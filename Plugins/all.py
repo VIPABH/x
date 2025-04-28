@@ -1,3 +1,20 @@
+"""
+
+
+██████╗░██████╗░██████╗░
+██╔══██╗╚════██╗██╔══██╗
+██████╔╝░█████╔╝██║░░██║
+██╔══██╗░╚═══██╗██║░░██║
+██║░░██║██████╔╝██████╔╝
+╚═╝░░╚═╝╚═════╝░╚═════╝░
+
+
+[ = This plugin is a part from R3D Source code = ]
+{"Developer":"https://t.me/yqyqy66"}
+
+
+"""
+
 import random, re, time, pytz, os, gtts, requests
 import speech_recognition as sr
 from pydub import AudioSegment
@@ -16,9 +33,17 @@ from PIL import Image
 from asyncio import run as RUN
 from Python_ARQ import ARQ
 from aiohttp import ClientSession
+
+# from googletrans import Translator as googletranstr
 from mutagen.mp3 import MP3 as mutagenMP3
+# from main import TelegramBot
+
 ARQ_API_KEY = "OZJRWV-SAURXD-PMBUKF-GMVSNS-ARQ"
 ARQ_API_URL = "https://arq.hamker.dev"
+
+# translator = googletranstr()
+
+
 list_UwU = [
     "كس",
     "كسمك",
@@ -84,91 +109,185 @@ list_UwU = [
     "قاحب",
 ]
 
+list_Shiaa = [
+    "يا علي",
+    "يا حسين",
+    "ياعلي",
+    "ياحسين",
+    "علي ولي الله",
+    "عليا ولي الله",
+    "عائشه زانيه",
+    "عائشة زانية",
+    "عائشة عاهرة",
+    "عائشه عاهره",
+    "خرب ربك",
+    "خرب الله",
+    "يلعن ربك",
+    "يلعن الله",
+    "يا عمر",
+    "ياعمر",
+    "يا محمد",
+    "يامحمد",
+    "زوجات الرسول",
+    "عير بالسنة",
+    "عير بالسنه",
+    "خرب السنه",
+    "خرا بالسنه",
+    "خرب السنة",
+    "خرا بالسنة",
+    "والحسين",
+    "والعباس",
+    "وعلي",
+    "والامام علي",
+    "ربنا علي",
+    "علي الله",
+    "الله علي",
+    "رب علي",
+    "علي رب",
+]
+
+
 def Find(text):
     m = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s!()\[\]{};:'\".,<>?«»“”‘’]))"
     url = re.findall(m, text)
     return [x[0] for x in url]
-# from pyrogram.errors import UserNotParticipant, FloodWait
-# @Client.on_message(filters.group, group=-1111111111111)
-# async def on_zbi(c: Client, m: Message):
-#     name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "ليو"
-#     text = m.text
-#     if text.startswith(f"{name} "):
-#         text = text.replace(f"{name} ", "")
-#     if r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}"):
-#         text = r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}")
-#     if r.get(f"Custom:{Dev_Zaid}&text={text}"):
-#         text = r.get(f"Custom:{Dev_Zaid}&text={text}")
-#     if r.get(f"inDontCheck:{Dev_Zaid}"):
-#         return m.continue_propagation()
-#     if dev_pls(m.from_user.id, m.chat.id):
-#         return
-#     if (
-#         text.startswith("تفعيل ")
-#         or text.startswith("تعطيل ")
-#         or text.startswith("قفل ")
-#         or text.startswith("فتح ")
-#         or text == "ايدي"
-#         or text == "الاوامر"
-#     ):
-#         if r.get(f"forceChannel:{Dev_Zaid}") and (
-#             not r.get(f"disableSubscribe:{Dev_Zaid}")
-#         ):
-#             username = r.get(f"forceChannel:{Dev_Zaid}").replace("@", "")
-#             not_member = False
-#             try:
-#                 member = await c.get_chat_member(username, m.from_user.id)
-#             except FloodWait:
-#                 return m.continue_propagation()
-#             except UserNotParticipant:
-#                 await m.reply(
-#                     f"- انضم للقناة ( @{username} ) لتستطيع استخدام اوامر البوت",
-#                     reply_markup=InlineKeyboardMarkup(
-#                         [
-#                             [
-#                                 InlineKeyboardButton(
-#                                     "اضغط هنا", url="https://t.me/" + username
-#                                 )
-#                             ]
-#                         ]
-#                     ),
-#                 )
-#                 r.set(f"inDontCheck:{Dev_Zaid}", 1, ex=10)
-#                 return m.stop_propagation()
-#             except Exception as e:
-#                 print(e)
-#                 return m.continue_propagation()
-#             if member.status in {
-#                 enums.ChatMemberStatus.LEFT,
-#                 enums.ChatMemberStatus.BANNED,
-#             } or member.status is None:
-#                 not_member = True
-#             else:
-#                 not_member = False
-#             if not_member:
-#                 await m.reply(
-#                     f"- انضم للقناة ( @{username} ) لتستطيع استخدام اوامر البوت",
-#                     reply_markup=InlineKeyboardMarkup(
-#                         [
-#                             [
-#                                 InlineKeyboardButton(
-#                                     "اضغط هنا", url="https://t.me/" + username
-#                                 )
-#                             ]
-#                         ]
-#                     ),
-#                 )
-#                 r.set(f"inDontCheck:{Dev_Zaid}", ex=10)
-#                 return m.stop_propagation()
-#             else:
-#                 return m.continue_propagation()
+
+
+"""
+         r.get(f'{m.chat.id}:mute:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockJoin:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockChannels:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockEdit:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockEditM:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockVoice:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockVideo:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockNot:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockPhoto:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockStickers:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockAnimations:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockFiles:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockPersian:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockUrls:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockHashtags:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockMessages:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockTags:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockBots:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockSpam:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockInline:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockForward:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockAudios:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockaddContacts:{Dev_Zaid}')
+         r.get(f'{m.chat.id}:lockSHTM:{Dev_Zaid}')
+"""
+
+from pyrogram.errors import UserNotParticipant, FloodWait
+
+
+@Client.on_message(filters.group, group=-1111111111111)
+async def on_zbi(c: Client, m: Message):
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "ليو"
+    text = m.text
+    if text.startswith(f"{name} "):
+        text = text.replace(f"{name} ", "")
+    if r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}"):
+        text = r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}")
+    if r.get(f"Custom:{Dev_Zaid}&text={text}"):
+        text = r.get(f"Custom:{Dev_Zaid}&text={text}")
+
+    if r.get(f"inDontCheck:{Dev_Zaid}"):
+        return m.continue_propagation()
+
+    if dev_pls(m.from_user.id, m.chat.id):
+        return
+
+    if (
+        text.startswith("تفعيل ")
+        or text.startswith("تعطيل ")
+        or text.startswith("قفل ")
+        or text.startswith("فتح ")
+        or text == "ايدي"
+        or text == "الاوامر"
+    ):
+        if r.get(f"forceChannel:{Dev_Zaid}") and (
+            not r.get(f"disableSubscribe:{Dev_Zaid}")
+        ):
+            username = r.get(f"forceChannel:{Dev_Zaid}").replace("@", "")
+            not_member = False
+            try:
+                member = await c.get_chat_member(username, m.from_user.id)
+            except FloodWait:
+                return m.continue_propagation()
+            except UserNotParticipant:
+                await m.reply(
+                    f"- انضم للقناة ( @{username} ) لتستطيع استخدام اوامر البوت",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    "اضغط هنا", url="https://t.me/" + username
+                                )
+                            ]
+                        ]
+                    ),
+                )
+                r.set(f"inDontCheck:{Dev_Zaid}", 1, ex=10)
+                return m.stop_propagation()
+            except Exception as e:
+                print(e)
+                return m.continue_propagation()
+
+            if member.status in {
+                enums.ChatMemberStatus.LEFT,
+                enums.ChatMemberStatus.BANNED,
+            } or member.status is None:
+                not_member = True
+            else:
+                not_member = False
+
+            if not_member:
+                await m.reply(
+                    f"- انضم للقناة ( @{username} ) لتستطيع استخدام اوامر البوت",
+                    reply_markup=InlineKeyboardMarkup(
+                        [
+                            [
+                                InlineKeyboardButton(
+                                    "اضغط هنا", url="https://t.me/" + username
+                                )
+                            ]
+                        ]
+                    ),
+                )
+                r.set(f"inDontCheck:{Dev_Zaid}", ex=10)
+                return m.stop_propagation()
+            else:
+                return m.continue_propagation()
+
+
+@Client.on_message(filters.group, group=27)
+def guardLocksResponse(c, m):
+    k = r.get(f"{Dev_Zaid}:botkey")
+    channel = (
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+    )
+    Thread(target=guardResponseFunction, args=(c, m, k, channel)).start()
+
+
+@Client.on_edited_message(filters.group, group=27)
+def guardLocksResponse2(c, m):
+    k = r.get(f"{Dev_Zaid}:botkey")
+    channel = (
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+    )
+    Thread(target=guardResponseFunction2, args=(c, m, k, channel)).start()
+
+
 def guardResponseFunction2(c, m, k, channel):
     if not r.get(f"{m.chat.id}:enable:{Dev_Zaid}"):
         return
     warner = """
 「 {} 」
 {} ممنوع {}
-
+☆
 """
     warn = False
     reason = False
@@ -252,6 +371,9 @@ def guardResponseFunction(c, m, k, channel):
     if m.from_user:
         id = m.from_user.id
         mention = m.from_user.mention
+
+    # print(id)
+
     if m.media:
         rep = m
         if rep.sticker:
@@ -272,11 +394,13 @@ def guardResponseFunction(c, m, k, channel):
         if r.get(f"{idd}:NotAllow:{m.chat.id}{Dev_Zaid}"):
             if not admin_pls(id, m.chat.id):
                 return m.delete()
+
     if m.text and r.smembers(f"{m.chat.id}:NotAllowedListText:{Dev_Zaid}"):
         if not admin_pls(id, m.chat.id):
             for word in r.smembers(f"{m.chat.id}:NotAllowedListText:{Dev_Zaid}"):
                 if word in m.text:
                     return m.delete()
+
     if r.get(f"{id}:mute:{m.chat.id}{Dev_Zaid}") or r.get(f"{id}:mute:{Dev_Zaid}"):
         return False
 
@@ -349,6 +473,16 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
+
+    """
+  if r.get(f'{m.chat.id}:lockForward:{Dev_Zaid}') and m.forward_from_chat:
+     m.delete()
+     warn = True
+     reason = 'ترسل توجيه'
+     if not r.get(f'{m.chat.id}:disableWarn:{Dev_Zaid}') and not r.get(f'{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}'):
+        r.set(f'{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}',1,ex=60)
+        return m.reply(warner.format(mention,k,reason),disable_web_page_preview=True)
+  """
 
     if r.get(f"{m.chat.id}:lockAudios:{Dev_Zaid}") and m.audio:
         m.delete()
@@ -523,11 +657,54 @@ def guardResponseFunction(c, m, k, channel):
                 warn = True
                 reason = "السب هنا"
                 if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}") and not r.get(
-                    f"{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}"):
+                    f"{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}"
+                ):
                     r.set(f"{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}", 1, ex=60)
+                    return m.reply(
+                        warner.format(mention, k, reason), disable_web_page_preview=True
+                    )if r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}') and (m.caption or m.text):
+  
+    if r.get(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}") and m.new_chat_members:
+        if m.from_user.first_name:
+            if (
+                m.from_user.first_name in persianInformation["names"]
+                or m.from_user.id in persianInformation["ids"]
+                or "ه‍" in m.from_user.first_name
+                or "ی" in m.from_user.first_name
+                or "ک" in m.from_user.first_name
+                or "چ" in m.from_user.first_name
+                or "👙" in m.from_user.first_name
+            ) and not pre_pls(m.from_user.id, m.chat.id):
+                if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}"):
                     m.reply(
-                        warner.format(mention, k, reason), disable_web_page_preview=True)
-                if r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}') and (m.caption or m.text):
+                        """
+「 {} 」
+{} تم حظره لاشتباهه ببوت إيراني
+☆
+""".format(m.from_user.mention, k)
+                    )
+                return c.ban_chat_member(m.chat.id, m.from_user.id)
+
+        if m.from_user.last_name:
+            if (
+                m.from_user.last_name in persianInformation["last_names"]
+                or m.from_user.id in persianInformation["ids"]
+                or "ه‍" in m.from_user.last_name
+                or "ی" in m.from_user.last_name
+                or "ک" in m.from_user.last_name
+                or "چ" in m.from_user.last_name
+                or "👙" in m.from_user.last_name
+            ) and not pre_pls(m.from_user.id, m.chat.id):
+                if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}"):
+                    m.reply(
+                        """
+「 {} 」
+{} تم حظره لاشتباهه ببوت إيراني
+☆
+""".format(m.from_user.mention, k)
+                    )
+                return c.ban_chat_member(m.chat.id, m.from_user.id)
+
     if r.get(f"{m.chat.id}:enableVerify:{Dev_Zaid}") and m.new_chat_members:
         for me in m.new_chat_members:
             if not pre_pls(me.id, m.chat.id):
@@ -541,6 +718,7 @@ def guardResponseFunction(c, m, k, channel):
                     f"{k} قيدناك عشان نتاكد انك شخص حقيقي مو زومبي\n\n{question}",
                     reply_markup=reply_markup,
                 )
+
     if m.media and r.get(f"{m.chat.id}:lockNSFW:{Dev_Zaid}"):
         print("nsfw scanner")
         if not admin_pls(id, m.chat.id):
@@ -554,9 +732,317 @@ def guardResponseFunction(c, m, k, channel):
                 id = m.animation.thumbs[0].file_id
         file = c.download_media(id)
         Thread(target=scanR, args=(c, m, id, file)).start()
+
+
+def scanR(c, m, id, file):
+    RUN(scan4(c, m, id, file))
+
+
+async def scan4(c, m, id, file):
+    session = ClientSession()
+    arq = ARQ(ARQ_API_URL, ARQ_API_KEY, session)
+    resp = await arq.nsfw_scan(file=file)
+    if resp.result.is_nsfw:
+        print("xNSFW")
+        await m.delete()
+        k = r.get(f"{Dev_Zaid}:botkey")
+        await m.reply(
+            f"「 {m.from_user.mention} 」\n{k} تم حذف رسالتك لإحتوائها على محتوى إباحي .\n☆"
+        )
+    os.remove(file)
+    await session.close()
+
+
+def get_for_verify(me):
+    for_verify = [
+        {
+            "question": "ماهو الحيوان الذي ينتهي اسمه بحرف الباء ؟",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("فأر", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("وشق", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("بشار الأسد", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("حمار", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("كلب", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("قطة", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "ماهي عاصمة فرنسا؟",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("دمشق", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("الرياض", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("باريس", callback_data=f"yes:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("الكويت", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("القاهرة", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("ماشا والدب", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "نادي يبدأ بحرف الباء :",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("برشلونا", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("الهلال", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("النصر", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("الزمالك", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("ريال مدريد", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("مانشستر", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "دولة يبدأ اسمها بحرف التاء :",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("قطر", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("امريكا", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("سوريا", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("مصر", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("الصين", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("تركيا", callback_data=f"yes:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "اختر هذا الايموجي - 🤑 -",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("🍭", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🤑", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("🏆", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("🌀", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🪨", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("💎", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "اختر هذا الايموجي - 🔓 -",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("🏆", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("💎", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🙄", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("💸", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("💣", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🔓", callback_data=f"yes:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "اختر هذا الايموجي - 🌠 -",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("☄️", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🙈", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🦄", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("🌠", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("🌈", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("🧑‍💻", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "ماهي عاصمة سوريا",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("دمشق", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("دير الزور", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("ادلب", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("ليو ميسي", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("الرياض", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("مزة فيلات", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "ماهي عملة الولايات المتحدة الأمريكية",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("الروبية", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("الجنيه", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("الليرة", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("الدولار", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("الدينار", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("الين", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "اسم مذكر يبدأ بحرف ز",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("زيد", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("علي", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("محمد", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("عمر", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("المريخ", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("احمد", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "اسم مؤنث ينتهي بحرف ي",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("لورين", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("ماجدة", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("علياء", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("أماني", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("فرح", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("أمل", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "اسم مؤنث يبدأ بحرف أ",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("لورين", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("ماجدة", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("علياء", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("أمل", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("فرح", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("يمنى", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+        {
+            "question": "الأسبوع كم يوم؟",
+            "key": InlineKeyboardMarkup(
+                [
+                    [
+                        InlineKeyboardButton("1", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("2", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("3", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("4", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("5", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("6", callback_data=f"no:{me.id}"),
+                    ],
+                    [
+                        InlineKeyboardButton("7", callback_data=f"yes:{me.id}"),
+                        InlineKeyboardButton("8", callback_data=f"no:{me.id}"),
+                        InlineKeyboardButton("9", callback_data=f"no:{me.id}"),
+                    ],
+                ]
+            ),
+        },
+    ]
+    return random.choice(for_verify)
+
+
+@Client.on_chat_join_request(filters.group, group=100)
+def antiPersian(c, m):
+    if r.get(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}"):
+        k = r.get(f"{Dev_Zaid}:botkey")
+        if not pre_pls(m.from_user.id, m.chat.id):
+            if m.from_user.first_name:
+                if (
+                    m.from_user.first_name in persianInformation["names"]
+                    or m.from_user.id in persianInformation["ids"]
+                    or "ه‍" in m.from_user.first_name
+                    or "ی" in m.from_user.first_name
+                    or "ک" in m.from_user.first_name
+                    or "چ" in m.from_user.first_name
+                    or "👙" in m.from_user.first_name
+                ):
+                    c.decline_chat_join_request(m.chat.id, m.from_user.id)
+                    if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}"):
+                        c.send_message(
+                            m.chat.id,
+                            """
+「 {} 」
+{} تم رفض طلب انضمامه لاشتباهه ببوت إيراني
+☆
+""".format(m.from_user.mention, k),
+                        )
+                    return True
+            if m.from_user.last_name:
+                if (
+                    m.from_user.last_name in persianInformation["last_names"]
+                    or m.from_user.id in persianInformation["ids"]
+                    or "ه‍" in m.from_user.last_name
+                    or "ی" in m.from_user.last_name
+                    or "ک" in m.from_user.last_name
+                    or "چ" in m.from_user.last_name
+                    or "👙" in m.from_user.last_name
+                ):
+                    c.decline_chat_join_request(m.chat.id, m.from_user.id)
+                    if not r.get(f"{m.chat.id}:disableWarn:{Dev_Zaid}"):
+                        c.send_message(
+                            m.chat.id,
+                            """
+「 {} 」
+{} تم رفض طلب انضمامه لاشتباهه ببوت إيراني
+☆
+""".format(m.from_user.mention, k),
+                        )
+                    return True
+
+
 @Client.on_message(filters.group & filters.text, group=28)
 def guardCommandsHandler(c, m):
     k = r.get(f"{Dev_Zaid}:botkey")
+    channel = (
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+    )
+    Thread(target=guardCommands, args=(c, m, k, channel)).start()
+
+
 def guardCommands(c, m, k, channel):
     if not r.get(f"{m.chat.id}:enable:{Dev_Zaid}"):
         return False
@@ -589,37 +1075,44 @@ def guardCommands(c, m, k, channel):
     Open = """
 {} من 「 {} 」
 {} ابشر فتحت {}
+☆
 """
     Openn = """
 {} من 「 {} 」
 {} {} مفتوح من قبل
+☆
 """
     Openn2 = """
 {} من 「 {} 」
 {} {} مفتوحه من قبل
+☆
 """
 
     lock = """
 {} من 「 {} 」
 {} ابشر قفلت {}
+☆
 """
 
     lockn = """
 {} من 「 {} 」
 {} {} مقفل من قبل
+☆
 """
     locknn = """
 {} من 「 {} 」
 {} {} مقفله من قبل
+☆
 """
+
     if text == "الاعدادات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
         else:
             x1 = "مقفول" if r.get(f"{m.chat.id}:lockAudios:{Dev_Zaid}") else "مفتوح"
             x2 = "مقفول" if r.get(f"{m.chat.id}:lockVideo:{Dev_Zaid}") else "مفتوح"
-            x4 = "مقفول" if r.get(f"{m.chat.id}:lockPhoto:{Dev_Zaid}") else "مفتوح"
             x3 = "مقفول" if r.get(f"{m.chat.id}:lockVoice:{Dev_Zaid}") else "مفتوح"
+            x4 = "مقفول" if r.get(f"{m.chat.id}:lockPhoto:{Dev_Zaid}") else "مفتوح"
             x5 = "مقفول" if r.get(f"{m.chat.id}:mute:{Dev_Zaid}") else "مفتوح"
             x6 = "مقفول" if r.get(f"{m.chat.id}:lockInline:{Dev_Zaid}") else "مفتوح"
             x7 = "مقفول" if r.get(f"{m.chat.id}:lockForward:{Dev_Zaid}") else "مفتوح"
@@ -627,12 +1120,16 @@ def guardCommands(c, m, k, channel):
             x9 = "مقفول" if r.get(f"{m.chat.id}:lockEdit:{Dev_Zaid}") else "مفتوح"
             x10 = "مقفول" if r.get(f"{m.chat.id}:lockStickers:{Dev_Zaid}") else "مفتوح"
             x11 = "مقفول" if r.get(f"{m.chat.id}:lockFiles:{Dev_Zaid}") else "مفتوح"
-            x12 = "مقفول" if r.get(f"{m.chat.id}:lockAnimations:{Dev_Zaid}") else "مفتوح"
+            x12 = (
+                "مقفول" if r.get(f"{m.chat.id}:lockAnimations:{Dev_Zaid}") else "مفتوح"
+            )
             x13 = "مقفول" if r.get(f"{m.chat.id}:lockUrls:{Dev_Zaid}") else "مفتوح"
             x14 = "مقفول" if r.get(f"{m.chat.id}:lockBots:{Dev_Zaid}") else "مفتوح"
             x15 = "مقفول" if r.get(f"{m.chat.id}:lockTags:{Dev_Zaid}") else "مفتوح"
             x16 = "مقفول" if r.get(f"{m.chat.id}:lockNot:{Dev_Zaid}") else "مفتوح"
-            x17 = "مقفول" if r.get(f"{m.chat.id}:lockaddContacts:{Dev_Zaid}") else "مفتوح"
+            x17 = (
+                "مقفول" if r.get(f"{m.chat.id}:lockaddContacts:{Dev_Zaid}") else "مفتوح"
+            )
             x18 = "مقفول" if r.get(f"{m.chat.id}:lockMessages:{Dev_Zaid}") else "مفتوح"
             x19 = "مقفول" if r.get(f"{m.chat.id}:lockSHTM:{Dev_Zaid}") else "مفتوح"
             x20 = "مقفول" if r.get(f"{m.chat.id}:lockSpam:{Dev_Zaid}") else "مفتوح"
@@ -640,9 +1137,11 @@ def guardCommands(c, m, k, channel):
             x22 = "مقفول" if r.get(f"{m.chat.id}:lockEditM:{Dev_Zaid}") else "مفتوح"
             x23 = "مقفول" if r.get(f"{m.chat.id}:lockJoin:{Dev_Zaid}") else "مفتوح"
             x24 = "مقفول" if r.get(f"{m.chat.id}:lockPersian:{Dev_Zaid}") else "مفتوح"
-            x25 = "مقفول" if r.get(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}") else "مفتوح"
+            x25 = (
+                "مقفول" if r.get(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}") else "مفتوح"
+            )
             x26 = "مقفول" if r.get(f"{m.chat.id}:lockNSFW:{Dev_Zaid}") else "مفتوح"
-x = """
+            return m.reply(f"""
 اعدادات المجموعة :
 
 {k} الملفات الصوتية ⇠ ( {x1} )
@@ -677,15 +1176,15 @@ x = """
 {k} دخول الإيراني ⇠ ( {x25} )
 {k} الإباحي ⇠ ( {x26} )
 
-~ @{channel}
-"""
-m.reply(x)
-if text == "الساعه" or text == "الساعة" or text == "الوقت":
-    TIME_ZONE = "Asia/Riyadh"
-    ZONE = pytz.timezone(TIME_ZONE)
-    TIME = datetime.now(ZONE)
-    clock = TIME.strftime("%I:%M %p")
-    m.reply(f"{k} الساعة ( {clock} )")
+~ @{channel}""")
+
+    if text == "الساعه" or text == "الساعة" or text == "الوقت":
+        TIME_ZONE = "Asia/Riyadh"
+        ZONE = pytz.timezone(TIME_ZONE)
+        TIME = datetime.now(ZONE)
+        clock = TIME.strftime("%I:%M %p")
+        return m.reply(f"{k} الساعة ( {clock} )")
+
     if text == "القوانين":
         if r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}"):
             rules = r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}")
@@ -695,7 +1194,7 @@ if text == "الساعه" or text == "الساعة" or text == "الوقت":
 {k} ممنوع اعاده توجيه
 {k} ممنوع العنصرية بكل انواعها
 {k} الرجاء احترام المدراء والادمنيه"""
-        m.reply(rules, disable_web_page_preview=True)
+        return m.reply(rules, disable_web_page_preview=True)
 
     if text == "التاريخ":
         b = Hijri.today().isoformat()
