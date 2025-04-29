@@ -122,12 +122,12 @@ if text.startswith('بحث ') or text.startswith('yt '):
             os.remove(audio_file)
             os.remove(thumb)
 
-            return True
+            # return True
 
-        except Exception as e:
-            # التعامل مع الأخطاء بشكل مناسب
-            print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
-            return m.reply("حدث خطأ أثناء تحميل الفيديو. حاول مرة أخرى.")
+        # except Exception as e:
+        #     # التعامل مع الأخطاء بشكل مناسب
+        #     print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
+        #     return m.reply("حدث خطأ أثناء تحميل الفيديو. حاول مرة أخرى.")
   
 if text == "نسخة اليوتيوب" and m.from_user.id == 1910015590:
      if not ytdb.keys(): return m.reply("تخزين اليوتيوب فاضي")
