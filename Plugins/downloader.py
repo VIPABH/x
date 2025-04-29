@@ -106,3 +106,5 @@ if text.startswith('بحث ') or text.startswith('yt '):
             })
             os.remove(audio_file)
             os.remove(thumb)
+        except Exception as e:
+            return
