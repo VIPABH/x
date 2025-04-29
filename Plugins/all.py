@@ -1,19 +1,3 @@
-'''
-
-
-██████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
-
 import random, re, time
 from threading import Thread
 from pyrogram import *
@@ -310,7 +294,7 @@ if text == 'كشف المجموعه' or text == "كشف المجموعة":
     m.reply(msg)
     msg += '\n☆'
     m.reply(msg)
-   if text == 'المشرفين':
+    if text == 'المشرفين':
       if not owner_pls(m.from_user.id,m.chat.id):
         return m.reply(f'{k} هذا الامر يخص ( المالك وفوق ) بس')
       else:
