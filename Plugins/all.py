@@ -1,7 +1,11 @@
+from pyrogram.errors import UserNotParticipant, FloodWait
+from helpers.persianData import persianInformation
 import random, re, time, pytz, os, gtts, requests
+from hijri_converter import Hijri, Gregorian
+from mutagen.mp3 import MP3 as mutagenMP3
+from .welcome_and_rules import *
 import speech_recognition as sr
 from pydub import AudioSegment
-from hijri_converter import Hijri, Gregorian
 from datetime import datetime
 from threading import Thread
 from pyrogram import *
@@ -9,24 +13,14 @@ from pyrogram.enums import *
 from pyrogram.types import *
 from config import *
 from helpers.Ranks import *
-from helpers.persianData import persianInformation
-from .welcome_and_rules import *
 from .games import *
 from PIL import Image
 from asyncio import run as RUN
 from Python_ARQ import ARQ
 from aiohttp import ClientSession
-
-# from googletrans import Translator as googletranstr
-from mutagen.mp3 import MP3 as mutagenMP3
-# from main import TelegramBot
-
 ARQ_API_KEY = "OZJRWV-SAURXD-PMBUKF-GMVSNS-ARQ"
 ARQ_API_URL = "https://arq.hamker.dev"
-
-# translator = googletranstr()
-
-
+ABH = 1910015590
 list_UwU = [
     "كس",
     "كسمك",
@@ -91,46 +85,15 @@ list_UwU = [
     "زبي",
     "قاحب",
 ]
-
 def Find(text):
     m = r"(?i)\b((?:https?://|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s!()\[\]{};:'\".,<>?«»“”‘’]))"
     url = re.findall(m, text)
     return [x[0] for x in url]
 
 
-"""
-         r.get(f'{m.chat.id}:mute:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockJoin:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockChannels:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockEdit:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockEditM:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockVoice:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockVideo:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockNot:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockPhoto:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockStickers:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockAnimations:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockFiles:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockPersian:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockUrls:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockHashtags:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockMessages:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockTags:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockBots:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockSpam:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockInline:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockForward:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockAudios:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockaddContacts:{Dev_Zaid}')
-         r.get(f'{m.chat.id}:lockSHTM:{Dev_Zaid}')
-"""
-
-from pyrogram.errors import UserNotParticipant, FloodWait
-
-
 @Client.on_message(filters.group, group=-1111111111111)
 async def on_zbi(c: Client, m: Message):
-    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "ليو"
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "X"
     text = m.text
     if text.startswith(f"{name} "):
         text = text.replace(f"{name} ", "")
@@ -145,74 +108,11 @@ async def on_zbi(c: Client, m: Message):
     if dev_pls(m.from_user.id, m.chat.id):
         return
 
-    if (
-        text.startswith("تفعيل ")
-        or text.startswith("تعطيل ")
-        or text.startswith("قفل ")
-        or text.startswith("فتح ")
-        or text == "ايدي"
-        or text == "الاوامر"
-    ):
-        if r.get(f"forceChannel:{Dev_Zaid}") and (
-            not r.get(f"disableSubscribe:{Dev_Zaid}")
-        ):
-            username = r.get(f"forceChannel:{Dev_Zaid}").replace("@", "")
-            not_member = False
-            try:
-                member = await c.get_chat_member(username, m.from_user.id)
-            except FloodWait:
-                return m.continue_propagation()
-            except UserNotParticipant:
-                await m.reply(
-                    f"- انضم للقناة ( @{username} ) لتستطيع استخدام اوامر البوت",
-                    reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    "اضغط هنا", url="https://t.me/" + username
-                                )
-                            ]
-                        ]
-                    ),
-                )
-                r.set(f"inDontCheck:{Dev_Zaid}", 1, ex=10)
-                return m.stop_propagation()
-            except Exception as e:
-                print(e)
-                return m.continue_propagation()
-
-            if member.status in {
-                enums.ChatMemberStatus.LEFT,
-                enums.ChatMemberStatus.BANNED,
-            } or member.status is None:
-                not_member = True
-            else:
-                not_member = False
-
-            if not_member:
-                await m.reply(
-                    f"- انضم للقناة ( @{username} ) لتستطيع استخدام اوامر البوت",
-                    reply_markup=InlineKeyboardMarkup(
-                        [
-                            [
-                                InlineKeyboardButton(
-                                    "اضغط هنا", url="https://t.me/" + username
-                                )
-                            ]
-                        ]
-                    ),
-                )
-                r.set(f"inDontCheck:{Dev_Zaid}", ex=10)
-                return m.stop_propagation()
-            else:
-                return m.continue_propagation()
-
-
 @Client.on_message(filters.group, group=27)
 def guardLocksResponse(c, m):
     k = r.get(f"{Dev_Zaid}:botkey")
     channel = (
-        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "wfffp"
     )
     Thread(target=guardResponseFunction, args=(c, m, k, channel)).start()
 
@@ -221,7 +121,7 @@ def guardLocksResponse(c, m):
 def guardLocksResponse2(c, m):
     k = r.get(f"{Dev_Zaid}:botkey")
     channel = (
-        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "wfffp"
     )
     Thread(target=guardResponseFunction2, args=(c, m, k, channel)).start()
 
@@ -232,7 +132,6 @@ def guardResponseFunction2(c, m, k, channel):
     warner = """
 「 {} 」
 {} ممنوع {}
-☆
 """
     warn = False
     reason = False
@@ -283,7 +182,6 @@ def guardResponseFunction(c, m, k, channel):
     warner = """
 「 {} 」
 {} ممنوع {}
-☆
 """
     warn = False
     reason = False
@@ -316,9 +214,6 @@ def guardResponseFunction(c, m, k, channel):
     if m.from_user:
         id = m.from_user.id
         mention = m.from_user.mention
-
-    # print(id)
-
     if m.media:
         rep = m
         if rep.sticker:
@@ -339,40 +234,32 @@ def guardResponseFunction(c, m, k, channel):
         if r.get(f"{idd}:NotAllow:{m.chat.id}{Dev_Zaid}"):
             if not admin_pls(id, m.chat.id):
                 return m.delete()
-
     if m.text and r.smembers(f"{m.chat.id}:NotAllowedListText:{Dev_Zaid}"):
         if not admin_pls(id, m.chat.id):
             for word in r.smembers(f"{m.chat.id}:NotAllowedListText:{Dev_Zaid}"):
                 if word in m.text:
                     return m.delete()
-
     if r.get(f"{id}:mute:{m.chat.id}{Dev_Zaid}") or r.get(f"{id}:mute:{Dev_Zaid}"):
         return False
-
     if r.get(f"{m.chat.id}:mute:{Dev_Zaid}") and not admin_pls(id, m.chat.id):
         m.delete()
         return False
-
     if pre_pls(id, m.chat.id):
         return False
-
     if r.get(f"{m.chat.id}:lockBots:{Dev_Zaid}") and m.new_chat_members:
         for mem in m.new_chat_members:
             if mem.is_bot:
                 return m.chat.ban_member(mem.id)
-
     if r.get(f"{m.chat.id}:lockJoin:{Dev_Zaid}") and m.new_chat_members:
         for mem in m.new_chat_members:
             if not admin_pls(mem.id, m.chat.id):
                 m.chat.ban_member(mem.id)
                 m.chat.unban_member(mem.id)
                 return False
-
     if r.get(f"{m.chat.id}:lockChannels:{Dev_Zaid}") and m.sender_chat:
         if not m.sender_chat.id == m.chat.id:
             m.chat.ban_member(m.sender_chat.id)
             return False
-
     if r.get(f"{m.chat.id}:lockSpam:{Dev_Zaid}"):
         if not r.get(f"{id}in_spam:{m.chat.id}{Dev_Zaid}"):
             r.set(f"{id}in_spam:{m.chat.id}{Dev_Zaid}", 1, ex=10)
@@ -385,7 +272,6 @@ def guardResponseFunction(c, m, k, channel):
                     return m.reply(
                         f"「 {mention} 」 \n{k} كتمتك يالبثر عشان تتعلم تكرر\n☆"
                     )
-
                 if m.sender_chat:
                     m.chat.ban_member(m.sender_chat)
                     return m.reply(
@@ -394,7 +280,6 @@ def guardResponseFunction(c, m, k, channel):
             else:
                 get = int(r.get(f"{id}in_spam:{m.chat.id}{Dev_Zaid}"))
                 r.set(f"{id}in_spam:{m.chat.id}{Dev_Zaid}", get + 1, ex=10)
-
     if r.get(f"{m.chat.id}:lockInline:{Dev_Zaid}") and m.via_bot:
         m.delete()
         warn = True
@@ -406,7 +291,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockForward:{Dev_Zaid}") and m.forward_date:
         m.delete()
         warn = True
@@ -418,17 +302,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
-    """
-  if r.get(f'{m.chat.id}:lockForward:{Dev_Zaid}') and m.forward_from_chat:
-     m.delete()
-     warn = True
-     reason = 'ترسل توجيه'
-     if not r.get(f'{m.chat.id}:disableWarn:{Dev_Zaid}') and not r.get(f'{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}'):
-        r.set(f'{Dev_Zaid}:inWARN:{m.from_user.id}{m.chat.id}',1,ex=60)
-        return m.reply(warner.format(mention,k,reason),disable_web_page_preview=True)
-  """
-
     if r.get(f"{m.chat.id}:lockAudios:{Dev_Zaid}") and m.audio:
         m.delete()
         warn = True
@@ -440,7 +313,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockVideo:{Dev_Zaid}") and m.video:
         m.delete()
         warn = True
@@ -452,7 +324,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockPhoto:{Dev_Zaid}") and m.photo:
         m.delete()
         warn = True
@@ -464,7 +335,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockStickers:{Dev_Zaid}") and m.sticker:
         m.delete()
         warn = True
@@ -476,7 +346,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockAnimations:{Dev_Zaid}") and m.animation:
         m.delete()
         warn = True
@@ -488,7 +357,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockFiles:{Dev_Zaid}") and m.document:
         m.delete()
         warn = True
@@ -500,7 +368,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockPersian:{Dev_Zaid}") and m.text:
         if "ه‍" in m.text or "ی" in m.text or "ک" in m.text or "چ" in m.text:
             m.delete()
@@ -510,7 +377,6 @@ def guardResponseFunction(c, m, k, channel):
                 return m.reply(
                     warner.format(mention, k, reason), disable_web_page_preview=True
                 )
-
     if r.get(f"{m.chat.id}:lockPersian:{Dev_Zaid}") and m.caption:
         if "ه‍" in m.caption or "ی" in m.caption or "ک" in m.caption or "چ" in m.caption:
             m.delete()
@@ -520,7 +386,6 @@ def guardResponseFunction(c, m, k, channel):
                 return m.reply(
                     warner.format(mention, k, reason), disable_web_page_preview=True
                 )
-
     if (
         r.get(f"{m.chat.id}:lockUrls:{Dev_Zaid}")
         and m.text
@@ -536,7 +401,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if (
         r.get(f"{m.chat.id}:lockHashtags:{Dev_Zaid}")
         and m.text
@@ -552,7 +416,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockMessages:{Dev_Zaid}") and m.text and len(m.text) > 150:
         m.delete()
         warn = True
@@ -564,7 +427,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockVoice:{Dev_Zaid}") and m.voice:
         m.delete()
         warn = True
@@ -576,7 +438,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(
         f"{m.chat.id}:lockTags:{Dev_Zaid}"
     ) and '"type": "MessageEntityType.MENTION"' in str(m):
@@ -590,7 +451,6 @@ def guardResponseFunction(c, m, k, channel):
             return m.reply(
                 warner.format(mention, k, reason), disable_web_page_preview=True
             )
-
     if r.get(f"{m.chat.id}:lockSHTM:{Dev_Zaid}") and (m.caption or m.text):
         if m.caption:
             txt = m.caption
@@ -612,11 +472,9 @@ def guardResponseFunction(c, m, k, channel):
 def guardCommandsHandler(c, m):
     k = r.get(f"{Dev_Zaid}:botkey")
     channel = (
-        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "wfffp"
     )
     Thread(target=guardCommands, args=(c, m, k, channel)).start()
-
-
 def guardCommands(c, m, k, channel):
     if not r.get(f"{m.chat.id}:enable:{Dev_Zaid}"):
         return False
@@ -637,7 +495,7 @@ def guardCommands(c, m, k, channel):
     ):
         return False
     text = m.text
-    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "ليو"
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "X"
     if text.startswith(f"{name} "):
         text = text.replace(f"{name} ", "")
     if r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}"):
@@ -649,36 +507,29 @@ def guardCommands(c, m, k, channel):
     Open = """
 {} من 「 {} 」
 {} ابشر فتحت {}
-☆
 """
     Openn = """
 {} من 「 {} 」
 {} {} مفتوح من قبل
-☆
 """
     Openn2 = """
 {} من 「 {} 」
 {} {} مفتوحه من قبل
-☆
 """
 
     lock = """
 {} من 「 {} 」
 {} ابشر قفلت {}
-☆
 """
 
     lockn = """
 {} من 「 {} 」
 {} {} مقفل من قبل
-☆
 """
     locknn = """
 {} من 「 {} 」
 {} {} مقفله من قبل
-☆
 """
-
     if text == "الاعدادات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -722,43 +573,35 @@ def guardCommands(c, m, k, channel):
 {k} الفيديو ⇠ ( {x2} )
 {k} الفويس ⇠ ( {x3} )
 {k} الصور ⇠ ( {x4} )
-
 {k} الدردشة ⇠ ( {x5} )
 {k} الانلاين ⇠ ( {x6} )
 {k} التوجيه ⇠ ( {x7} )
 {k} الهشتاق ⇠ ( {x8} )
 {k} التعديل ⇠ ( {x9} )
 {k} الستيكرات ⇠ ( {x10} )
-
 {k} الملفات ⇠ ( {x11} )
 {k} المتحركات ⇠ ( {x12} )
 {k} الروابط ⇠ ( {x13} )
 {k} البوتات ⇠ ( {x14} )
 {k} اليوزرات ⇠ ( {x15} )
-
 {k} الاشعارات ⇠ ( {x16} )
 {k} الاضافة ⇠ ( {x17} )
-
 {k} الكلام الكثير ⇠ ( {x18} )
 {k} السب ⇠ ( {x19} )
 {k} التكرار ⇠ ( {x20} )
 {k} القنوات ⇠ ( {x21} )
 {k} تعديل الميديا ⇠ ( {x22} )
-
 {k} الدخول ⇠ ( {x23} )
 {k} الفارسية ⇠ ( {x24} )
 {k} دخول الإيراني ⇠ ( {x25} )
 {k} الإباحي ⇠ ( {x26} )
-
 ~ @{channel}""")
-
     if text == "الساعه" or text == "الساعة" or text == "الوقت":
         TIME_ZONE = "Asia/Riyadh"
         ZONE = pytz.timezone(TIME_ZONE)
         TIME = datetime.now(ZONE)
         clock = TIME.strftime("%I:%M %p")
         return m.reply(f"{k} الساعة ( {clock} )")
-
     if text == "القوانين":
         if r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}"):
             rules = r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}")
@@ -769,7 +612,6 @@ def guardCommands(c, m, k, channel):
 {k} ممنوع العنصرية بكل انواعها
 {k} الرجاء احترام المدراء والادمنيه"""
         return m.reply(rules, disable_web_page_preview=True)
-
     if text == "التاريخ":
         b = Hijri.today().isoformat()
         a = b.split("-")
@@ -779,7 +621,6 @@ def guardCommands(c, m, k, channel):
         hijri = Hijri(year, month, day)
         hijri_date = str(b).replace("-", "/")
         hijri_month = hijri.month_name("ar")
-
         b = Gregorian.today().isoformat()
         a = b.split("-")
         year = int(a[0])
@@ -788,13 +629,11 @@ def guardCommands(c, m, k, channel):
         geo = Gregorian(year, month, day)
         geo_date = str(b).replace("-", "/")
         geo_month = geo.month_name("en")[:3]
-
         return m.reply(f"""
 التاريخ:
 {k} هجري ↢ {hijri_date} {hijri_month}
 {k} ميلادي ↢ {geo_date} {geo_month}
 """)
-
     if text == "المالك":
         owner = None
         for mm in m.chat.get_members(filter=ChatMembersFilter.ADMINISTRATORS):
@@ -823,7 +662,6 @@ def guardCommands(c, m, k, channel):
                         [[InlineKeyboardButton(owner.first_name, user_id=owner.id)]]
                     )
                     m.reply(caption, reply_markup=button)
-
     if text == "اطردني":
         if r.get(f"{m.chat.id}:enableKickMe:{Dev_Zaid}"):
             get = m.chat.get_member(m.from_user.id)
@@ -847,96 +685,16 @@ def guardCommands(c, m, k, channel):
                 except:
                     pass
                 return False
-
     if text == "الرابط":
         if not r.get(f"{m.chat.id}:disableLINK:{Dev_Zaid}"):
             link = c.get_chat(m.chat.id).invite_link
             return m.reply(f"[{m.chat.title}]({link})", disable_web_page_preview=True)
-
     if text == "انشاء رابط":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
         link = c.get_chat(m.chat.id).invite_link
         c.revoke_chat_invite_link(m.chat.id, link)
         return m.reply(f'{k} ابشر سويت رابط جديد ارسل "الرابط"')
-
-    if text.startswith("@all"):
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        if r.get(f"{m.chat.id}:disableALL:{Dev_Zaid}"):
-            return m.reply("المنشن معطل")
-        if r.get(f"{m.chat.id}:inMention:{Dev_Zaid}"):
-            return False
-        if r.get(f"{m.chat.id}:inMentionWAIT:{Dev_Zaid}"):
-            get = r.ttl(f"{m.chat.id}:inMentionWAIT:{Dev_Zaid}")
-            tm = time.strftime("%M:%S", time.gmtime(get))
-            return m.reply(f"{k} سويت منشن من شوي تعال بعد {tm}")
-        else:
-            if len(text.split()) > 1:
-                reason = text.split(None, 1)[1]
-            else:
-                reason = ""
-            users_list = []
-            r.set(f"{m.chat.id}:inMention:{Dev_Zaid}", 1)
-            m.reply(f"{k} بسوي منشن يحلو ، اذا تبي توقفه ارسل `/Cancel` او `ايقاف`")
-            for mm in m.chat.get_members(limit=150):
-                if mm.user and not mm.user.is_deleted and not mm.user.is_bot:
-                    users_list.append(mm.user.mention)
-            final_list = [users_list[x : x + 5] for x in range(0, len(users_list), 5)]
-            ftext = f"{reason}\n\n"
-            for a in final_list:
-                for i in a:
-                    if not r.get(f"{m.chat.id}:inMention:{Dev_Zaid}"):
-                        return False
-                    ftext += f"{i} , "
-                c.send_message(m.chat.id, ftext)
-                ftext = f"{reason}\n\n"
-            r.delete(f"{m.chat.id}:inMention:{Dev_Zaid}")
-            r.set(f"{m.chat.id}:inMentionWAIT:{Dev_Zaid}", 1, ex=1200)
-
-    if text.lower() == "/cancel" or text == "ايقاف":
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        else:
-            if not r.get(f"{m.chat.id}:inMention:{Dev_Zaid}"):
-                return m.reply(f"{k} مو قاعده اسوي منشن ركز")
-            else:
-                r.delete(f"{m.chat.id}:inMention:{Dev_Zaid}")
-                return m.reply("ابشر وقفت المنشن")
-
-    if text == "منشن":
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        return m.reply("استخدم امر\n@all مع الكلام")
-
-    if text == "تعطيل المنشن":
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        else:
-            if r.get(f"{m.chat.id}:disableALL:{Dev_Zaid}"):
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} المشن معطل من قبل\n☆"
-                )
-            else:
-                r.set(f"{m.chat.id}:disableALL:{Dev_Zaid}", 1)
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت المنشن\n☆"
-                )
-
-    if text == "تفعيل المنشن":
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        else:
-            if not r.get(f"{m.chat.id}:disableALL:{Dev_Zaid}"):
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} المنشن مفعل من قبل\n☆"
-                )
-            else:
-                r.delete(f"{m.chat.id}:disableALL:{Dev_Zaid}")
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت المنشن\n☆"
-                )
-
     if text == "تعطيل الترحيب":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -950,7 +708,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الترحيب\n☆"
                 )
-
     if text == "تعطيل الترحيب بالصورة" or text == "تعطيل الترحيب بالصوره":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -964,7 +721,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الترحيب بالصورة\n☆"
                 )
-
     if text == "تفعيل الترحيب بالصورة" or text == "تفعيل الترحيب بالصوره":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1090,155 +846,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت التحقق\n☆"
                 )
-
-    if text == "تعطيل انطقي" or text == "تعطيل انطق":
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        else:
-            if r.get(f"{m.chat.id}:disableSay:{Dev_Zaid}"):
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} انطقي معطل من قبل\n☆"
-                )
-            else:
-                r.set(f"{m.chat.id}:disableSay:{Dev_Zaid}", 1)
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت انطقي\n☆"
-                )
-
-    if text == "تفعيل انطقي" or text == "تفعيل انطق":
-        if not mod_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
-        else:
-            if not r.get(f"{m.chat.id}:disableSay:{Dev_Zaid}"):
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} انطقي مفعل من قبل\n☆"
-                )
-            else:
-                r.delete(f"{m.chat.id}:disableSay:{Dev_Zaid}")
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت انطقي\n☆"
-                )
-
-    if text.startswith("انطق "):
-        if not r.get(f"{m.chat.id}:disableSay:{Dev_Zaid}"):
-            txt = text.split(None, 1)[1]
-            if len(txt) > 500:
-                return m.reply("توكل مايمدي انطق اكثر من ٥٠٠ حرف بتعب بعدين")
-            """
-         det = translator.detect(txt).lang.lower()
-         if det == 'fa' or det == 'ar':
-           lang = 'ar'
-         else:
-           lang = det
-         """
-            id = random.randint(999, 10000)
-            """
-         o = gtts.gTTS(text=txt, lang="ar", slow=False)
-         o.save(f'zaid{id}.mp3')
-         """
-            with open(f"zaid{id}.mp3", "wb") as f:
-                try:
-                    c.send_chat_action(m.chat.id, ChatAction.RECORD_AUDIO)
-                except:
-                    pass
-                f.write(
-                    requests.get(
-                        f"https://eduardo-tate.com/AI/voice.php?text={txt}&model=3"
-                    ).content
-                )
-            """
-         audio = MP3(f'zaid{id}.mp3')
-         duration=int(audio.info.length)
-         os.rename(f'zaid{id}.mp3',f'zaid{id}.ogg')
-         TelegramBot.send_voice(
-         m.chat.id,
-         voice,
-         caption=f'الكلمة: {txt}',
-         duration=duration
-         )
-         """
-            try:
-                c.send_chat_action(m.chat.id, ChatAction.RECORD_AUDIO)
-            except:
-                pass
-            os.system(
-                f"ffmpeg -i zaid{id}.mp3 -ac 1 -strict -2 -codec:a libopus -b:a 128k -vbr off -ar 24000 zaid{id}.ogg"
-            )
-            try:
-                c.send_chat_action(m.chat.id, ChatAction.UPLOAD_AUDIO)
-            except:
-                pass
-            m.reply_voice(f"zaid{id}.ogg", caption=f"الكلمة: {txt}")
-            """
-         voice = open(f'zaid{id}.ogg','rb')
-         url = f"https://api.telegram.org/bot{c.bot_token}/sendVoice"
-         response=requests.post(url, data={'chat_id': m.chat.id,'caption':f'الكلمة: {txt}','reply_to_message_id':m.id}, files={'voice': voice})
-         os.remove(f'zaid{id}.ogg')
-         """
-            os.remove(f"zaid{id}.ogg")
-            os.remove(f"zaid{id}.mp3")
-            return True
-
-    if text.startswith("انطقي "):
-        if not r.get(f"{m.chat.id}:disableSay:{Dev_Zaid}"):
-            txt = text.split(None, 1)[1]
-            if len(txt) > 500:
-                return m.reply("توكل مايمدي انطق اكثر من ٥٠٠ حرف بتعب بعدين")
-            """
-         det = translator.detect(txt).lang.lower()
-         if det == 'fa' or det == 'ar':
-           lang = 'ar'
-         else:
-           lang = det
-         """
-            id = random.randint(999, 10000)
-            """
-         o = gtts.gTTS(text=txt, lang="ar", slow=False)
-         o.save(f'zaid{id}.mp3')
-         """
-            with open(f"zaid{id}.mp3", "wb") as f:
-                try:
-                    c.send_chat_action(m.chat.id, ChatAction.RECORD_AUDIO)
-                except:
-                    pass
-                f.write(
-                    requests.get(
-                        f"https://eduardo-tate.com/AI/voice.php?text={txt}"
-                    ).content
-                )
-            """
-         audio = MP3(f'zaid{id}.mp3')
-         duration=int(audio.info.length)
-         os.rename(f'zaid{id}.mp3',f'zaid{id}.ogg')
-         TelegramBot.send_voice(
-         m.chat.id,
-         voice,
-         caption=f'الكلمة: {txt}',
-         duration=duration
-         )
-         """
-            try:
-                c.send_chat_action(m.chat.id, ChatAction.RECORD_AUDIO)
-            except:
-                pass
-            os.system(
-                f"ffmpeg -i zaid{id}.mp3 -ac 1 -strict -2 -codec:a libopus -b:a 128k -vbr off -ar 24000 zaid{id}.ogg"
-            )
-            try:
-                c.send_chat_action(m.chat.id, ChatAction.UPLOAD_AUDIO)
-            except:
-                pass
-            m.reply_voice(f"zaid{id}.ogg", caption=f"الكلمة: {txt}")
-            """
-         voice = open(f'zaid{id}.ogg','rb')
-         url = f"https://api.telegram.org/bot{c.bot_token}/sendVoice"
-         response=requests.post(url, data={'chat_id': m.chat.id,'caption':f'الكلمة: {txt}','reply_to_message_id':m.id}, files={'voice': voice})
-         os.remove(f'zaid{id}.ogg')
-         """
-            os.remove(f"zaid{id}.ogg")
-            os.remove(f"zaid{id}.mp3")
-            return True
-
     if (
         (text == "وش يقول" or text == "وش تقول؟")
         and m.reply_to_message
@@ -1266,7 +873,7 @@ def guardCommands(c, m, k, channel):
         (text == "zaid" or text == "زوز")
         and m.reply_to_message
         and m.reply_to_message.voice
-        and m.from_user.id == 6168217372
+        and m.from_user.id == ABH
     ):
         if m.reply_to_message.voice.file_size > 20971520:
             return m.reply("حجمه اكثر من ٢٠ ميجابايت، توكل")
@@ -1285,7 +892,6 @@ def guardCommands(c, m, k, channel):
             return m.reply("عجزت افهم وش يقول ")
         os.remove(f"zaid{id}.wav")
         return m.reply(f"يقول : {text}")
-
     if text.startswith("منع "):
         if mod_pls(m.from_user.id, m.chat.id):
             noice = text.split(None, 1)[1]
@@ -1300,7 +906,6 @@ def guardCommands(c, m, k, channel):
                     f"{k} الكلمة ( {noice} ) اضفتها الى قائمة المنع",
                     disable_web_page_preview=True,
                 )
-
     if text.startswith("الغاء منع ") and len(text.split()) > 2:
         if mod_pls(m.from_user.id, m.chat.id):
             noice = text.split(None, 2)[2]
@@ -1315,7 +920,6 @@ def guardCommands(c, m, k, channel):
                     f"{k} ابشر مسحت ( {noice} ) من قائمة المنع",
                     disable_web_page_preview=True,
                 )
-
     if text == "منع" and m.reply_to_message and m.reply_to_message.media:
         if mod_pls(m.from_user.id, m.chat.id):
             rep = m.reply_to_message
@@ -1351,7 +955,6 @@ def guardCommands(c, m, k, channel):
                     f"file={id}&by={m.from_user.id}&type={type}&file_id={file_id}",
                 )
                 return m.reply(f"{k} واضفناها لقائمة المنع")
-
     if text == "الغاء منع" and m.reply_to_message and m.reply_to_message.media:
         if mod_pls(m.from_user.id, m.chat.id):
             rep = m.reply_to_message
@@ -1387,11 +990,9 @@ def guardCommands(c, m, k, channel):
                     f"file={id}&by={m.from_user.id}&type={type}&file_id={file_id}",
                 )
                 return m.reply(f"{k} ابشر شلتها من قائمه المنع")
-
     if text == "منع" and m.reply_to_message and not m.reply_to_message.media:
         if mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} المنع بالرد فقط للوسائط")
-
     if text == "قائمه المنع" or text == "قائمة المنع":
         text1 = "الكلمات الممنوعة:\n"
         text2 = "الوسائط الممنوعة:\n"
@@ -1421,7 +1022,6 @@ def guardCommands(c, m, k, channel):
                             f"{count2} - (`{id}`) ࿓ ( [{type}](tg://user?id={by}) )\n"
                         )
                 return m.reply(f"{text1}\n{text2}", disable_web_page_preview=True)
-
     if text == "مسح قائمه المنع" or text == "مسح قائمة المنع":
         if mod_pls(m.from_user.id, m.chat.id):
             if not r.smembers(
@@ -1437,7 +1037,6 @@ def guardCommands(c, m, k, channel):
                         r.delete(f"{file_id}:NotAllow:{m.chat.id}{Dev_Zaid}")
                 r.delete(f"{m.chat.id}:NotAllowedList:{Dev_Zaid}")
                 return m.reply(f"{k} ابشر مسحت قائمة المنع")
-
     if text == "قفل الكل":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1500,7 +1099,6 @@ def guardCommands(c, m, k, channel):
                 r.set(f"{m.chat.id}:lockSHTM:{Dev_Zaid}", 1)
                 r.set(f"{m.chat.id}:lockNSFW:{Dev_Zaid}", 1)
                 return False
-
     if text == "فتح الكل":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1564,7 +1162,6 @@ def guardCommands(c, m, k, channel):
                 r.delete(f"{m.chat.id}:lockKFR:{Dev_Zaid}")
                 r.delete(f"{m.chat.id}:lockNSFW:{Dev_Zaid}")
                 return False
-
     if text == "تفعيل الحماية" or text == "تفعيل الحمايه":
         if not owner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المالك وفوق ) بس")
@@ -1595,7 +1192,6 @@ def guardCommands(c, m, k, channel):
                 m.reply(
                     f"{k} من 「 {m.from_user.mention} 」 \n{k} ابشر فعلت الحمايه\n☆"
                 )
-
                 r.set(f"{m.chat.id}:lockChannels:{Dev_Zaid}", 1)
                 r.delete(f"{m.chat.id}:disableWarn:{Dev_Zaid}")
                 r.set(f"{m.chat.id}:lockVoice:{Dev_Zaid}", 1)
@@ -1613,7 +1209,6 @@ def guardCommands(c, m, k, channel):
                 r.set(f"{m.chat.id}:lockSHTM:{Dev_Zaid}", 1)
                 r.set(f"{m.chat.id}:lockNSFW:{Dev_Zaid}", 1)
                 return False
-
     if text == "تعطيل الحماية" or text == "تعطيل الحمايه":
         if not owner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المالك وفوق ) بس")
@@ -1644,7 +1239,6 @@ def guardCommands(c, m, k, channel):
                 m.reply(
                     f"{k} من 「 {m.from_user.mention} 」 \n{k} ابشر عطلت الحمايه\n☆"
                 )
-
                 r.delete(f"{m.chat.id}:lockChannels:{Dev_Zaid}")
                 r.delete(f"{m.chat.id}:lockVoice:{Dev_Zaid}")
                 r.delete(f"{m.chat.id}:lockVideo:{Dev_Zaid}")
@@ -1661,7 +1255,6 @@ def guardCommands(c, m, k, channel):
                 r.delete(f"{m.chat.id}:lockSHTM:{Dev_Zaid}")
                 r.delete(f"{m.chat.id}:lockNSFW:{Dev_Zaid}")
                 return False
-
     if text == "قفل الدردشة" or text == "قفل الدردشه" or text == "قفل الشات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1671,7 +1264,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:mute:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الشات"))
-
     if text == "فتح الدردشة" or text == "فتح الدردشه" or text == "فتح الشات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1681,7 +1273,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:mute:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الشات"))
-
     if text == "قفل التعديل":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1691,7 +1282,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockEdit:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "التعديل"))
-
     if text == "فتح التعديل":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1701,7 +1291,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockEdit:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "التعديل"))
-
     if text == "قفل تعديل الميديا":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1711,7 +1300,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockEditM:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "تعديل الميديا"))
-
     if text == "فتح تعديل الميديا":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1721,7 +1309,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockEditM:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "تعديل الميديا"))
-
     if text == "قفل الفويسات" or text == "قفل البصمات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1731,7 +1318,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockVoice:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الفويس"))
-
     if text == "فتح الفويسات" or text == "فتح البصمات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1741,7 +1327,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockVoice:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الفويس"))
-
     if text == "قفل الفيديو" or text == "قفل الفيديوهات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1751,7 +1336,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockVideo:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الفيديو"))
-
     if text == "فتح الفيديو" or text == "فتح الفيديوهات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1761,7 +1345,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockVideo:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الفيديو"))
-
     if text == "قفل الاشعارات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1771,7 +1354,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockNot:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الاشعارات"))
-
     if text == "فتح الاشعارات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1781,7 +1363,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockNot:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الاشعارات"))
-
     if text == "قفل الصور":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1791,7 +1372,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockPhoto:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الصور"))
-
     if text == "فتح الصور":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1801,7 +1381,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockPhoto:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الصور"))
-
     if text == "قفل الملصقات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1811,7 +1390,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockStickers:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الملصقات"))
-
     if text == "فتح الملصقات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1821,7 +1399,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockStickers:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الملصقات"))
-
     if text == "قفل الفارسيه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1831,7 +1408,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockPersian:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الفارسيه"))
-
     if text == "فتح الفارسيه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1841,7 +1417,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockPersian:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الفارسيه"))
-
     if text == "قفل الملفات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1851,7 +1426,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockFiles:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الملفات"))
-
     if text == "فتح الملفات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1861,7 +1435,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockFiles:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الملفات"))
-
     if text == "قفل المتحركات" or text == "قفل المتحركه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1871,7 +1444,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockAnimations:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "المتحركات"))
-
     if text == "فتح المتحركات" or text == "فتح المتحركه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1881,7 +1453,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockAnimations:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "المتحركات"))
-
     if text == "قفل الروابط":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1891,7 +1462,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockUrls:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الروابط"))
-
     if text == "فتح الروابط":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1901,7 +1471,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockUrls:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الروابط"))
-
     if text == "قفل الهشتاق" or text == "قفل الهاشتاق":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1911,7 +1480,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockHashtags:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الهاشتاق"))
-
     if text == "فتح الهشتاق" or text == "فتح الهاشتاق":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1921,7 +1489,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockHashtags:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الهاشتاق"))
-
     if text == "قفل البوتات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1931,7 +1498,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockBots:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "البوتات"))
-
     if text == "فتح البوتات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1941,7 +1507,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockBots:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "البوتات"))
-
     if text == "قفل اليوزرات" or text == "قفل المنشن":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1951,7 +1516,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockTags:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "اليوزرات"))
-
     if text == "فتح اليوزرات" or text == "فتح المنشن":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -1961,49 +1525,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockTags:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "اليوزرات"))
-
-    """
-   if text == 'قفل الكفر' or text == 'قفل الشيعه' or text == 'قفل الشيعة':
-     if not admin_pls(m.from_user.id,m.chat.id):
-       return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
-     else:
-       if r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}'):
-         return m.reply(locknn.format(k,m.from_user.mention,k,'الكفر'))
-       else:
-         r.set(f'{m.chat.id}:lockKFR:{Dev_Zaid}',1)
-         return m.reply(lock.format(k,m.from_user.mention,k,'الكفر'))
-
-   if text == 'فتح الكفر' or text == 'فتح الشيعه' or text == 'فتح الشيعة':
-     if not admin_pls(m.from_user.id,m.chat.id):
-       return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
-     else:
-       if not r.get(f'{m.chat.id}:lockKFR:{Dev_Zaid}'):
-         return m.reply(Openn2.format(k,m.from_user.mention,k,'الكفر'))
-       else:
-         r.delete(f'{m.chat.id}:lockKFR:{Dev_Zaid}')
-         return m.reply(Open.format(k,m.from_user.mention,k,'الكفر'))
-   """
-
-    if text == "قفل الإباحي" or text == "قفل الاباحي":
-        if not owner_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المالك وفوق ) بس")
-        else:
-            if r.get(f"{m.chat.id}:lockNSFW:{Dev_Zaid}"):
-                return m.reply(lockn.format(k, m.from_user.mention, k, "الإباحي"))
-            else:
-                r.set(f"{m.chat.id}:lockNSFW:{Dev_Zaid}", 1)
-                return m.reply(lock.format(k, m.from_user.mention, k, "الإباحي"))
-
-    if text == "فتح الإباحي" or text == "فتح الاباحي":
-        if not owner_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المالك وفوق ) بس")
-        else:
-            if not r.get(f"{m.chat.id}:lockNSFW:{Dev_Zaid}"):
-                return m.reply(Openn.format(k, m.from_user.mention, k, "االإباحي"))
-            else:
-                r.delete(f"{m.chat.id}:lockNSFW:{Dev_Zaid}")
-                return m.reply(Open.format(k, m.from_user.mention, k, "الإباحي"))
-
     if text == "قفل الكلام الكثير" or text == "قفل الكلايش":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2013,7 +1534,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockMessages:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الكلام الكثير"))
-
     if text == "فتح الكلام الكثير" or text == "فتح الكلايش":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2023,7 +1543,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockMessages:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الكلام الكثير"))
-
     if text == "قفل التكرار":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2033,7 +1552,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockSpam:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "التكرار"))
-
     if text == "فتح التكرار":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2043,7 +1561,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockSpam:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "التكرار"))
-
     if text == "قفل التوجيه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2053,7 +1570,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockForward:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "التوجيه"))
-
     if text == "فتح التوجيه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2063,7 +1579,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockForward:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "التوجيه"))
-
     if text == "قفل الانلاين":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2073,7 +1588,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockInline:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الانلاين"))
-
     if text == "فتح الانلاين":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2083,7 +1597,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockInline:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الانلاين"))
-
     if text == "قفل السب":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2093,7 +1606,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockSHTM:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "السب"))
-
     if text == "فتح السب":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2103,7 +1615,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockSHTM:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "السب"))
-
     if text == "قفل الاضافه" or text == "قفل الاضافة" or text == "قفل الجهات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2113,7 +1624,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockaddContacts:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الاضافه"))
-
     if text == "فتح الاضافه" or text == "فتح الاضافة" or text == "فتح الجهات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2123,7 +1633,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockaddContacts:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الاضافه"))
-
     if text == "قفل دخول البوتات" or text == "قفل الوهمي" or text == "قفل الايراني":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2133,7 +1642,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "دخول البوتات"))
-
     if text == "فتح دخول البوتات" or text == "فتح الوهمي" or text == "فتح الايراني":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2143,7 +1651,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockJoinPersian:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "دخول البوتات"))
-
     if text == "قفل الصوت":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2153,7 +1660,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockAudios:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الصوت"))
-
     if text == "فتح الصوت":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2163,7 +1669,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockAudios:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الصوت"))
-
     if text == "قفل القنوات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2173,7 +1678,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockChannels:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "القنوات"))
-
     if text == "فتح القنوات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2183,7 +1687,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockChannels:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "القنوات"))
-
     if text == "قفل الدخول":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2193,7 +1696,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.set(f"{m.chat.id}:lockJoin:{Dev_Zaid}", 1)
                 return m.reply(lock.format(k, m.from_user.mention, k, "الدخول"))
-
     if text == "فتح الدخول":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2203,7 +1705,6 @@ def guardCommands(c, m, k, channel):
             else:
                 r.delete(f"{m.chat.id}:lockJoin:{Dev_Zaid}")
                 return m.reply(Open.format(k, m.from_user.mention, k, "الدخول"))
-
     if text == "تعطيل التحذير":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2217,7 +1718,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت التحذير\n☆"
                 )
-
     if text == "تفعيل التحذير":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2231,7 +1731,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت التحذير\n☆"
                 )
-
     if text == "تعطيل اليوتيوب":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2259,7 +1758,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت اليوتيوب\n☆"
                 )
-
     if text == "تعطيل الساوند":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2273,7 +1771,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الساوند\n☆"
                 )
-
     if text == "تفعيل الساوند":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2287,7 +1784,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت الساوند\n☆"
                 )
-
     if text == "تعطيل الانستا":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2301,7 +1797,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الانستا\n☆"
                 )
-
     if text == "تفعيل الانستا":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2315,7 +1810,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت الانستا\n☆"
                 )
-
     if text == "تعطيل اهمس":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2329,7 +1823,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت اهمس\n☆"
                 )
-
     if text == "تفعيل اهمس":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2357,7 +1850,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت التيك\n☆"
                 )
-
     if text == "تفعيل التيك":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2371,7 +1863,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت التيك\n☆"
                 )
-
     if text == "تعطيل شازام":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2385,7 +1876,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت شازام\n☆"
                 )
-
     if text == "تفعيل شازام":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2399,7 +1889,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت شازام\n☆"
                 )
-
     if text == "تعطيل الالعاب":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2413,7 +1902,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الالعاب\n☆"
                 )
-
     if text == "تفعيل الالعاب":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2427,7 +1915,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت الالعاب\n☆"
                 )
-
     if text == "تعطيل الترجمة" or text == "تعطيل الترجمه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2441,7 +1928,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الترجمه\n☆"
                 )
-
     if text == "تفعيل الترجمة" or text == "تفعيل الترجمه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2455,7 +1941,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت الترجمه\n☆"
                 )
-
     if text == "تعطيل التسلية" or text == "تعطيل التسليه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2469,7 +1954,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت التسلية\n☆"
                 )
-
     if text == "تفعيل التسلية" or text == "تفعيل التسليه":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2483,76 +1967,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت التسلية\n☆"
                 )
-
-    if text == "تعطيل الاشتراك":
-        if not dev2_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المطور وفوق ) بس")
-        else:
-            if r.get(f"disableSubscribe:{Dev_Zaid}"):
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} الاشتراك الاجباري معطل من قبل\n☆"
-                )
-            else:
-                r.set(f"disableSubscribe:{Dev_Zaid}", 1)
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت الاشتراك الاجباري\n☆"
-                )
-
-    if text == "قناة الاشتراك":
-        if not dev2_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المطور وفوق ) بس")
-        ch = r.get(f"forceChannel:{Dev_Zaid}") or "مافي قناة"
-        return m.reply(f"{k} قناة الاشتراك هي ( {ch} )")
-
-    if text.startswith("وضع قناة @"):
-        if not dev2_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المطور وفوق ) بس")
-        username = text.split("@")[1]
-        try:
-            chat = c.get_chat(username)
-        except:
-            return m.reply(f"{k} حدث خطأ")
-        r.set(f"forceChannel:{Dev_Zaid}", "@" + username)
-        return m.reply(f"{k} تم تعيين القناة بنجاح")
-
-    if text == "تفعيل الاشتراك":
-        if not dev2_pls(m.from_user.id, m.chat.id):
-            return m.reply(f"{k} هذا الامر يخص ( المطور وفوق ) بس")
-        else:
-            if not r.get(f"disableSubscribe:{Dev_Zaid}"):
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} الاشتراك الاجباري مفعل من قبل\n☆"
-                )
-            else:
-                r.delete(f"disableSubscribe:{Dev_Zaid}")
-                return m.reply(
-                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت الاشتراك الاجباري\n☆"
-                )
-
-    if (
-        text == "/ar"
-        and m.reply_to_message
-        and (m.reply_to_message.text or m.reply_to_message.caption)
-    ):
-        if not r.get(f"{m.chat.id}:disableTrans:{Dev_Zaid}"):
-            text = m.reply_to_message.text or m.reply_to_message.caption
-            translation = requests.get(
-                f"https://hozory.com/translate/?target=ar&text={text}"
-            ).json()["result"]["translate"]
-            m.reply(f"`{translation}`")
-
-    if (
-        text == "/en"
-        and m.reply_to_message
-        and (m.reply_to_message.text or m.reply_to_message.caption)
-    ):
-        if not r.get(f"{m.chat.id}:disableTrans:{Dev_Zaid}"):
-            text = m.reply_to_message.text or m.reply_to_message.caption
-            translation = requests.get(
-                f"https://hozory.com/translate/?target=en&text={text}"
-            ).json()["result"]["translate"]
-            m.reply(f"`{translation}`")
-
     if (
         text == "ترجمه"
         and m.reply_to_message
@@ -2641,7 +2055,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(f"{k} مافيه مقيديين")
             else:
                 return m.reply(text)
-
     if text == "مسح المقيدين":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
@@ -2669,17 +2082,14 @@ def guardCommands(c, m, k, channel):
                 return m.reply(f"{k} مافيه مقيديين")
             else:
                 return m.reply(f"{k} ابشر مسحت ( {co} ) من المقيدين")
-
     if text == "تثبيت" and m.reply_to_message:
         if mod_pls(m.from_user.id, m.chat.id):
             m.reply_to_message.pin(disable_notification=False)
             m.reply(f"{k} ابشر ثبتت الرسالة ")
-
     if text == "الغاء التثبيت" and m.reply_to_message:
         if mod_pls(m.from_user.id, m.chat.id):
             m.reply_to_message.unpin()
             m.reply(f"{k} ابشر لغيت تثبيت الرسالة ")
-
     if text.startswith("تقييد ") and len(text.split()) == 2:
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
@@ -2703,7 +2113,6 @@ def guardCommands(c, m, k, channel):
                 m.chat.id, get.user.id, ChatPermissions(can_send_messages=False)
             )
             return m.reply(f"「 {get.user.mention} 」 \n{k} قييدته\n☆")
-
     if text == "تقييد" and m.reply_to_message and m.reply_to_message.from_user:
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
@@ -2726,7 +2135,6 @@ def guardCommands(c, m, k, channel):
             return m.reply(
                 f"「 {m.reply_to_message.from_user.mention} 」 \n{k} قييدته\n☆"
             )
-
     if (
         text.startswith("الغاء تقييد ")
         or text.startswith("الغاء التقييد ")
@@ -2792,7 +2200,6 @@ def guardCommands(c, m, k, channel):
             return m.reply(
                 f"「 {m.reply_to_message.from_user.mention} 」 \n{k} ابشر الغيت تقييده\n☆"
             )
-
     if text == "المحظورين":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
@@ -2823,7 +2230,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(f"{k} مافيه محظورين")
             else:
                 return m.reply(text)
-
     if text == "مسح المحظورين":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( الادمن وفوق ) بس")
@@ -2840,7 +2246,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(f"{k} مافيه محظورين")
             else:
                 return m.reply(f"{k} ابشر مسحت ( {co} ) من المحظورين")
-
     if text.startswith("حظر ") and len(text.split()) == 2:
         if not "@" in text and not re.findall("[0-9]+", text):
             return
@@ -2864,7 +2269,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(f"{k} مافي عضو بهذا اليوزر")
             m.chat.ban_member(get.user.id)
             return m.reply(f"「 {get.user.mention} 」 \n{k} حظرته\n☆")
-
     if text == "حظر" and m.reply_to_message and m.reply_to_message.from_user:
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
@@ -2883,7 +2287,6 @@ def guardCommands(c, m, k, channel):
             return m.reply(
                 f"「 {m.reply_to_message.from_user.mention} 」 \n{k} حظرته\n☆"
             )
-
     if text == "طرد البوتات":
         if not owner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المالك وفوق ) بس")
@@ -2899,7 +2302,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(f"{k} مافيه بوتات")
             else:
                 return m.reply(f"{k} ابشر حظر ( {co} ) بوت")
-
     if text.startswith("طرد ") and len(text.split()) == 2:
         if not "@" in text and not re.findall("[0-9]+", text):
             return
@@ -2924,7 +2326,6 @@ def guardCommands(c, m, k, channel):
             m.chat.ban_member(get.user.id)
             m.chat.unban_member(get.user.id)
             return m.reply(f"「 {get.user.mention} 」 \n{k} طردته\n☆")
-
     if text == "اهمس" and m.reply_to_message and m.reply_to_message.from_user:
         if r.get(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}"):
             return m.reply(f"{k} امر اهمس معطل")
@@ -2957,7 +2358,6 @@ def guardCommands(c, m, k, channel):
             # wsdb.set(str(id), data)
             wsdb.setex(key=id, ttl=3600, value=data)
             return True
-
     if text == "تعطيل التنظيف":
         if not gowner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المالك الاساسي وفوق ) بس")
@@ -2985,7 +2385,6 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت التنظيف\n☆"
                 )
-
     if re.search("^وضع وقت التنظيف [0-9]+$", text):
         if not gowner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المالك الاساسي وفوق ) بس")
@@ -3071,8 +2470,7 @@ def guardCommands(c, m, k, channel):
                 )
             except:
                 return m.reply(f"{k} العضو مو بالمجموعة")
-
-    if text.startswith("رفع القيود ") and len(text.split()) == 3:
+    if text.startswith("رفع قيود ") and len(text.split()) == 3:
         if not "@" in text and not re.findall("[0-9]+", text):
             return
         if not mod_pls(m.from_user.id, m.chat.id):
@@ -3162,7 +2560,6 @@ def guardCommands(c, m, k, channel):
                     return m.reply(f"「 {get.user.mention} 」\n{k} ماله قيود من قبل\n☆")
             except:
                 return m.reply(f"{k} العضو مو بالمجموعة")
-
     if text == "كشف البوتات":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
@@ -3349,7 +2746,7 @@ def guardCommands(c, m, k, channel):
             channel = (
                 r.get(f"{Dev_Zaid}:BotChannel")
                 if r.get(f"{Dev_Zaid}:BotChannel")
-                else "YQYQY6"
+                else "wfffp"
             )
             return m.reply(
                 f"{k} اهلين فيك باوامر البوت\n\nللاستفسار - @{channel}",
@@ -3399,7 +2796,7 @@ def guardCommands(c, m, k, channel):
 @Client.on_callback_query(group=1)
 def CallbackQueryHandler(c, m):
     channel = (
-        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "YQYQY6"
+        r.get(f"{Dev_Zaid}:BotChannel") if r.get(f"{Dev_Zaid}:BotChannel") else "wfffp"
     )
     Thread(target=CallbackQueryResponse, args=(c, m, channel)).start()
 
