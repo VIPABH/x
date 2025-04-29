@@ -205,7 +205,7 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
 from pyrogram import Client, filters
 
-@app.on_message(filters.command(['كشف المجموعه', 'كشف المجموعة']) & filters.group)
+@Client.on_message(filters.command(['كشف المجموعه', 'كشف المجموعة']) & filters.group)
 @admin_required
 async def show_group_roles(c, m: Message):
     cid = m.chat.id
