@@ -51,10 +51,10 @@ if text.startswith('بحث ') or text.startswith('yt '):
     results = Y88F8(query, max_results=1).to_dict()
     
     # التأكد من وجود نتائج
-    if results:
-        res = results[0]
-    else:
-        return m.reply("لم يتم العثور على نتائج.")
+    # if results:
+    #     res = results[0]
+    # else:
+    #     return m.reply("لم يتم العثور على نتائج.")
     
     # التحقق من وجود الفيديو في قاعدة البيانات
     if ytdb.get(f'ytvideo{res["id"]}'):
