@@ -83,28 +83,25 @@ if text.startswith('بحث ') or text.startswith('yt '):
         "password": ''  # تحقق من وجود كلمة المرور إذا كانت ضرورية
     }
     with yt_dlp.YoutubeDL(ydl_ops) as ydl:
-        try:
-            info = ydl.extract_info(url, download=False)
-            audio_file = ydl.prepare_filename(info)
-            ydl.process_info(info)
-            thumb = wget.download(yt.thumbnail_url)
-            os.rename(audio_file, audio_file.replace(".m4a", ".mp3"))
-            audio_file = audio_file.replace(".m4a", ".mp3")
-            a = m.reply_audio(
-                audio_file,
-                title=yt.title,
-                thumb=thumb,
-                duration=yt.length,
-                caption=f'@{channel} ~ {duration_string} ⏳',
-                performer=yt.author,
-                reply_markup=rep
+          info = ydl.extract_info(url, download=False)
+          audio_file = ydl.prepare_filename(info)
+          ydl.process_info(info)
+          thumb = wget.download(yt.thumbnail_url)
+          os.rename(audio_file, audio_file.replace(".m4a", ".mp3"))
+          audio_file = audio_file.replace(".m4a", ".mp3")
+          a = m.reply_audio(
+              audio_file,
+              title=yt.title,
+              thumb=thumb,
+              duration=yt.length,
+              caption=f'@{channel} ~ {duration_string} ⏳',
+              performer=yt.author,
+              reply_markup=rep
             )
-            ytdb.set(f'ytvideo{res["id"]}', {
+          ytdb.set(f'ytvideo{res["id"]}', {
                 "type": "audio",
                 "audio": a.audio.file_id,
                 "duration": a.audio.duration
             })
-            os.remove(audio_file)
-            os.remove(thumb)
-        except Exception as e:
-            return
+          os.remove(audi_file)
+          os.remove(thum)
