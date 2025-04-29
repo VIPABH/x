@@ -205,7 +205,7 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
 if (text == 'كشف المجموعه' or text == "كشف المجموعة"):
     if not admin_pls(m.from_user.id, m.chat.id):
-        return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
+       return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
 
     msg = ''
 
