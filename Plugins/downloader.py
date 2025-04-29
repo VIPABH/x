@@ -80,12 +80,13 @@ def yt_func(c, m, k, channel):
         url = f'https://youtu.be/{res["id"]}'
         yt = YouTube(url)
         duration_string = time.strftime('%M:%S', time.gmtime(yt.length))
-        ydl_ops = {
-            "format": "bestaudio[ext=m4a]",
-            'forceduration': True,
-            "username": "oauth2",  # تحقق من البيانات الخاصة باليوزر
-            "password": ''  # تحقق من وجود كلمة المرور إذا كانت ضرورية
-        }
+        ydl_opts = {
+    "format": "bestaudio[ext=m4a]",
+    "username": os.environ.get("u"),
+    "password": os.environ.get("p"),
+    "forceduration": True
+}
+
 
         with yt_dlp.YoutubeDL(ydl_ops) as ydl:
             info = ydl.extract_info(url, download=False)
