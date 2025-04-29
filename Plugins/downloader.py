@@ -41,7 +41,7 @@ def yt_func(c,m,k,channel):
    )
 if text.startswith('بحث ') or text.startswith('yt '):
     # إذا كانت خاصية تعطيل البحث مفعلة
-    if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}') or r.get(f':disableYT:{Dev_Zaid}'):  
+    # if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}') or r.get(f':disableYT:{Dev_Zaid}'):  
         # return
     
     # استخراج الاستعلام من النص
