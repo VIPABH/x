@@ -205,8 +205,7 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
 if text == 'كشف المجموعه' or text == "كشف المجموعة":
     if not mod_pls(m.from_user.id, m.chat.id):
-        return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
-
+       return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
     msg = ''
     GOWNERS = r.smembers(f'{cid}:listGOWNER:{Dev_Zaid}')
     if GOWNERS and dev_pls(m.from_user.id, m.chat.id):
