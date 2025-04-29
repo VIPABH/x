@@ -1,6 +1,5 @@
 import yt_dlp, os, requests, re, time, wget, random, json 
 from yt_dlp import YoutubeDL
-from pytube import YouTube
 from youtube_search import YoutubeSearch as Y88F8
 from threading import Thread
 from pyrogram import *
@@ -34,13 +33,10 @@ def ytdownloaderHandler(c, m):
 def yt_func(c, m, k, channel):
     if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):
         return False 
-
     if r.get(f'{m.from_user.id}:mute:{m.chat.id}{Dev_Zaid}'):  
         return False
-
     if r.get(f'{m.chat.id}:mute:{Dev_Zaid}') and not admin_pls(m.from_user.id, m.chat.id):  
         return False 
-
     if r.get(f'{m.from_user.id}:mute:{Dev_Zaid}'):  
         return False 
 
@@ -55,60 +51,62 @@ def yt_func(c, m, k, channel):
     )
 
     if text.startswith('بحث ') or text.startswith('yt '):
-        # استخراج الاستعلام من النص
         query = text.split(None, 1)[1]
-
-        # البحث في Y88F8
         results = Y88F8(query, max_results=1).to_dict()
-        
         if results:
             res = results[0]
         else:
             return m.reply("لم يتم العثور على نتائج.")
 
-        # التحقق من وجود الفيديو في قاعدة البيانات
         if ytdb.get(f'ytvideo{res["id"]}'):
             aud = ytdb.get(f'ytvideo{res["id"]}')
             duration_string = time.strftime('%M:%S', time.gmtime(aud["duration"]))
-            m.reply_audio(
+            return m.reply_audio(
                 aud["audio"],
                 caption=f'@{channel} ~ {duration_string} ⏳',
                 reply_markup=rep
             )
-            return
-        
+
         url = f'https://youtu.be/{res["id"]}'
-        yt = YouTube(url)
-        duration_string = time.strftime('%M:%S', time.gmtime(yt.length))
-        ydl_ops = {
+        ydl_opts = {
             "format": "bestaudio[ext=m4a]",
-            'forceduration': True,
-            "username": "oauth2",  # تحقق من البيانات الخاصة باليوزر
-            "password": ''  # تحقق من وجود كلمة المرور إذا كانت ضرورية
+            "outtmpl": "%(id)s.%(ext)s",
+            "quiet": True
         }
 
-        with yt_dlp.YoutubeDL(ydl_ops) as ydl:
-            info = ydl.extract_info(url, download=False)
-            audio_file = ydl.prepare_filename(info)
-            ydl.process_info(info)
-            thumb = wget.download(yt.thumbnail_url)
-            os.rename(audio_file, audio_file.replace(".m4a", ".mp3"))
-            audio_file = audio_file.replace(".m4a", ".mp3")
-            a = m.reply_audio(
-                audio_file,
-                title=yt.title,
-                thumb=thumb,
-                duration=yt.length,
-                caption=f'@{channel} ~ {duration_string} ⏳',
-                performer=yt.author,
-                reply_markup=rep
-            )
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(url, download=True)
+            audio_file = f"{info['id']}.m4a"
+            duration = info.get("duration", 0)
+            duration_string = time.strftime('%M:%S', time.gmtime(duration))
+            title = info.get("title", "No Title")
+            author = info.get("uploader", "Unknown")
+            thumb_url = info.get("thumbnail")
 
-            ytdb.set(f'ytvideo{res["id"]}', {
-                "type": "audio",
-                "audio": a.audio.file_id,
-                "duration": a.audio.duration
-            })
-            os.remove(audio_file)
+        if thumb_url:
+            thumb = wget.download(thumb_url)
+        else:
+            thumb = None
+
+        os.rename(audio_file, audio_file.replace(".m4a", ".mp3"))
+        audio_file = audio_file.replace(".m4a", ".mp3")
+
+        a = m.reply_audio(
+            audio_file,
+            title=title,
+            thumb=thumb,
+            duration=duration,
+            caption=f'@{channel} ~ {duration_string} ⏳',
+            performer=author,
+            reply_markup=rep
+        )
+
+        ytdb.set(f'ytvideo{res["id"]}', {
+            "type": "audio",
+            "audio": a.audio.file_id,
+            "duration": a.audio.duration
+        })
+
+        os.remove(audio_file)
+        if thumb:
             os.remove(thumb)
-            return
