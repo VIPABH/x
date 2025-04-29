@@ -71,7 +71,7 @@ def yt_func(c, m, k, channel):
         ydl_opts = {
             "format": "bestaudio[ext=m4a]",
             "outtmpl": "%(id)s.%(ext)s",
-            "quiet": True
+            "quiet": False
         }
 
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
