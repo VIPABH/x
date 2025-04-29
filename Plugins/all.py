@@ -219,13 +219,51 @@ def get_ranks_func(c,m,k,channel):
                count += 1
           text += '\n☆'
           m.reply(text)
-   if text == 'المجموعه':
+if text == 'كشف المجموعه' or text == "كشف المجموعة":
     if not mod_pls(m.from_user.id, m.chat.id):
         return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
-    
+
     msg = ''
-    
-    # المدراء
+    GOWNERS = r.smembers(f'{cid}:listGOWNER:{Dev_Zaid}')
+    if GOWNERS and dev_pls(m.from_user.id, m.chat.id):
+        msg += '- المالكين الأساسيين:\n\n'
+        count = 1
+        for gowner in GOWNERS:
+            if count == 101: break
+            try:
+                user = c.get_users(int(gowner))
+                mention = user.mention
+                username = user.username
+                id = user.id
+                if username:
+                    msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
+                else:
+                    msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
+            except:
+                mention = f'[مستخدم](tg://user?id={int(gowner)})'
+                msg += f'{count} ➣ {mention} ࿓ ( `{gowner}` )\n'
+            count += 1
+        msg += '\n'
+    OWNERS = r.smembers(f'{cid}:listOWNER:{Dev_Zaid}')
+    if OWNERS and gowner_pls(m.from_user.id, m.chat.id):
+        msg += '- المالكيين:\n\n'
+        count = 1
+        for owner in OWNERS:
+            if count == 101: break
+            try:
+                user = c.get_users(int(owner))
+                mention = user.mention
+                username = user.username
+                id = user.id
+                if username:
+                    msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
+                else:
+                    msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
+            except:
+                mention = f'[مستخدم](tg://user?id={int(owner)})'
+                msg += f'{count} ➣ {mention} ࿓ ( `{owner}` )\n'
+            count += 1
+        msg += '\n'
     MODS = r.smembers(f'{cid}:listMOD:{Dev_Zaid}')
     if MODS:
         msg += '- المدراء:\n\n'
@@ -235,8 +273,8 @@ def get_ranks_func(c,m,k,channel):
             try:
                 user = c.get_users(int(mod))
                 mention = user.mention
-                id = user.id
                 username = user.username
+                id = user.id
                 if username:
                     msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
                 else:
@@ -245,31 +283,31 @@ def get_ranks_func(c,m,k,channel):
                 mention = f'[مستخدم](tg://user?id={int(mod)})'
                 msg += f'{count} ➣ {mention} ࿓ ( `{mod}` )\n'
             count += 1
-    else:
-        msg += '- لا يوجد مدراء حالياً.\n\n'
-
+        msg += '\n'
     ADMINS = r.smembers(f'{cid}:listADMIN:{Dev_Zaid}')
     if ADMINS:
-        msg += '\n- الادمنيه:\n\n'
+        msg += '- الادمنيه:\n\n'
         count = 1
-        for ADM in ADMINS:
+        for adm in ADMINS:
             if count == 101: break
             try:
-                user = c.get_users(int(ADM))
+                user = c.get_users(int(adm))
                 mention = user.mention
-                id = user.id
                 username = user.username
+                id = user.id
                 if username:
                     msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
                 else:
                     msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
             except:
-                mention = f'[مستخدم](tg://user?id={int(ADM)})'
-                msg += f'{count} ➣ {mention} ࿓ ( `{ADM}` )\n'
+                mention = f'[مستخدم](tg://user?id={int(adm)})'
+                msg += f'{count} ➣ {mention} ࿓ ( `{adm}` )\n'
             count += 1
-    else:
-        msg += '\n- لا يوجد ادمنية حالياً.\n'
-
+        msg += '\n'
+    if msg == '':
+        msg = f'{k} لا يوجد أي صلاحيات مسجلة في هذه المجموعة.'
+    msg += '☆'
+    m.reply(msg)
     msg += '\n☆'
     m.reply(msg)
    if text == 'المشرفين':
