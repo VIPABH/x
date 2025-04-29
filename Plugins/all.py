@@ -203,13 +203,12 @@ def get_ranks_func(c,m,k,channel):
                count += 1
           text += '\n☆'
           m.reply(text)
-if (text == 'كشف المجموعه' or text == "كشف المجموعة"):
-    if not admin_pls(m.from_user.id, m.chat.id):
-       return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
-
-    msg = ''
-
-    # المالكين الأساسيين
+async def on_message(m):
+    if (text == 'كشف المجموعه' or text == "كشف المجموعة"):
+        if not admin_pls(m.from_user.id, m.chat.id):
+            await m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
+            return
+        msg = ''
     GOWNERS = r.smembers(f'{cid}:listGOWNER:{Dev_Zaid}')
     if GOWNERS and dev_pls(m.from_user.id, m.chat.id):
         msg += '- المالكين الأساسيين:\n\n'
