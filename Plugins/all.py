@@ -203,9 +203,13 @@ def get_ranks_func(c,m,k,channel):
                count += 1
           text += '\n☆'
           m.reply(text)
-    if text == 'كشف المجموعه' or text == "كشف المجموعة" and not mod_pls(m.from_user.id, m.chat.id):
-       return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
+if (text == 'كشف المجموعه' or text == "كشف المجموعة"):
+    if not admin_pls(m.from_user.id, m.chat.id):
+        return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
+
     msg = ''
+
+    # المالكين الأساسيين
     GOWNERS = r.smembers(f'{cid}:listGOWNER:{Dev_Zaid}')
     if GOWNERS and dev_pls(m.from_user.id, m.chat.id):
         msg += '- المالكين الأساسيين:\n\n'
@@ -226,6 +230,8 @@ def get_ranks_func(c,m,k,channel):
                 msg += f'{count} ➣ {mention} ࿓ ( `{gowner}` )\n'
             count += 1
         msg += '\n'
+
+    # المالكيين
     OWNERS = r.smembers(f'{cid}:listOWNER:{Dev_Zaid}')
     if OWNERS and gowner_pls(m.from_user.id, m.chat.id):
         msg += '- المالكيين:\n\n'
@@ -246,6 +252,8 @@ def get_ranks_func(c,m,k,channel):
                 msg += f'{count} ➣ {mention} ࿓ ( `{owner}` )\n'
             count += 1
         msg += '\n'
+
+    # المدراء
     MODS = r.smembers(f'{cid}:listMOD:{Dev_Zaid}')
     if MODS:
         msg += '- المدراء:\n\n'
@@ -266,6 +274,7 @@ def get_ranks_func(c,m,k,channel):
                 msg += f'{count} ➣ {mention} ࿓ ( `{mod}` )\n'
             count += 1
         msg += '\n'
+
     ADMINS = r.smembers(f'{cid}:listADMIN:{Dev_Zaid}')
     if ADMINS:
         msg += '- الادمنيه:\n\n'
@@ -286,11 +295,10 @@ def get_ranks_func(c,m,k,channel):
                 msg += f'{count} ➣ {mention} ࿓ ( `{adm}` )\n'
             count += 1
         msg += '\n'
+
     if msg == '':
         msg = f'{k} لا يوجد أي صلاحيات مسجلة في هذه المجموعة.'
     msg += '☆'
-    m.reply(msg)
-    msg += '\n☆'
     m.reply(msg)
     if text == 'المشرفين':
       if not owner_pls(m.from_user.id,m.chat.id):
