@@ -203,28 +203,27 @@ def get_ranks_func(c,m,k,channel):
                count += 1
           text += '\n☆'
           m.reply(text)
-if text == 'كشف المجموعه' or text == "كشف المجموعة":
-    if not admin_pls(m.from_user.id, m.chat.id):
-        await m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
-        return
+from pyrogram import Client, filters
 
+@app.on_message(filters.command(['كشف المجموعه', 'كشف المجموعة']) & filters.group)
+@admin_required
+async def show_group_roles(c, m: Message):
+    cid = m.chat.id
     msg = ''
 
+    # المالكين الأساسيين (للمطور فقط)
     GOWNERS = r.smembers(f'{cid}:listGOWNER:{Dev_Zaid}')
-    if GOWNERS and dev_pls(m.from_user.id, m.chat.id):
+    if GOWNERS and dev_pls(m.from_user.id, cid):
         msg += '- المالكين الأساسيين:\n\n'
         count = 1
         for gowner in GOWNERS:
-            if count == 101: break
+            if count > 100: break
             try:
                 user = c.get_users(int(gowner))
-                mention = user.mention
                 username = user.username
-                id = user.id
-                if username:
-                    msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
-                else:
-                    msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
+                mention = user.mention
+                uid = user.id
+                msg += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n' if username else f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
             except:
                 mention = f'[مستخدم](tg://user?id={int(gowner)})'
                 msg += f'{count} ➣ {mention} ࿓ ( `{gowner}` )\n'
@@ -233,20 +232,17 @@ if text == 'كشف المجموعه' or text == "كشف المجموعة":
 
     # المالكيين
     OWNERS = r.smembers(f'{cid}:listOWNER:{Dev_Zaid}')
-    if OWNERS and gowner_pls(m.from_user.id, m.chat.id):
+    if OWNERS and gowner_pls(m.from_user.id, cid):
         msg += '- المالكيين:\n\n'
         count = 1
         for owner in OWNERS:
-            if count == 101: break
+            if count > 100: break
             try:
                 user = c.get_users(int(owner))
-                mention = user.mention
                 username = user.username
-                id = user.id
-                if username:
-                    msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
-                else:
-                    msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
+                mention = user.mention
+                uid = user.id
+                msg += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n' if username else f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
             except:
                 mention = f'[مستخدم](tg://user?id={int(owner)})'
                 msg += f'{count} ➣ {mention} ࿓ ( `{owner}` )\n'
@@ -259,46 +255,62 @@ if text == 'كشف المجموعه' or text == "كشف المجموعة":
         msg += '- المدراء:\n\n'
         count = 1
         for mod in MODS:
-            if count == 101: break
+            if count > 100: break
             try:
                 user = c.get_users(int(mod))
-                mention = user.mention
                 username = user.username
-                id = user.id
-                if username:
-                    msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
-                else:
-                    msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
+                mention = user.mention
+                uid = user.id
+                msg += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n' if username else f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
             except:
                 mention = f'[مستخدم](tg://user?id={int(mod)})'
                 msg += f'{count} ➣ {mention} ࿓ ( `{mod}` )\n'
             count += 1
         msg += '\n'
 
+    # الأدمنية
     ADMINS = r.smembers(f'{cid}:listADMIN:{Dev_Zaid}')
     if ADMINS:
-        msg += '- الادمنيه:\n\n'
+        msg += '- الأدمنية:\n\n'
         count = 1
         for adm in ADMINS:
-            if count == 101: break
+            if count > 100: break
             try:
                 user = c.get_users(int(adm))
-                mention = user.mention
                 username = user.username
-                id = user.id
-                if username:
-                    msg += f'{count} ➣ @{username} ࿓ ( `{id}` )\n'
-                else:
-                    msg += f'{count} ➣ {mention} ࿓ ( `{id}` )\n'
+                mention = user.mention
+                uid = user.id
+                msg += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n' if username else f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
             except:
                 mention = f'[مستخدم](tg://user?id={int(adm)})'
                 msg += f'{count} ➣ {mention} ࿓ ( `{adm}` )\n'
             count += 1
         msg += '\n'
 
+    # المميزين
+    PRES = r.smembers(f'{cid}:listPRE:{Dev_Zaid}')
+    if PRES:
+        msg += '- المميزين:\n\n'
+        count = 1
+        for pre in PRES:
+            if count > 100: break
+            try:
+                user = c.get_users(int(pre))
+                username = user.username
+                mention = user.mention
+                uid = user.id
+                msg += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n' if username else f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
+            except:
+                mention = f'[مستخدم](tg://user?id={int(pre)})'
+                msg += f'{count} ➣ {mention} ࿓ ( `{pre}` )\n'
+            count += 1
+        msg += '\n'
+
     if msg == '':
         msg = f'{k} لا يوجد أي صلاحيات مسجلة في هذه المجموعة.'
     msg += '☆'
+
+    await m.reply(msg)
     m.reply(msg)
     if text == 'المشرفين':
       if not owner_pls(m.from_user.id,m.chat.id):
