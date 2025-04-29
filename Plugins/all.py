@@ -340,8 +340,7 @@ if text == 'كشف المجموعه' or text == "كشف المجموعة":
                count += 1
           text += '\n☆'
           m.reply(text)
-   
-   if text == 'المكتومين':
+    if text == 'المكتومين':
       if not mod_pls(m.from_user.id,m.chat.id):
         return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
       else:
