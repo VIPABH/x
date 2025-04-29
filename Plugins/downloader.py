@@ -71,36 +71,25 @@ if text.startswith('بحث ') or text.startswith('yt '):
         #     reply_markup=rep
         # )
     
-    # رابط الفيديو
     url = f'https://youtu.be/{res["id"]}'
-    cc = 1  # غير واضح ما هو المقصود من `cc`، إذا كانت غير مهمة يمكنك حذفها
+    cc = 1 
     print(url, cc)
-
-    # تحميل الفيديو من YouTube باستخدام yt_dlp
     yt = YouTube(url)
     duration_string = time.strftime('%M:%S', time.gmtime(yt.length))
-
-    # إعدادات التحميل
     ydl_ops = {
         "format": "bestaudio[ext=m4a]",
         'forceduration': True,
         "username": "oauth2",  # تحقق من البيانات الخاصة باليوزر
         "password": ''  # تحقق من وجود كلمة المرور إذا كانت ضرورية
     }
-
-    # تحميل الفيديو
     with yt_dlp.YoutubeDL(ydl_ops) as ydl:
         try:
             info = ydl.extract_info(url, download=False)
             audio_file = ydl.prepare_filename(info)
             ydl.process_info(info)
             thumb = wget.download(yt.thumbnail_url)
-            
-            # تحويل الملف إلى MP3
             os.rename(audio_file, audio_file.replace(".m4a", ".mp3"))
             audio_file = audio_file.replace(".m4a", ".mp3")
-
-            # إرسال الصوت
             a = m.reply_audio(
                 audio_file,
                 title=yt.title,
@@ -110,8 +99,6 @@ if text.startswith('بحث ') or text.startswith('yt '):
                 performer=yt.author,
                 reply_markup=rep
             )
-            
-            # حفظ البيانات في قاعدة البيانات
             ytdb.set(f'ytvideo{res["id"]}', {
                 "type": "audio",
                 "audio": a.audio.file_id,
