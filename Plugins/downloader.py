@@ -117,14 +117,5 @@ if text.startswith('بحث ') or text.startswith('yt '):
                 "audio": a.audio.file_id,
                 "duration": a.audio.duration
             })
-
-            # تنظيف الملفات المؤقتة
             os.remove(audio_file)
             os.remove(thumb)
-
-            # return True
-
-        # except Exception as e:
-        #     # التعامل مع الأخطاء بشكل مناسب
-        #     print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
-        #     return m.reply("حدث خطأ أثناء تحميل الفيديو. حاول مرة أخرى.")
