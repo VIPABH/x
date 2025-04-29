@@ -60,11 +60,16 @@ if text.startswith('بحث ') or text.startswith('yt '):
     if ytdb.get(f'ytvideo{res["id"]}'):
         aud = ytdb.get(f'ytvideo{res["id"]}')
         duration_string = time.strftime('%M:%S', time.gmtime(aud["duration"]))
-        return m.reply_audio(
+        m.reply_audio(
             aud["audio"],
             caption=f'@{channel} ~ {duration_string} ⏳',
             reply_markup=rep
         )
+        # return m.reply_audio(
+        #     aud["audio"],
+        #     caption=f'@{channel} ~ {duration_string} ⏳',
+        #     reply_markup=rep
+        # )
     
     # رابط الفيديو
     url = f'https://youtu.be/{res["id"]}'
