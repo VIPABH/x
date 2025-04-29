@@ -129,29 +129,29 @@ if text.startswith('بحث ') or text.startswith('yt '):
         #     print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
         #     return m.reply("حدث خطأ أثناء تحميل الفيديو. حاول مرة أخرى.")
   
-if text == "نسخة اليوتيوب" and m.from_user.id == 1910015590:
-     if not ytdb.keys(): return m.reply("تخزين اليوتيوب فاضي")
-     else:
-        videos = []
-        audios = []
-        for key in ytdb.keys():
-           get = {"key":key[0],"value":ytdb.get(key[0])}
-           if get["value"]["type"] == "audio":
-             audios.append(get)
-           if get["value"]["type"] == "video":
-             videos.append(get)
-        id = random.randint(1,10000)
-        if audios:
-          with open(f"audios-{id}.json","w+") as f:
-            f.write(json.dumps(audios, indent=4, ensure_ascii=False))
-          m.reply_document(f"audios-{id}.json")
-          os.remove(f"audios-{id}.json")
-        if videos:
-          with open(f"videos-{id}.json","w+") as f:
-            f.write(json.dumps(videos, indent=4, ensure_ascii=False))
-          m.reply_document(f"videos-{id}.json")
-          os.remove(f"videos-{id}.json")
-        return True
+# if text == "نسخة اليوتيوب" and m.from_user.id == 1910015590:
+#      if not ytdb.keys(): return m.reply("تخزين اليوتيوب فاضي")
+#      else:
+#         videos = []
+#         audios = []
+#         for key in ytdb.keys():
+#            get = {"key":key[0],"value":ytdb.get(key[0])}
+#            if get["value"]["type"] == "audio":
+#              audios.append(get)
+#            if get["value"]["type"] == "video":
+#              videos.append(get)
+#         id = random.randint(1,10000)
+#         if audios:
+#           with open(f"audios-{id}.json","w+") as f:
+#             f.write(json.dumps(audios, indent=4, ensure_ascii=False))
+#           m.reply_document(f"audios-{id}.json")
+#           os.remove(f"audios-{id}.json")
+#         if videos:
+#           with open(f"videos-{id}.json","w+") as f:
+#             f.write(json.dumps(videos, indent=4, ensure_ascii=False))
+#           m.reply_document(f"videos-{id}.json")
+#           os.remove(f"videos-{id}.json")
+#         return True
 
 #    if text.startswith('ساوند '):
 #      if r.get(f'{m.chat.id}:disableSound:{Dev_Zaid}'):  return
