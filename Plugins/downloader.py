@@ -27,8 +27,6 @@ def ytdownloaderHandler(c, m):
     Thread(target=yt_func, args=(c, m, k, channel)).start()
 
 def yt_func(c, m, k, channel):
-    print(f"تشغيل yt_func للمستخدم: {m.from_user.id} في الدردشة: {m.chat.id}")
-    print(f"النص المستلم: {m.text}")
 
     if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):
         return False
