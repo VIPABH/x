@@ -14,7 +14,7 @@ try:
   r.set(f'{Dev_Zaid}botowner', owner_id)
 except Exception as e:
   with open ('information.py','w+') as www:
-     Dev_Zaid = token.split(':')[0]
+     # Dev_Zaid = token.split(':')[0]
      if not r.get(f'{Dev_Zaid}botowner'):
        owner_id = 7811364724
        r.set(f'{Dev_Zaid}botowner', owner_id)
