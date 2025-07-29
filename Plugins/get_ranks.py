@@ -107,8 +107,8 @@ def get_ranks_func(c,m,k,channel):
           
    cid = m.chat.id
    if text == 'المالكين الاساسيين':
-      if not dev_pls(m.from_user.id,m.chat.id):
-        return m.reply(f'{k} هذا الامر يخص ( المطور وفوق ) بس')
+      if not admin_pls(m.from_user.id,m.chat.id):
+        return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
       else:
         if not r.smembers(f'{cid}:listGOWNER:{Dev_Zaid}'):
           return m.reply(f'{k} مافيه مالكين اساسيين ')
@@ -136,8 +136,8 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
           
    if text == 'المالكين':
-      if not gowner_pls(m.from_user.id,m.chat.id):
-        return m.reply(f'{k} هذا الامر يخص ( المالك الاساسي ) بس')
+      if not admin_pls(m.from_user.id,m.chat.id):
+        return m.reply(f'{k} هذا الامر يخص ( الادمن ) وفوق')
       else:
         if not r.smembers(f'{cid}:listOWNER:{Dev_Zaid}'):
           return m.reply(f'{k} مافيه مالكيين ')
@@ -165,8 +165,8 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
    
    if text == 'المدراء':
-      if not owner_pls(m.from_user.id,m.chat.id):
-        return m.reply(f'{k} هذا الامر يخص ( المالك وفوق ) بس')
+      if not admin_pls(m.from_user.id,m.chat.id):
+        return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
       else:
         if not r.smembers(f'{cid}:listMOD:{Dev_Zaid}'):
           return m.reply(f'{k} مافيه مدراء ')
@@ -194,8 +194,8 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
    
    if text == 'الادمنيه':
-      if not mod_pls(m.from_user.id,m.chat.id):
-        return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
+      if not admin_pls(m.from_user.id,m.chat.id):
+        return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
       else:
         if not r.smembers(f'{cid}:listADMIN:{Dev_Zaid}'):
           return m.reply(f'{k} مافيه ادمن ')
@@ -223,7 +223,7 @@ def get_ranks_func(c,m,k,channel):
           m.reply(text)
    
    if text == 'المشرفين':
-      if not owner_pls(m.from_user.id,m.chat.id):
+      if not admin_pls(m.from_user.id,m.chat.id):
         return m.reply(f'{k} هذا الامر يخص ( المالك وفوق ) بس')
       else:
           text = '- المشرفين:\n\n'
@@ -298,9 +298,3 @@ def get_ranks_func(c,m,k,channel):
                count += 1
           text += '\n☆'
           m.reply(text)
-   
-   
-
-             
-        
-        
