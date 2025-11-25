@@ -11,17 +11,17 @@ print('''
 Loading…
 █▒▒▒▒▒▒▒▒▒''')
 print('\n\n')
-
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # من ملف .env
+token = BOT_TOKEN
 try:
   from information import *
   Dev_Zaid = token.split(':')[0]
   r.set(f'{Dev_Zaid}botowner', owner_id)
 except Exception as e:
   with open ('information.py','w+') as www:
-     token = input ('[+] Enter the bot token : ')
      Dev_Zaid = token.split(':')[0]
      if not r.get(f'{Dev_Zaid}botowner'):
-       owner_id = int(input('[+] Enter SUDO ID : '))
+       owner_id = 7811364724
        r.set(f'{Dev_Zaid}botowner', owner_id)
      else:
         owner_id = int(r.get(f'{Dev_Zaid}botowner'))
@@ -43,7 +43,7 @@ print('''
 to_config += f"\ntoken = '{token}'"
 to_config += f"\nDev_Zaid = token.split(':')[0]"
 to_config += f"\nsudo_id = {owner_id}"
-username = 'x'
+username = "TT_OTbot"
 to_config += f"\nbotUsername = '{username}'"
 to_config += "\nfrom kvsqlite.sync import Client as DB"
 to_config += "\nytdb = DB('ytdb.sqlite')"
@@ -58,9 +58,12 @@ with open('config.py','w+') as w:
 print('''
 50% 
 ███████▒▒▒ ''')
-app = Client(f'{Dev_Zaid}r3d', 9398500, 'ad2977d673006bed6e5007d953301e13',
-  bot_token=token,
-    plugins={"root": "Plugins"},
+API_ID = os.getenv("API_ID")  # من ملف .env
+API_HASH = os.getenv("API_HASH")  # من ملف .env
+BOT_TOKEN = os.getenv("BOT_TOKEN")  # من ملف .env
+token = BOT_TOKEN
+app = Client(f'{Dev_Zaid}r3d', API_ID, API_HASH, bot_token=BOT_TOKEN,
+    plugins={"root": "Plugins"}
   )
 # userbot = Client('userbott', 9398500, "ad2977d673006bed6e5007d953301e13", session_string="BACPaOQAw9EWMijb1D8m_wYGIa2r6tnaNiJDVTuC4jVktrtF5K7UxjNuZNcA-HpmEBltGr-0rUrELER9Vj0CmkNb28BdGYGETl5dJIg386wdjv3ZYNB3HkYrbhN5GFE4w2tYNv5dQJmvLTtvC3bTa0HoW64YLPINX_3BEZSoyXPm_bbXonA_2PIqeA1MHdEzfg_U4Zy75xyBq0pBvTv6xhD9hpAliXHnapJ5gg4C8Qt4QX4JLMGYxaSTNt51OClNVpPU6yiKZBFYl-t6CP66VmL3JU3P3HshrCSlcY38GfZ7Uy_w1b7HCqqe9EnVmZV0k3S29YtFlGz9Z0uuw0pxloAFpebeTwAAAABydGQqAA")
   
