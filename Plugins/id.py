@@ -477,8 +477,10 @@ def get_my_rank(c,m,k):
         if m.reply_to_message and m.reply_to_message.from_user:
             target_user = m.reply_to_message.from_user
             ks = 'بالرد'
+        elif text.replace('كشف', '').isdigit():
+            target_user = int(raw_input)
+            ks = 'بالايدي'
 
-        # 2. حالة وجود منشن أو آيدي أو يوزر بعد الكلمة
         else:
             args = text.split()
 
@@ -491,7 +493,6 @@ def get_my_rank(c,m,k):
                 except:
                     pass
 
-            # ب) فحص الإدخال النصي بعد كلمة "كشف"
             if not target_user and len(args) > 1:
                 raw_input = args[1].strip()
 
