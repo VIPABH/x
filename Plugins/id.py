@@ -513,13 +513,13 @@ def get_my_rank(c,m,k):
 
    if text.startswith('كشف') and len(text.split()) > 1 and 'tg://user?id=' in m.text.html:
        print(m.text.html)
-       user = user = int(re.search(r'href="([^"]+)', m.text.html).group(1).split('=')[1])
+       user = user = re.search(r'href="([^"]+)', m.text.html).group(1).split('=')[1]
        ks = 'بالمنشن'
        try:
            get = m.chat.get_member(user)
            name = get.user.first_name
            id = get.user.id
-           msgs = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{get.user.id}'))
+           msgs = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{get.user.id}')
            if get.user.username:
                username = f'@{get.user.username}'
            elif get.user.username:
@@ -546,69 +546,7 @@ def get_my_rank(c,m,k):
                get = c.get_chat(user)
                name = get.first_name
                id = get.id
-               msgs = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{get.id}'))
-               if get.user.username:
-                   username = f'@{get.user.username}'
-               if get.user.username:
-                   username = ""
-                   for i in get.user.username: username += f"@{i.username} "
-               else:
-                   username = 'ماعنده يوزر'
-           except Exception as e:
-               print(e)
-               return
-       rank2 = get_rank(id, m.chat.id)
-       text = f'''
-{k} الاسم ↢ {name}
-{k} الايدي ↢{id}
-{k} اليوزر : ↢ ( {username} )
-{k} الرتبه ↢ ({rank2} )
-{k} الرسائل ↢ ( {msgs} )
-{k} بالمجموعة ↢ ( {rank} )
-{k} نوع الكشف ↢ {ks}
--
-        '''
-       return m.reply(text, disable_web_page_preview=True)
-
-   if text.startswith('كشف') and len(text.split()) == 2:
-       try:
-           user = int(text.split()[1])
-           ks = 'بالايدي'
-       except:
-           user = text.split()[1].replace('@', '')
-           ks = 'باليوزر'
-       try:
-           get = m.chat.get_member(user)
-           name = get.user.first_name
-           id = get.user.id
-           msgs = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{get.user.id}'))
-           if get.user.username:
-               username = f'@{get.user.username}'
-           elif get.user.username:
-               username = ""
-               for i in get.user.username: username += f"@{i.username} "
-           else:
-               username = 'ماعنده يوزر'
-           status = get.status
-           if status == ChatMemberStatus.OWNER:
-               rank = 'المالك'
-           if status == ChatMemberStatus.ADMINISTRATOR:
-               rank = 'مشرف'
-           if status == ChatMemberStatus.RESTRICTED:
-               rank = 'مقيد'
-           if status == ChatMemberStatus.LEFT:
-               rank = 'طالع'
-           if status == ChatMemberStatus.MEMBER:
-               rank = 'عضو'
-           if status == ChatMemberStatus.BANNED:
-               rank = 'لاقم حظر'
-       except:
-           rank = 'طالع'
-           try:
-               get = c.get_chat(user)
-               name = get.first_name
-               id = get.id
-               msgs = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{get.id}'))
+               msgs = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{get.id}')
                if get.user.username:
                    username = f'@{get.user.username}'
                if get.user.username:
