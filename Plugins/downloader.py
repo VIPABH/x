@@ -11,6 +11,8 @@ from helpers.Ranks import isLockCommand
 
 shazam = Shazam()
 
+channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'x04ou'
+
 def time_to_seconds(time):
     stringt = str(time)
     return sum(int(x) * 60 ** i for i, x in enumerate(reversed(stringt.split(":"))))
@@ -139,7 +141,7 @@ def yt_func(c, m, k, channel):
               title=title,
               thumb=thumb_file,
               duration=duration,
-              caption=f'@{channel} ~ {duration_string} ⏳',
+              caption=f'{channel} love u ~ {duration_string} ⏳',
               performer=uploader,
               reply_markup=rep
           )
