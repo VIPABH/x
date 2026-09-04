@@ -83,7 +83,7 @@ def yt_func(c, m, k, channel):
             )
 
         url = f'https://youtu.be/{res["id"]}'
-        ydl_opts = {
+        ydl_ops = {
             "format": "bestaudio/best",
             "forceduration": True,
             "noplaylist": True,
