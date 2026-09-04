@@ -78,7 +78,6 @@ def yt_func(c, m, k, channel):
       res = results[0]
       video_id = res["id"]
 
-      # 1. التقديم السريع من الكاش عند وجود الملف سابقاً
       cached_audio = ytdb.get(f'ytvideo{video_id}')
       if cached_audio:
           duration_string = time.strftime('%M:%S', time.gmtime(cached_audio.get("duration", 0)))
@@ -89,8 +88,7 @@ def yt_func(c, m, k, channel):
           )
 
       url = f'https://youtu.be/{video_id}'
-
-    ydl_ops = {
+      ydl_ops = {
         'format': 'bestaudio/best',
         'cookiefile': 'cookies.txt',
         'remote_components': ['ejs:github'],
