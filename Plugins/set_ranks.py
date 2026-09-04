@@ -33,6 +33,7 @@ def clear_group_ranks(c, m, r, Dev_Zaid, channel, k):
     """
     دالة تنزيل الرتب الهرمية للمجموعة بناءً على صلاحيات المستخدم أرسل الأمر.
     """
+    m.reply(f"🗑️يجري التنزيل")
     cid = m.chat.id
     uid = m.from_user.id
 
