@@ -93,7 +93,7 @@ def Find(text):
 
 @Client.on_message(filters.group, group=-1111111111111)
 async def on_zbi(c: Client, m: Message):
-    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "X"
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "العم جتو"
     text = m.text
     if text.startswith(f"{name} "):
         text = text.replace(f"{name} ", "")
