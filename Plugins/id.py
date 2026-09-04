@@ -470,106 +470,113 @@ def get_my_rank(c,m,k):
         return c.send_message(m.chat.id, response_text, disable_web_page_preview=True, reply_to_message_id=m.id)
 
    if text.startswith('كشف'):
-    target_user = None
-    ks = ''
+        target_user = None
+        ks = ''
 
-    # 1. حالة الرد على رسالة
-    if m.reply_to_message and m.reply_to_message.from_user:
-        target_user = m.reply_to_message.from_user
-        ks = 'بالرد'
+        # 1. حالة الرد على رسالة
+        if m.reply_to_message and m.reply_to_message.from_user:
+            target_user = m.reply_to_message.from_user
+            ks = 'بالرد'
 
-    # 2. حالة المنشن أو كتابة الآيدي/اليوزر بعد كلمة كشف
-    else:
-        args = text.split()
-        # فحص وجود منشن HTML
-        if m.text.html and 'href="tg://user?id=' in m.text.html:
-            try:
-                user_id = int(re.search(r'href="tg://user\?id=(\d+)"', m.text.html).group(1))
-                target_user = user_id
-                ks = 'بالمنشن'
-            except:
-                pass
-
-        # فحص وجود آيدي أو يوزر مكتوب نصياً بعد كلمة كشف
-        if not target_user and len(args) > 1:
-            raw_input = args[1].strip()
-            if raw_input.isdigit():
-                target_user = int(raw_input)
-                ks = 'بالايدي'
-            else:
-                target_user = raw_input
-                ks = 'باليوزر'
-
-    if not target_user:
-        return m.reply(f'{k} يرجى الرد على العضو أو وضع منشن/آيدي/يوزر بعد الأمر.')
-
-    # جلب البيانات وتجهيز الكشف
-    try:
-        # إذا كان target_user كائن مستخدم جاهز من الرد
-        if hasattr(target_user, 'id'):
-            user_obj = target_user
-            user_id = user_obj.id
+        # 2. حالة وجود منشن أو آيدي أو يوزر بعد الكلمة
         else:
-            user_id = target_user
+            args = text.split()
 
-        get = m.chat.get_member(user_id)
-        user_obj = get.user
-        name = user_obj.first_name
-        id = user_obj.id
-        msgs = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{id}')
+            # أ) فحص وجود منشن HTML مخفي (مثلاً عند الضغط على اسم شخص بدون يوزر)
+            if m.text.html and 'href="tg://user?id=' in m.text.html:
+                try:
+                    user_id = int(re.search(r'href="tg://user\?id=(\d+)"', m.text.html).group(1))
+                    target_user = user_id
+                    ks = 'بالمنشن'
+                except:
+                    pass
 
-        if user_obj.username:
-            username = f'@{user_obj.username}'
-        else:
-            username = 'ماعنده يوزر'
+            # ب) فحص الإدخال النصي بعد كلمة "كشف"
+            if not target_user and len(args) > 1:
+                raw_input = args[1].strip()
 
-        status = get.status
-        if status == ChatMemberStatus.OWNER:
-            rank_group = 'المالك'
-        elif status == ChatMemberStatus.ADMINISTRATOR:
-            rank_group = 'مشرف'
-        elif status == ChatMemberStatus.RESTRICTED:
-            rank_group = 'مقيد'
-        elif status == ChatMemberStatus.LEFT:
-            rank_group = 'طالع'
-        elif status == ChatMemberStatus.MEMBER:
-            rank_group = 'عضو'
-        elif status == ChatMemberStatus.BANNED:
-            rank_group = 'لاقم حظر'
-        else:
-            rank_group = 'عضو'
+                if raw_input.isdigit():
+                    target_user = int(raw_input)
+                    ks = 'بالايدي'
+                elif raw_input.startswith('@'):
+                    target_user = raw_input.replace('@', '')
+                    ks = 'بالمنشن'
+                else:
+                    target_user = raw_input
+                    ks = 'باليوزر'
 
-    except:
-        # في حال لم يكن العضو داخل المجموعة (عبر الآيدي أو اليوزر)
+        if not target_user:
+            return m.reply(f'{k} يرجى الرد على العضو أو وضع منشن/آيدي/يوزر بعد الأمر.')
+
         try:
-            get = c.get_chat(user_id)
-            name = get.first_name
-            id = get.id
-            msgs = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{id}')
-            if get.username:
-                username = f'@{get.username}'
+            # إذا كان target_user كائن مستخدم جاهز من الرد
+            if hasattr(target_user, 'id'):
+                user_obj = target_user
+                user_id = user_obj.id
+            else:
+                user_id = target_user
+
+            get = m.chat.get_member(user_id)
+            user_obj = get.user
+            name = user_obj.first_name
+            id = user_obj.id
+
+            msgs_data = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{id}')
+            msgs = msgs_data.decode('utf-8') if isinstance(msgs_data, bytes) else (msgs_data or 0)
+
+            if user_obj.username:
+                username = f'@{user_obj.username}'
             else:
                 username = 'ماعنده يوزر'
-            rank_group = 'طالع'
-        except Exception as e:
-            print(e)
-            return m.reply(f'{k} العضو غير موجود أو تعذر جلب البيانات.')
 
-    rank_bot = get_rank(id, m.chat.id)
+            status = get.status
+            if status == ChatMemberStatus.OWNER:
+                rank_group = 'المالك'
+            elif status == ChatMemberStatus.ADMINISTRATOR:
+                rank_group = 'مشرف'
+            elif status == ChatMemberStatus.RESTRICTED:
+                rank_group = 'مقيد'
+            elif status == ChatMemberStatus.LEFT:
+                rank_group = 'طالع'
+            elif status == ChatMemberStatus.MEMBER:
+                rank_group = 'عضو'
+            elif status == ChatMemberStatus.BANNED:
+                rank_group = 'لاقم حظر'
+            else:
+                rank_group = 'عضو'
 
-    text_res = f'''
-{k} الاسم ↢ {name}
-{k} الايدي ↢ {id}
-{k} اليوزر : ↢ ( {username} )
-{k} الرتبه ↢ ( {rank_bot} )
-{k} الرسائل ↢ ( {msgs} )
-{k} بالمجموعة ↢ ( {rank_group} )
-{k} نوع الكشف ↢ {ks}
--
-'''
-    return m.reply(text_res, disable_web_page_preview=True)
+        except:
+            # في حال لم يكن العضو داخل المجموعة (عبر الآيدي أو اليوزر)
+            try:
+                get = c.get_chat(user_id)
+                name = get.first_name
+                id = get.id
 
+                msgs_data = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{id}')
+                msgs = msgs_data.decode('utf-8') if isinstance(msgs_data, bytes) else (msgs_data or 0)
 
+                if get.username:
+                    username = f'@{get.username}'
+                else:
+                    username = 'ماعنده يوزر'
+                rank_group = 'طالع'
+            except Exception as e:
+                print(e)
+                return m.reply(f'{k} العضو غير موجود أو تعذر جلب البيانات.')
+
+        rank_bot = get_rank(id, m.chat.id)
+
+        text_res = f'''
+    {k} الاسم ↢ {name}
+    {k} الايدي ↢ {id}
+    {k} اليوزر : ↢ ( {username} )
+    {k} الرتبه ↢ ( {rank_bot} )
+    {k} الرسائل ↢ ( {msgs} )
+    {k} بالمجموعة ↢ ( {rank_group} )
+    {k} نوع الكشف ↢ {ks}
+    -
+    '''
+        return m.reply(text_res, disable_web_page_preview=True)
 
    if text == 'صلاحياته' and m.reply_to_message and m.reply_to_message.from_user:
       get = m.chat.get_member(m.reply_to_message.from_user.id)
