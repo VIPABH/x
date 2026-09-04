@@ -49,6 +49,19 @@ def yt_func(c, m, k, channel):
             InlineKeyboardButton('🧚‍♀️', url=f'https://t.me/{channel}')
         ]]
     )
+   if text.startswith('يوت '):
+     if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}'):  return
+     if r.get(f':disableYT:{Dev_Zaid}'):  return
+     query = text.split(None,1)[1]
+     keyboard= []
+     results=Y88F8(query,max_results=4).to_dict()
+     for res in results:
+       title = res['title']
+       id = res['id']
+       keyboard.append([InlineKeyboardButton (title, callback_data=f'{m.from_user.id}GET{id}')])     
+     a = m.reply(f'{k} البحث ~ {query}',reply_markup=InlineKeyboardMarkup (keyboard), disable_web_page_preview=True)
+     r.set(f'{a.id}:one_minute:{m.from_user.id}', 1, ex=60)
+     return True
 
     if text.startswith('بحث ') or text.startswith('yt '):
         query = text.split(None, 1)[1]
