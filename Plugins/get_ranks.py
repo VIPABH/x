@@ -310,7 +310,7 @@ def get_ranks_func(c,m,k,channel):
                    user_ids = user_ids[:100]
                    text_output += f'- {rank_name}:\n\n'
 
-                   # جلب بيانات جميع الأعضاء دفعة واحدة (Bulk Fetch) لسرعة استجابة هائلة
+                   # جلب بيانات جميع الأعضاء دفعة واحدة (Bulk Fetch) لسرعة فائقة
                    fetched_users = {}
                    try:
                        users_list = c.get_users(user_ids)
@@ -325,12 +325,12 @@ def get_ranks_func(c,m,k,channel):
                        user = fetched_users.get(uid)
 
                        if user:
-                           if user.username:
-                               text_output += f'{count} ➣ @{user.username} ࿓ ( `{uid}` )\n'
-                           else:
-                               text_output += f'{count} ➣ {user.mention} ࿓ ( `{uid}` )\n'
+                           name = user.first_name or "عضو"
+                           # منشن باسم العضو يوجه لبروفايله مباشرة
+                           mention = f'[{name}](tg://user?id={uid})'
+                           text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
                        else:
-                           # في حال كان الحساب غير معروف للجلسة (PEER_ID_INVALID) أو محذوف
+                           # في حال كان الحساب غير معروف للجلسة أو محذوف
                            mention = f'[{channel}](tg://user?id={uid})'
                            text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
 
