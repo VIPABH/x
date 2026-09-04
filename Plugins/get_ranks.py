@@ -8,7 +8,7 @@ from helpers.Ranks import isLockCommand
 @Client.on_message(filters.text & filters.group, group=12)
 def getRanksHandler(c,m):
     k = r.get(f'{Dev_Zaid}:botkey')
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'x04ou'
+    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'yqyqy66'
     Thread(target=get_ranks_func,args=(c,m,k,channel)).start()
     
 def get_ranks_func(c,m,k,channel):
@@ -281,64 +281,41 @@ def get_ranks_func(c,m,k,channel):
           text += '\n☆'
           m.reply(text)
    if text == 'كشف المجموعة':
-       if not admin_pls(m.from_user.id, m.chat.id):
-           return m.reply(f'{k} هذا الأمر يخص ( الادمن وفوق ) بس')
-
-       text_output = ''
-       cid = m.chat.id
-       ranks = [
-           ("المالكين الأساسيين", f"{cid}:listGOWNER:{Dev_Zaid}"),
-           ("المالكين", f"{cid}:listOWNER:{Dev_Zaid}"),
-           ("المدراء", f"{cid}:listMOD:{Dev_Zaid}"),
-           ("الادمنيه", f"{cid}:listADMIN:{Dev_Zaid}"),
-           ("المميزين", f"{cid}:listPRE:{Dev_Zaid}")
-       ]
-
-       for rank_name, redis_key in ranks:
-           users_raw = r.smembers(redis_key)
-
-           if users_raw:
-               # تحويل وتجهيز قائمة الـ IDs من Redis
-               user_ids = []
-               for uid in users_raw:
-                   u_str = uid.decode('utf-8') if isinstance(uid, bytes) else str(uid)
-                   if u_str.isdigit():
-                       user_ids.append(int(u_str))
-
-               if user_ids:
-                   # أخذ أول 100 آيدي فقط لتجنب تجاوز حد الرسالة
-                   user_ids = user_ids[:100]
-                   text_output += f'- {rank_name}:\n\n'
-
-                   # جلب بيانات جميع الأعضاء دفعة واحدة (Bulk Fetch) لسرعة فائقة
-                   fetched_users = {}
-                   try:
-                       users_list = c.get_users(user_ids)
-                       if not isinstance(users_list, list):
-                           users_list = [users_list]
-                       fetched_users = {u.id: u for u in users_list if u}
-                   except Exception:
-                       pass
-
-                   count = 1
-                   for uid in user_ids:
-                       user = fetched_users.get(uid)
-
-                       if user:
-                           name = user.first_name or "عضو"
-                           # منشن باسم العضو يوجه لبروفايله مباشرة
-                           mention = f'[{name}](tg://user?id={uid})'
-                           text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
-                       else:
-                           # في حال كان الحساب غير معروف للجلسة أو محذوف
-                           mention = f'[{channel}](tg://user?id={uid})'
-                           text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
-
-                       count += 1
-
-                   text_output += '\n☆\n'
-
-       if not text_output.strip():
-           text_output = f'{k} مافيه اعضاء مسجلين بالرتب المطلوبة'
-
-       return m.reply(text_output, disable_web_page_preview=True)
+    text_output = ''
+    if not admin_pls(m.from_user.id, m.chat.id):
+        return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
+    cid = m.chat.id
+    ranks = [
+    ("المالكين الاساسيين", f"{cid}:listGOWNER:{Dev_Zaid}"),
+    ("المالكين", f"{cid}:listOWNER:{Dev_Zaid}"),
+    ("المدراء", f"{cid}:listMOD:{Dev_Zaid}"),
+    ("الادمنيه", f"{cid}:listADMIN:{Dev_Zaid}"),
+    ("المميزين", f"{cid}:listPRE:{Dev_Zaid}")
+]
+    for rank_name, redis_key in ranks:
+        users = r.smembers(redis_key)
+        if users:
+            text_output += f'- {rank_name}:\n\n'
+            count = 1
+        for user_id in users:
+            if count == 101: 
+                break
+            try:
+                user = c.get_users(int(user_id))
+                mention = user.mention
+                uid = user.id
+                username = user.username
+                if username:
+                    text_output += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n'
+                else:
+                    text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
+                count += 1
+            except:
+                uid = int(user_id)
+                mention = f'[@{channel}](tg://user?id={uid})'
+                text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
+                count += 1
+        text_output += '\n☆\n'
+    if not text_output:
+        text_output = f'{k} مافيه اعضاء مسجلين بالرتب المطلوبة'
+    m.reply(text_output)
