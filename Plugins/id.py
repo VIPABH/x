@@ -527,7 +527,7 @@ def get_my_rank(c,m,k):
           except (PeerIdInvalid, KeyError):
               return m.reply(f'{k} لا يمكن كشف هذا الآيدي لأن البوت لم يتفاعل معه من قبل. جرب الكشف باليوزر أو بالرد.')
           except UsernameInvalid:
-              return m.reply(f'{k} اليوزر المكتوب غير صحيح أو غير موجود.')
+              return
           except RPCError as e:
               print(f"Pyrogram Error: {e}")
               return m.reply(f'{k} تعذر جلب بيانات هذا العضو.')
