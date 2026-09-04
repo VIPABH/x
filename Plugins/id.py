@@ -477,14 +477,12 @@ def get_my_rank(c,m,k):
         if m.reply_to_message and m.reply_to_message.from_user:
             target_user = m.reply_to_message.from_user
             ks = 'بالرد'
-        elif text.replace('كشف', '').isdigit():
-            target_user = int(raw_input)
-            ks = 'بالايدي'
 
+        # 2. حالة وجود منشن أو آيدي أو يوزر بعد الكلمة
         else:
             args = text.split()
 
-            # أ) فحص وجود منشن HTML مخفي (مثلاً عند الضغط على اسم شخص بدون يوزر)
+            # أ) فحص وجود منشن HTML مخفي (الضغط على اسم شخص بدون يوزر)
             if m.text.html and 'href="tg://user?id=' in m.text.html:
                 try:
                     user_id = int(re.search(r'href="tg://user\?id=(\d+)"', m.text.html).group(1))
@@ -493,6 +491,7 @@ def get_my_rank(c,m,k):
                 except:
                     pass
 
+            # ب) فحص الإدخال النصي بعد كلمة "كشف"
             if not target_user and len(args) > 1:
                 raw_input = args[1].strip()
 
@@ -510,13 +509,14 @@ def get_my_rank(c,m,k):
             return m.reply(f'{k} يرجى الرد على العضو أو وضع منشن/آيدي/يوزر بعد الأمر.')
 
         try:
-            # إذا كان target_user كائن مستخدم جاهز من الرد
+            # استخراج الـ ID أو اليوزر المباشر
             if hasattr(target_user, 'id'):
                 user_obj = target_user
                 user_id = user_obj.id
             else:
                 user_id = target_user
 
+            # محاولة جلب العضو من المجموعة أولاً
             get = m.chat.get_member(user_id)
             user_obj = get.user
             name = user_obj.first_name
@@ -546,24 +546,26 @@ def get_my_rank(c,m,k):
             else:
                 rank_group = 'عضو'
 
-        except:
-            # في حال لم يكن العضو داخل المجموعة (عبر الآيدي أو اليوزر)
+        except Exception:
+            # في حال عدم وجود العضو بالمجموعة أو ظهور PEER_ID_INVALID
             try:
-                get = c.get_chat(user_id)
-                name = get.first_name
-                id = get.id
+                # محاولة تحديث الكاش وجلب بيانات الحساب عالمياً
+                user_data = c.get_users(user_id) if hasattr(c, 'get_users') else c.get_chat(user_id)
+                
+                name = user_data.first_name
+                id = user_data.id
 
                 msgs_data = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{id}')
                 msgs = msgs_data.decode('utf-8') if isinstance(msgs_data, bytes) else (msgs_data or 0)
 
-                if get.username:
-                    username = f'@{get.username}'
+                if user_data.username:
+                    username = f'@{user_data.username}'
                 else:
                     username = 'ماعنده يوزر'
                 rank_group = 'طالع'
             except Exception as e:
-                print(e)
-                return m.reply(f'{k} العضو غير موجود أو تعذر جلب البيانات.')
+                print(f"Error fetching user: {e}")
+                return m.reply(f'{k} العضو غير موجود أو تعذر جلب البيانات (PEER_ID_INVALID).')
 
         rank_bot = get_rank(id, m.chat.id)
 
@@ -578,7 +580,6 @@ def get_my_rank(c,m,k):
     -
     '''
         return m.reply(text_res, disable_web_page_preview=True)
-
    if text == 'صلاحياته' and m.reply_to_message and m.reply_to_message.from_user:
       get = m.chat.get_member(m.reply_to_message.from_user.id)
       if not get.status in [ChatMemberStatus.ADMINISTRATOR,ChatMemberStatus.OWNER]:
