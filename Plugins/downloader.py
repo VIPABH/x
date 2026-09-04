@@ -49,7 +49,7 @@ def yt_func(c, m, k, channel):
             InlineKeyboardButton('🧚‍♀️', url=f'https://t.me/{channel}')
         ]]
     )
-    if text.startswith('يوت'):
+    if text.startswith('بحث'):
      if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}'):  return
      if r.get(f':disableYT:{Dev_Zaid}'):  return
      query = text.split(None,1)[1]
@@ -63,18 +63,15 @@ def yt_func(c, m, k, channel):
      r.set(f'{a.id}:one_minute:{m.from_user.id}', 1, ex=60)
      return True
 
-    if text.startswith('بحث ') or text.startswith('yt '):
+    if text.startswith('يوت') or text.startswith('yt '):
         query = text.split(None, 1)[1]
-        print(f"استعلام البحث: {query}")
 
         results = Y88F8(query, max_results=1).to_dict()
-        print(f"نتائج البحث: {json.dumps(results, indent=2, ensure_ascii=False)}")
 
         if not results:
             return m.reply("لم يتم العثور على نتائج.")
 
         res = results[0]
-        print(f"أول نتيجة: {res}")
 
         if ytdb.get(f'ytvideo{res["id"]}'):
             aud = ytdb.get(f'ytvideo{res["id"]}')
@@ -86,20 +83,22 @@ def yt_func(c, m, k, channel):
             )
 
         url = f'https://youtu.be/{res["id"]}'
-        print(f"الرابط المستهدف: {url}")
-
-        ydl_ops = {
-            "format": "bestaudio[ext=m4a]",
-            "username": os.environ.get("u"),
-            "password": os.environ.get("p"),
+        ydl_opts = {
+            "format": "bestaudio/best",
             "forceduration": True,
-            "noplaylist": True
+            "noplaylist": True,
+            "extractor_args": {
+                "youtube": {
+                    "player_client": ["mweb", "android", "ios"],
+                }
+            },
+            "cookiefile": "cookies.txt",
+            "nocheckcertificate": True,
+            "quiet": True,
         }
-
         try:
             with yt_dlp.YoutubeDL(ydl_ops) as ydl:
                 info = ydl.extract_info(url, download=False)
-                print(f"معلومات الفيديو من yt_dlp:\n{json.dumps(info, indent=2, ensure_ascii=False)}")
 
                 title = info.get('title')
                 duration = info.get('duration')
