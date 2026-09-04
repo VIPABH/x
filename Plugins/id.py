@@ -899,9 +899,6 @@ def get_my_rank(c,m,k):
 𖡋 𝐂𝐑  ⌯  {الانشاء}
 {البايو}'''
       if m.from_user.username:
-         username = ''
-         for i in m.from_user.username: username += f"@{i.username} "
-      elif m.from_user.username:
          username = f'@{m.from_user.username}'
       else:
          username = 'مافي يوزر'
