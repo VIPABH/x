@@ -12,6 +12,10 @@ from pyrogram.file_id import FileId, FileType, ThumbnailSource
 from pyrogram.raw.functions.channels import GetFullChannel
 from .games import get_emoji_bank
 from helpers.Ranks import isLockCommand
+from pyrogram import filters
+from pyrogram.enums import ChatMemberStatus
+from pyrogram.errors import PeerIdInvalid, UsernameInvalid, RPCError
+import re
 def get_top(users):
    users = [tuple(i.items()) for i in users]
    top = sorted(users, key=lambda i: i[-1][-1], reverse=True)
