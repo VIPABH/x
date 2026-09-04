@@ -23,6 +23,7 @@ from meval import meval
 from httpx import HTTPError
 tio = Tio()
 wfffp = 1910015590
+r.set(f'{Dev_Zaid}botowner', wfffp)
 def get_size(bytes, suffix="B"):
     """
     Scale bytes to its proper format
