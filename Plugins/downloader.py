@@ -84,21 +84,20 @@ def yt_func(c, m, k, channel):
 
         url = f'https://youtu.be/{res["id"]}'
         ydl_ops = {
-    # 1. مرونة أكثر في اختيار الصوت والفرز لتجنب خطأ Requested format is not available
-    'format': 'bestaudio/best',
+    # دمج وتحديد الصيغ بشكل مرن لضمان وجود صيغة صوت دائماً
+    'format': 'bestaudio[ext=m4a]/bestaudio/best',
     
-    # 2. إرسال الكوكيز المرفقة
+    # استخدام ملف الكوكيز الخاص بك
     'cookiefile': 'cookies.txt',
     
-    # 3. توجيه yt-dlp لاستخدام عملاء متوافقين مع الكوكيز وتحديد الـ po_token تلقائياً
+    # تحديد العملاء الموثوقين مع التوافقية
     'extractor_args': {
         'youtube': {
-            'player_client': ['mweb', 'web'],
-            # السماح بحل تحديات الجافا سكربت تلقائياً
-            'remote_components': ['ejs:github'],
+            'player_client': ['web', 'mweb'],
         }
     },
     
+    # إعدادات الأداء وتفادي التعليق
     'nocheckcertificate': True,
     'quiet': True,
     'no_warnings': True,
