@@ -475,7 +475,7 @@ def get_my_rank(c,m,k):
            get = m.chat.get_member(m.reply_to_message.from_user.id)
            rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
            name = m.reply_to_message.from_user.first_name
-           msgs = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.reply_to_message.from_user.id}'))
+           msgs = r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.reply_to_message.from_user.id}')
            id = m.reply_to_message.from_user.id
            if m.reply_to_message.from_user.username:
                username = f'@{m.reply_to_message.from_user.username}'
@@ -1018,5 +1018,4 @@ def set_id(c,m,k):
        text = r.get(f'Custom:{Dev_Zaid}&text={text}')
 
 '''
-
 
