@@ -281,6 +281,7 @@ def get_ranks_func(c,m,k,channel):
           text += '\n☆'
           m.reply(text)
    if text == 'كشف المجموعة':
+    text_output = ''
     if not admin_pls(m.from_user.id, m.chat.id):
         return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
     cid = m.chat.id
@@ -291,7 +292,6 @@ def get_ranks_func(c,m,k,channel):
     ("الادمنيه", f"{cid}:listADMIN:{Dev_Zaid}"),
     ("المميزين", f"{cid}:listPRE:{Dev_Zaid}")
 ]
-    text_output = ''
     for rank_name, redis_key in ranks:
         users = r.smembers(redis_key)
         if users:
