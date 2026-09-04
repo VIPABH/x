@@ -316,6 +316,6 @@ def get_ranks_func(c,m,k,channel):
                 text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
                 count += 1
         text_output += '\n☆\n'
-if not text_output:
-    text_output = f'{k} مافيه اعضاء مسجلين بالرتب المطلوبة'
-m.reply(text_output)
+    if not text_output:
+        text_output = f'{k} مافيه اعضاء مسجلين بالرتب المطلوبة'
+    m.reply(text_output)
