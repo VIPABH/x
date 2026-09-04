@@ -84,18 +84,27 @@ def yt_func(c, m, k, channel):
 
         url = f'https://youtu.be/{res["id"]}'
         ydl_ops = {
-            "format": "bestaudio/best",
-            "forceduration": True,
-            "noplaylist": True,
-            "extractor_args": {
-                "youtube": {
-                    "player_client": ["mweb", "android", "ios"],
-                }
-            },
-            "cookiefile": "cookies.txt",
-            "nocheckcertificate": True,
-            "quiet": True,
+    # 1. مرونة أكثر في اختيار الصوت والفرز لتجنب خطأ Requested format is not available
+    'format': 'bestaudio/best',
+    
+    # 2. إرسال الكوكيز المرفقة
+    'cookiefile': 'cookies.txt',
+    
+    # 3. توجيه yt-dlp لاستخدام عملاء متوافقين مع الكوكيز وتحديد الـ po_token تلقائياً
+    'extractor_args': {
+        'youtube': {
+            'player_client': ['mweb', 'web'],
+            # السماح بحل تحديات الجافا سكربت تلقائياً
+            'remote_components': ['ejs:github'],
         }
+    },
+    
+    'nocheckcertificate': True,
+    'quiet': True,
+    'no_warnings': True,
+    'forceduration': True,
+    'noplaylist': True,
+}
         try:
             with yt_dlp.YoutubeDL(ydl_ops) as ydl:
                 info = ydl.extract_info(url, download=False)
