@@ -105,60 +105,60 @@ def yt_func(c, m, k, channel):
         }],
     }
 
-    audio_file = None
-    thumb_file = None
+      audio_file = None
+      thumb_file = None
 
-    try:
-        with yt_dlp.YoutubeDL(ydl_ops) as ydl:
-            info = ydl.extract_info(url, download=True)
-            title = info.get('title', 'Audio')
-            duration = int(info.get('duration', 0))
-            thumbnail = info.get('thumbnail')
-            uploader = info.get('uploader', 'YouTube')
-            
-            # تحديد مسار ملف الـ MP3 الناتج بدقة
-            downloaded_file = ydl.prepare_filename(info)
-            audio_file = os.path.splitext(downloaded_file)[0] + ".mp3"
+      try:
+          with yt_dlp.YoutubeDL(ydl_ops) as ydl:
+              info = ydl.extract_info(url, download=True)
+              title = info.get('title', 'Audio')
+              duration = int(info.get('duration', 0))
+              thumbnail = info.get('thumbnail')
+              uploader = info.get('uploader', 'YouTube')
+              
+              # تحديد مسار ملف الـ MP3 الناتج بدقة
+              downloaded_file = ydl.prepare_filename(info)
+              audio_file = os.path.splitext(downloaded_file)[0] + ".mp3"
 
-        # التحقق من وجود الملف على القرص قبل المتابعة
-        if not os.path.exists(audio_file):
-            return m.reply("❌ تعذر العثور على الملف الصوتي بعد التحميل.")
+          # التحقق من وجود الملف على القرص قبل المتابعة
+          if not os.path.exists(audio_file):
+              return m.reply("❌ تعذر العثور على الملف الصوتي بعد التحميل.")
 
-        duration_string = time.strftime('%M:%S', time.gmtime(duration))
+          duration_string = time.strftime('%M:%S', time.gmtime(duration))
 
-        # تحميل الصورة المصغرة إن وجدت
-        if thumbnail:
-            try:
-                thumb_file = wget.download(thumbnail, out=f"downloads/thumb_{video_id}.jpg")
-            except Exception:
-                thumb_file = None
+          # تحميل الصورة المصغرة إن وجدت
+          if thumbnail:
+              try:
+                  thumb_file = wget.download(thumbnail, out=f"downloads/thumb_{video_id}.jpg")
+              except Exception:
+                  thumb_file = None
 
-        # 3. إرسال الصوت لليوزر
-        sent_audio = m.reply_audio(
-            audio_file,
-            title=title,
-            thumb=thumb_file,
-            duration=duration,
-            caption=f'@{channel} ~ {duration_string} ⏳',
-            performer=uploader,
-            reply_markup=rep
-        )
+          # 3. إرسال الصوت لليوزر
+          sent_audio = m.reply_audio(
+              audio_file,
+              title=title,
+              thumb=thumb_file,
+              duration=duration,
+              caption=f'@{channel} ~ {duration_string} ⏳',
+              performer=uploader,
+              reply_markup=rep
+          )
 
-        # 4. الحفظ في قاعدة البيانات
-        if sent_audio and getattr(sent_audio, 'audio', None):
-            ytdb.set(f'ytvideo{video_id}', {
-                "type": "audio",
-                "audio": sent_audio.audio.file_id,
-                "duration": sent_audio.audio.duration
-            })
+          # 4. الحفظ في قاعدة البيانات
+          if sent_audio and getattr(sent_audio, 'audio', None):
+              ytdb.set(f'ytvideo{video_id}', {
+                  "type": "audio",
+                  "audio": sent_audio.audio.file_id,
+                  "duration": sent_audio.audio.duration
+              })
 
-    except Exception as e:
-        print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
-        m.reply("حدث خطأ أثناء التحميل، يرجى المحاولة لاحقًا.")
+      except Exception as e:
+          print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
+          m.reply("حدث خطأ أثناء التحميل، يرجى المحاولة لاحقًا.")
 
-    finally:
-        # 5. تنظيف الملفات المؤقتة
-        if audio_file and os.path.exists(audio_file):
-            os.remove(audio_file)
-        if thumb_file and os.path.exists(thumb_file):
-            os.remove(thumb_file)
+      finally:
+          # 5. تنظيف الملفات المؤقتة
+          if audio_file and os.path.exists(audio_file):
+              os.remove(audio_file)
+          if thumb_file and os.path.exists(thumb_file):
+              os.remove(thumb_file)
