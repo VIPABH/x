@@ -90,72 +90,77 @@ def yt_func(c, m, k, channel):
 
       url = f'https://youtu.be/{video_id}'
 
-      # 2. إعدادات yt-dlp مع التحويل التلقائي لـ MP3
-      ydl_ops = {
-          'format': 'bestaudio/best',
-          'cookiefile': 'cookies.txt',
-          'remote_components': ['ejs:github'],
-          'nocheckcertificate': True,
-          'quiet': True,
-          'no_warnings': True,
-          'forceduration': True,
-          'noplaylist': True,
-          'outtmpl': f'downloads/{video_id}.%(ext)s',
-          'postprocessors': [{
-              'key': 'FFmpegExtractAudio',
-              'preferredcodec': 'mp3',
-              'preferredquality': '192',
-          }],
-      }
+    ydl_ops = {
+        'format': 'bestaudio/best',
+        'cookiefile': 'cookies.txt',
+        'remote_components': ['ejs:github'],
+        'nocheckcertificate': True,
+        'quiet': True,
+        'no_warnings': True,
+        'forceduration': True,
+        'noplaylist': True,
+        'outtmpl': f'downloads/{video_id}.%(ext)s',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
 
-      audio_file = f"downloads/{video_id}.mp3"
-      thumb_file = None
+    audio_file = None
+    thumb_file = None
 
-      try:
-          with yt_dlp.YoutubeDL(ydl_ops) as ydl:
-              info = ydl.extract_info(url, download=True)
-              title = info.get('title', 'Audio')
-              duration = int(info.get('duration', 0))
-              thumbnail = info.get('thumbnail')
-              uploader = info.get('uploader', 'YouTube')
+    try:
+        with yt_dlp.YoutubeDL(ydl_ops) as ydl:
+            info = ydl.extract_info(url, download=True)
+            title = info.get('title', 'Audio')
+            duration = int(info.get('duration', 0))
+            thumbnail = info.get('thumbnail')
+            uploader = info.get('uploader', 'YouTube')
+            
+            # تحديد مسار ملف الـ MP3 الناتج بدقة
+            downloaded_file = ydl.prepare_filename(info)
+            audio_file = os.path.splitext(downloaded_file)[0] + ".mp3"
 
-          duration_string = time.strftime('%M:%S', time.gmtime(duration))
+        # التحقق من وجود الملف على القرص قبل المتابعة
+        if not os.path.exists(audio_file):
+            return m.reply("❌ تعذر العثور على الملف الصوتي بعد التحميل.")
 
-          # تحميل الصورة المصغرة إن وجدت
-          if thumbnail:
-              try:
-                  thumb_file = wget.download(thumbnail, out=f"downloads/thumb_{video_id}.jpg")
-              except Exception:
-                  thumb_file = None
+        duration_string = time.strftime('%M:%S', time.gmtime(duration))
 
-          # 3. إرسال الصوت لليوزر
-          sent_audio = m.reply_audio(
-              audio_file,
-              title=title,
-              thumb=thumb_file,
-              duration=duration,
-              caption=f'@{channel} ~ {duration_string} ⏳',
-              performer=uploader,
-              reply_markup=rep
-          )
+        # تحميل الصورة المصغرة إن وجدت
+        if thumbnail:
+            try:
+                thumb_file = wget.download(thumbnail, out=f"downloads/thumb_{video_id}.jpg")
+            except Exception:
+                thumb_file = None
 
-          # 4. الحفظ في القاعدة مع التحقق من نجاح الإرسال (تجنب NoneType)
-          if sent_audio and getattr(sent_audio, 'audio', None):
-              ytdb.set(f'ytvideo{video_id}', {
-                  "type": "audio",
-                  "audio": sent_audio.audio.file_id,
-                  "duration": sent_audio.audio.duration
-              })
-          else:
-              print(f"تحذير: لم يتم إرجاع file_id للملف {video_id}")
+        # 3. إرسال الصوت لليوزر
+        sent_audio = m.reply_audio(
+            audio_file,
+            title=title,
+            thumb=thumb_file,
+            duration=duration,
+            caption=f'@{channel} ~ {duration_string} ⏳',
+            performer=uploader,
+            reply_markup=rep
+        )
 
-      except Exception as e:
-          print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
-          m.reply("حدث خطأ أثناء التحميل، يرجى المحاولة لاحقًا.")
+        # 4. الحفظ في قاعدة البيانات
+        if sent_audio and getattr(sent_audio, 'audio', None):
+            ytdb.set(f'ytvideo{video_id}', {
+                "type": "audio",
+                "audio": sent_audio.audio.file_id,
+                "duration": sent_audio.audio.duration
+            })
 
-      finally:
-          # 5. تنظيف الملفات المؤقتة دائماً
-          if os.path.exists(audio_file):
-              os.remove(audio_file)
-          if thumb_file and os.path.exists(thumb_file):
-              os.remove(thumb_file)
+    except Exception as e:
+        print(f"حدث خطأ أثناء تحميل الفيديو: {e}")
+        m.reply("حدث خطأ أثناء التحميل، يرجى المحاولة لاحقًا.")
+
+    finally:
+        # 5. تنظيف الملفات المؤقتة
+        if audio_file and os.path.exists(audio_file):
+            os.remove(audio_file)
+        if thumb_file and os.path.exists(thumb_file):
+            os.remove(thumb_file)
