@@ -28,8 +28,86 @@ from helpers.Ranks import isLockCommand
 def ranksCommandsHandler(c,m):
    k = r.get(f'{Dev_Zaid}:botkey')
    Thread(target=ranks_reply_promote,args=(c,m,k)).start()
-   
 
+def clear_group_ranks(c, m, r, Dev_Zaid, channel, k):
+    """
+    دالة تنزيل الرتب الهرمية للمجموعة بناءً على صلاحيات المستخدم أرسل الأمر.
+    """
+    cid = m.chat.id
+    uid = m.from_user.id
+
+    # 1. مفاتيح Redis الخاصة بالرتب
+    key_gowner = f"{cid}:listGOWNER:{Dev_Zaid}"
+    key_owner  = f"{cid}:listOWNER:{Dev_Zaid}"
+    key_mod    = f"{cid}:listMOD:{Dev_Zaid}"
+    key_admin  = f"{cid}:listADMIN:{Dev_Zaid}"
+    key_pre    = f"{cid}:listPRE:{Dev_Zaid}"
+
+    # 2. التحقق من المستوى الهرمي للمستخدم
+    is_gowner = r.sismember(key_gowner, uid) or gowner_pls(uid, cid)
+    is_owner  = is_gowner or r.sismember(key_owner, uid) or owner_pls(uid, cid)
+    is_mod    = is_owner or r.sismember(key_mod, uid) or mod_pls(uid, cid)
+    is_admin  = is_mod or r.sismember(key_admin, uid) or admin_pls(uid, cid)
+
+    # حماية: الأدنى من أدمن لا يحق له استخدام الأمر
+    if not is_admin:
+        return m.reply(f'{k} هذا الأمر يخص ( الأدمن وفوق ) بس')
+
+    # دالة مساعدة لحساب العدد وحذف الرتبة مباشرة
+    def clear_rank(key_name):
+        count = r.scard(key_name)
+        if count > 0:
+            r.delete(key_name)
+            return count
+        return 0
+
+    results = []
+
+    # 3. الحذف حسب الصلاحيات الهرمية الصارمة
+    if is_gowner:
+        # المالك الأساسي: ينزل المالكين، المدراء، الأدمنية، والمميزين
+        owners_count = clear_rank(key_owner)
+        if owners_count: results.append(f"• المالكين: {owners_count} عضو")
+        
+        mods_count = clear_rank(key_mod)
+        if mods_count: results.append(f"• المدراء: {mods_count} عضو")
+        
+        admins_count = clear_rank(key_admin)
+        if admins_count: results.append(f"• الأدمنية: {admins_count} عضو")
+        
+        pres_count = clear_rank(key_pre)
+        if pres_count: results.append(f"• المميزين: {pres_count} عضو")
+
+    elif is_owner:
+        # المالك: ينزل المدراء، الأدمنية، والمميزين
+        mods_count = clear_rank(key_mod)
+        if mods_count: results.append(f"• المدراء: {mods_count} عضو")
+        
+        admins_count = clear_rank(key_admin)
+        if admins_count: results.append(f"• الأدمنية: {admins_count} عضو")
+        
+        pres_count = clear_rank(key_pre)
+        if pres_count: results.append(f"• المميزين: {pres_count} عضو")
+
+    elif is_mod:
+        # المدير: ينزل الأدمنية والمميزين
+        admins_count = clear_rank(key_admin)
+        if admins_count: results.append(f"• الأدمنية: {admins_count} عضو")
+        
+        pres_count = clear_rank(key_pre)
+        if pres_count: results.append(f"• المميزين: {pres_count} عضو")
+
+    elif is_admin:
+        # الأدمن: ينزل المميزين فقط
+        pres_count = clear_rank(key_pre)
+        if pres_count: results.append(f"• المميزين: {pres_count} عضو")
+
+    # 4. إرجاع النتيجة
+    if results:
+        res_text = "\n".join(results)
+        return m.reply(f"🗑️ **تم تنزيل الرتب بنجاح:**\n\n{res_text}")
+    else:
+        return m.reply(f"{k} القوائم المسموح لك بتنزيلها فارغة بالفعل.")
 def ranks_reply_promote(c,m,k):
     if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):  return
     if r.get(f'{m.chat.id}:mute:{Dev_Zaid}') and not admin_pls(m.from_user.id,m.chat.id):  return 
@@ -933,7 +1011,7 @@ def ranks_reply_demote(c,m,k):
     
     if text.startswith('تنزيل الكل '):
        if not '@' in text and not re.findall('[0-9]+', text):
-          return 
+          return clear_group_ranks(c, m, r, Dev_Zaid, channel, k)
        if not mod_pls(m.from_user.id,m.chat.id):
           return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
        
