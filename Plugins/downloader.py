@@ -49,7 +49,7 @@ def yt_func(c, m, k, channel):
             InlineKeyboardButton('🧚‍♀️', url=f'https://t.me/{channel}')
         ]]
     )
-   if text.startswith('يوت '):
+    if text.startswith('يوت'):
      if r.get(f'{m.chat.id}:disableYT:{Dev_Zaid}'):  return
      if r.get(f':disableYT:{Dev_Zaid}'):  return
      query = text.split(None,1)[1]
