@@ -11,7 +11,7 @@ from helpers.Ranks import isLockCommand
 
 shazam = Shazam()
 
-channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'x04ou'
+channel = r.get(f'{Dev_Zaid}botname') if r.get(f'{Dev_Zaid}botname') else 'x04ou'
 
 def time_to_seconds(time):
     stringt = str(time)
