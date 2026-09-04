@@ -95,7 +95,7 @@ def Find(text):
 async def on_zbi(c: Client, m: Message):
     name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "العم جتو"
     text = m.text
-    if text.startswith(f"{name} "):
+    if text and text.startswith(f"{name} "):
         text = text.replace(f"{name} ", "")
     if r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}"):
         text = r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}")
