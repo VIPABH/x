@@ -898,7 +898,7 @@ def get_my_rank(c,m,k):
 𖡋 𝐄𝐃𝐈𝐓 ⌯  {التعديل}
 𖡋 𝐂𝐑  ⌯  {الانشاء}
 {البايو}'''
-      if m.from_user.usernames:
+      if m.from_user.username:
          username = ''
          for i in m.from_user.usernames: username += f"@{i.username} "
       elif m.from_user.username:
@@ -1021,6 +1021,5 @@ def set_id(c,m,k):
        text = r.get(f'Custom:{Dev_Zaid}&text={text}')
 
 '''
-
 
 
