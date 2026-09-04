@@ -29,10 +29,8 @@ def ranksCommandsHandler(c,m):
    k = r.get(f'{Dev_Zaid}:botkey')
    Thread(target=ranks_reply_promote,args=(c,m,k)).start()
 
-def clear_group_ranks(c, m, r, Dev_Zaid, channel, k):
-    """
-    دالة تنزيل الرتب الهرمية للمجموعة بناءً على صلاحيات المستخدم أرسل الأمر.
-    """
+def clear_group_ranks(c, m, k):
+
     m.reply(f"🗑️يجري التنزيل")
     cid = m.chat.id
     uid = m.from_user.id
@@ -1009,10 +1007,12 @@ def ranks_reply_demote(c,m,k):
           r.delete(f'{cid}:rankPRE:{id}{Dev_Zaid}')
           r.srem(f'{cid}:listPRE:{Dev_Zaid}', id)
           return m.reply(f'「 {mention} 」\n{k} نزلته من المميزين \n☆')
-    
+    if text == "تنزيل الكل":
+      return clear_group_ranks(c, m, k)
+
     if text.startswith('تنزيل الكل '):
        if not '@' in text and not re.findall('[0-9]+', text):
-          return clear_group_ranks(c, m, r, Dev_Zaid, channel, k)
+          return 
        if not mod_pls(m.from_user.id,m.chat.id):
           return m.reply(f'{k} هذا الامر يخص ( المدير وفوق ) بس')
        
