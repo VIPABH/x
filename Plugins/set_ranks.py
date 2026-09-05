@@ -31,7 +31,6 @@ def ranksCommandsHandler(c,m):
 
 def clear_group_ranks(c, m, k):
 
-    m.reply(f"🗑️يجري التنزيل")
     cid = m.chat.id
     uid = m.from_user.id
 
@@ -1007,9 +1006,8 @@ def ranks_reply_demote(c,m,k):
           r.delete(f'{cid}:rankPRE:{id}{Dev_Zaid}')
           r.srem(f'{cid}:listPRE:{Dev_Zaid}', id)
           return m.reply(f'「 {mention} 」\n{k} نزلته من المميزين \n☆')
-    if text == "تنزيل الكل":
+    if text == "تنزيل الكل" and not (m.reply_to_message and m.reply_to_message.from_user):
       return clear_group_ranks(c, m, k)
-
     if text.startswith('تنزيل الكل '):
        if not '@' in text and not re.findall('[0-9]+', text):
           return 
