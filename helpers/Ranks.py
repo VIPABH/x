@@ -39,7 +39,29 @@ def get_rank(id, cid) -> str:
       if r.get(f'{cid}:RankMem:{Dev_Zaid}'):
          return r.get(f'{cid}:RankMem:{Dev_Zaid}')
       return 'عضو'
-
+def _get_rank(id, cid) -> str:
+   if id == 1910015590:
+      return 'Aec🎖️'
+   if id == int(r.get(f'{Dev_Zaid}botowner')):
+      return 'Dev🎖️'
+   if r.get(f'{id}:rankDEV2:{Dev_Zaid}'):
+      return 'Dev²🎖'
+   if r.get(f'{id}:rankDEV:{Dev_Zaid}'):
+      return 'Myth🎖️'
+   if r.get(f'{id}:gban:{Dev_Zaid}'):
+      return 'محظور عام'
+   if r.get(f'{id}:mute:{Dev_Zaid}'):
+      return 'محظور عام'
+   if r.get(f'{cid}:rankGOWNER:{id}{Dev_Zaid}'):
+      return 'المالك الاساسي'
+   if r.get(f'{cid}:rankOWNER:{id}{Dev_Zaid}'):
+      return 'المالك'
+   if r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'):
+      return 'المدير'
+   if r.get(f'{cid}:rankADMIN:{id}{Dev_Zaid}'):
+      return 'ادمن'
+   return None
+      
 def admin_pls(id, cid) -> bool:
    if id == 1910015590:
       return True
