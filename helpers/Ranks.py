@@ -174,8 +174,8 @@ def pre_pls(id, cid) -> bool:
       return True
    if r.get(f'{cid}:rankADMIN:{id}{Dev_Zaid}'):
       return True
-   # if r.get(f'{cid}:rankPRE:{id}{Dev_Zaid}'):
-   #    return True
+   if r.get(f'{cid}:rankPRE:{id}{Dev_Zaid}'):
+      return True
    else:
       return False
 
