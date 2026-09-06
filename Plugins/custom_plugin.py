@@ -1,18 +1,4 @@
-'''
 
-
-██████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy6"}
-
-'''
 
 import random, re, time
 from threading import Thread
@@ -39,7 +25,7 @@ def plugin_func(c,m,k):
    if r.get(f'{m.chat.id}:addCustom:{m.from_user.id}{Dev_Zaid}'):  return 
    if r.get(f'{m.chat.id}:delCustom:{m.from_user.id}{Dev_Zaid}') or r.get(f'{m.chat.id}:delCustomG:{m.from_user.id}{Dev_Zaid}'):  return 
    text = m.text
-   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'رعد'
+   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'أكس گارد'
    if text.startswith(f'{name} '):
       text = text.replace(f'{name} ','')
    if r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}'):
