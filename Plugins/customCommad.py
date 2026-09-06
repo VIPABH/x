@@ -34,8 +34,8 @@ def addcommand(c,m,k):
    if r.get(f'{m.from_user.id}:mute:{Dev_Zaid}'):  return  
    if r.get(f'{m.chat.id}:mute:{Dev_Zaid}') and not admin_pls(m.from_user.id,m.chat.id):  return
    text = m.text
-   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'رعد'
-   if text.startswith(f'{name} '):
+   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'أكس گارد'
+   if text.startswith(f'{name} ') or text.startswith(f'اكس كارد '):
       text = text.replace(f'{name} ','')
    if r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}'):
        text = r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}')
