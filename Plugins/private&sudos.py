@@ -9,6 +9,7 @@ import platform
 import cpuinfo
 import socket
 import uuid
+import subprocess
 from threading import Thread
 from pyrogram import *
 from pyrogram.enums import *
@@ -566,12 +567,17 @@ def SudosCommandsFunc(c,m,k,r,channel):
      else:
         r.set(f'{m.chat.id}:setBotowmer:{m.from_user.id}{Dev_Zaid}',1,ex=600)
         return m.reply(quote=True,text=f'{k} ارسل يوزر المطور الجديد الحين')
-   
    if text == 'تحديث':
-     if devp_pls(m.from_user.id,m.chat.id):
-       m.reply(quote=True,text=f'{k} تم تحديث الملفات')
-       python = sys.executable
-       os.execl(python, python, *sys.argv)
+      if devp_pls(m.from_user.id, m.chat.id):
+          m.reply(quote=True, text=f'{k} جاري سحب التحديثات وإعادة التشغيل...')
+        
+        # تنفيذ أمر git pull لسحب الأكواد الجديدة من GitHub
+          subprocess.run(["git", "pull"])
+        
+        # إعادة تشغيل البوت
+          python = sys.executable
+          os.execl(python, python, *sys.argv)
+
    
    if text == 'الملفات':
      if m.from_user.id == 6168217372 or m.from_user.id == 5117901887:
