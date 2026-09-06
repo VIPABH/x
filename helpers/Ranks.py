@@ -41,9 +41,7 @@ def get_rank(id, cid) -> str:
       return 'عضو'
 
 def admin_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -65,9 +63,7 @@ def admin_pls(id, cid) -> bool:
       return False
 
 def mod_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -87,9 +83,7 @@ def mod_pls(id, cid) -> bool:
       return False
 
 def owner_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -107,9 +101,7 @@ def owner_pls(id, cid) -> bool:
       return False
 
 def gowner_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -141,9 +133,7 @@ def dev_pls(id, cid) -> bool:
       return False
 
 def dev2_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -155,9 +145,7 @@ def dev2_pls(id, cid) -> bool:
       return False
 
 def devp_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(Dev_Zaid):
       return True
@@ -168,9 +156,7 @@ def devp_pls(id, cid) -> bool:
 
 
 def pre_pls(id, cid) -> bool:
-   if id == 1910015590 or id == 1910015590:
-      return True
-   if id == 1910015590 or id == 1910015590:
+   if id == 1910015590:
       return True
    if id == int(r.get(f'{Dev_Zaid}botowner')):
       return True
