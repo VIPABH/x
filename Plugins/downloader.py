@@ -25,10 +25,9 @@ def Find(text):
 @Client.on_message(filters.text & filters.group, group=32)
 def ytdownloaderHandler(c, m):
     k = r.get(f'{Dev_Zaid}:botkey')
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'w7G_BoT'
-    Thread(target=yt_func, args=(c, m, k, channel)).start()
+    Thread(target=yt_func, args=(c, m, k)).start()
 
-def yt_func(c, m, k, channel):
+def yt_func(c, m, k):
 
     if not r.get(f'{m.chat.id}:enable:{Dev_Zaid}'):
         return False
@@ -141,7 +140,7 @@ def yt_func(c, m, k, channel):
               title=title,
               thumb=thumb_file,
               duration=duration,
-              caption=f'{channel} love u ~ {duration_string} ⏳',
+              caption=f'@{channel} **enjoy dear** ~ {duration_string} ⏳',
               performer=uploader,
               reply_markup=rep
           )
