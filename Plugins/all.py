@@ -20,7 +20,7 @@ from Python_ARQ import ARQ
 from aiohttp import ClientSession
 ARQ_API_KEY = "OZJRWV-SAURXD-PMBUKF-GMVSNS-ARQ"
 ARQ_API_URL = "https://arq.hamker.dev"
-ABH = 1910015590
+ABH = 1910015590و
 list_UwU = [
     "كس",
     "كسمك",
