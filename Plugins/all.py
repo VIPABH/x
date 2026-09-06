@@ -3811,7 +3811,6 @@ def CallbackQueryResponse(c, m, channel):
                 disable_web_page_preview=True,
                 reply_markup=rep,
             )
-
     if m.data == f"RPS:scissors++{m.from_user.id}":
         RPS = ["paper", "scissors", "rock"]
         kk = random.choice(RPS)
