@@ -20,7 +20,7 @@ def get_top(users):
 @Client.on_message(filters.text & filters.group, group=33)
 def gamesHandler(c,m):
     k = r.get(f'{Dev_Zaid}:botkey')
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'yqyqy66'
+    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'x04ou'
     Thread(target=gamesFunc,args=(c,m,k,channel)).start()
 
 @Client.on_message(filters.dice & filters.group, group=45)
@@ -40,7 +40,7 @@ def diceFunc(c,m):
            r.set(f'{m.from_user.id}:Floos',ra)
         return m.reply(f'''
 صح عليك فزت **[بالنرد]({m.link})** ⁪⁬⁪⁬⁮⁪⁬⁪⁬⁮✔
-💸فلوسك: `{floos}` ريال
+💸فلوسك: `{floos}` دينار
 ☆
 ''', disable_web_page_preview=True)
      else:
@@ -59,7 +59,7 @@ def gamesFunc(c,m,k,channel):
    if r.get(f'{m.chat.id}:mute:{Dev_Zaid}') and not admin_pls(m.from_user.id,m.chat.id):  return
    if r.get(f'{m.from_user.id}:mute:{Dev_Zaid}'):  return 
    text = m.text
-   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'فوق'
+   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'أكس گارد'
    if text.startswith(f'{name} '):
       text = text.replace(f'{name} ','')
    if r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}'):
@@ -117,10 +117,10 @@ def gamesFunc(c,m,k,channel):
           if bank_from != bank_to:
              floos_to_tran = int(floos_to_trans-floos_to_trans/10)
              txt += '\nخصمت 10% ضريبة بنك الى بنك'
-             txt += f'\nالمبلغ: {floos_to_tran} ريال 💸'
+             txt += f'\nالمبلغ: {floos_to_tran} دينار 💸'
           else:
              floos_to_tran = floos_to_trans
-             txt += f'\nالمبلغ: {floos_to_tran} ريال 💸'
+             txt += f'\nالمبلغ: {floos_to_tran} دينار 💸'
           r.set(f'{id_to}:Floos',floos_to+floos_to_tran)
           return m.reply(txt, disable_web_page_preview=True)
 
@@ -138,55 +138,33 @@ def gamesFunc(c,m,k,channel):
        floos = 0
      else:
        floos = int(r.get(f'{m.from_user.id}:Floos'))
-     '''
-     if not text in ['الاهلي','راجحي', 'الانماء','عبد الفتاح السيسي']:
+     if not text in ['الرافدين','النخيل', 'الاهلي العراقي']:
        return m.reply(f'{k} مافيه بنك بهالاسم')
-     '''
-     if not text in ['الاهلي','راجحي', 'الانماء']:
-       return m.reply(f'{k} مافيه بنك بهالاسم')
-     card = random.choice(['الاهلي كارد','الراجحي كارد','الإنماء كارد','مدى كارد'])
-     if text == 'الاهلي':
-        r.set(f'{m.from_user.id}:bankType', 'الاهلي')
+     card = random.choice(['الرافدين','النخيل', 'الاهلي العراقي'])
+     if text == 'الرافدين':
+        r.set(f'{m.from_user.id}:bankType', 'الرافدين')
         r.set(f'{m.from_user.id}:bankID', int(id))
         r.set(f'{m.from_user.id}:bankCard',card)
-     if text == 'راجحي':
-        r.set(f'{m.from_user.id}:bankType', 'راجحي')
+     if text == 'النخيل':
+        r.set(f'{m.from_user.id}:bankType', 'النخيل')
         r.set(f'{m.from_user.id}:bankID', int(id))
         r.set(f'{m.from_user.id}:bankCard',card)
-     if text == 'الانماء':
-        r.set(f'{m.from_user.id}:bankType', 'الانماء')
+     if text == 'الاهلي العراقي':
+        r.set(f'{m.from_user.id}:bankType', 'الاهلي العراقي')
         r.set(f'{m.from_user.id}:bankID', int(id))
         r.set(f'{m.from_user.id}:bankCard',card)
-     '''
-     if text == 'عبد الفتاح السيسي':
-        r.set(f'{m.from_user.id}:bankType', 'بلحة الدولي')
-        r.set(f'{m.from_user.id}:bankID', int(id))
-        r.set(f'{m.from_user.id}:bankCard','بطاقة تموين')
-        card = 'بطاقة تموين'
-        r.sadd('BankList', m.from_user.id)
-        r.set(f'{id}:getAccBank', m.from_user.id)
-        fff = floos + floos_to_add
-        r.set(f'{m.from_user.id}:Floos',fff)
-        r.set(f'{m.from_user.id}:bankName',m.from_user.first_name)
-        m.reply(f'• وسوينا لك حساب في بنك {text}\n\n{k} رقم حسابك ↢ ( `{id}` )\n{k} نوع البطاقة ↢ ( {card} )\n{k} فلوسك ↢ ( {fff} ريال 💸 )\n\n{k} هتدفع!! هتشوف الي مشفتهوش، دا لو هتدفع!، انما ببلاش دا انا معرفش حاجة اسمها ببلاش')
-        if r.get(f'DevGroup:{Dev_Zaid}'):
-          return c.send_message(int(r.get(f'DevGroup:{Dev_Zaid}')),
-           f' ⟨ {m.from_user.mention} ⟩\n{k} سوى حساب بالبنك\n{k} رقم حسابه ( `{id}` )')
-        else:
-          return 
-     '''
      r.sadd('BankList', m.from_user.id)
      r.set(f'{id}:getAccBank', m.from_user.id)
      fff = floos + floos_to_add
      r.set(f'{m.from_user.id}:Floos',fff)
      r.set(f'{m.from_user.id}:bankName',m.from_user.first_name)
-     m.reply(f'• وسوينا لك حساب في بنك {text}\n\n{k} رقم حسابك ↢ ( `{id}` )\n{k} نوع البطاقة ↢ ( {card} )\n{k} فلوسك ↢ ( {fff} ريال 💸 )')
+     m.reply(f'• وسوينا لك حساب في بنك {text}\n\n{k} رقم حسابك ↢ ( `{id}` )\n{k} نوع البطاقة ↢ ( {card} )\n{k} فلوسك ↢ ( {fff} دينار 💸 )')
      if r.get(f'DevGroup:{Dev_Zaid}'):
          c.send_message(int(r.get(f'DevGroup:{Dev_Zaid}')),
            f' ⟨ {m.from_user.mention} ⟩\n{k} سوى حساب بالبنك\n{k} رقم حسابه ( `{id}` )')
    
    if text == 'توب' or text == 'التوب':
-     m.reply(f'{k} اهلين فيك في قوائم التوب\nللاستفسار - @{channel}',
+     m.reply(f'{k} اهلين فيك في قوائم التوب',
      reply_markup=InlineKeyboardMarkup (
        [
        [
@@ -470,7 +448,7 @@ def gamesFunc(c,m,k,channel):
 {k} الحساب ↢ `{id}`
 {k} بنك ↢ ( {bank} )
 {k} نوع ↢ ( {card} )
-{k} الرصيد ↢ ( {floos} ريال 💸 )
+{k} الرصيد ↢ ( {floos} دينار 💸 )
 ☆''')
    
    if text == 'انشاء حساب بنكي':
@@ -481,9 +459,9 @@ def gamesFunc(c,m,k,channel):
      else:
        r.set(f'{m.from_user.id}:createBank:{m.chat.id}',1,ex=300)
        '''
-       return m.reply(f'– عشان تسوي حساب لازم تختار بنك\n\n{k} `الاهلي`\n{k} `راجحي`\n{k} `الانماء`\n{k} `عبد الفتاح السيسي`\n\n- اضغط للنسخ')
+       return m.reply(f'– عشان تسوي حساب لازم تختار بنك\n\n{k} `الرافدين`\n{k} `النخيل`\n{k} `الاهلي العراقي`\n{k} `عبد الفتاح السيسي`\n\n- اضغط للنسخ')
        '''
-       return m.reply(f'– عشان تسوي حساب لازم تختار بنك\n\n{k} `الاهلي`\n{k} `راجحي`\n{k} `الانماء`\n\n- اضغط للنسخ')
+       return m.reply(f'– عشان تسوي حساب لازم تختار بنك\n\n{k} `الرافدين`\n{k} `النخيل`\n{k} `الاهلي العراقي`\n\n- اضغط للنسخ')
        
    
    if text == 'مسح حسابي':
@@ -514,7 +492,7 @@ def gamesFunc(c,m,k,channel):
 {k} الحساب ↢ `{acc_id}`
 {k} بنك ↢ ( {bank} )
 {k} نوع ↢ ( {card} )
-{k} الرصيد ↢ ( `{floos}` ريال 💸 )
+{k} الرصيد ↢ ( `{floos}` دينار 💸 )
 ☆
 ''')
    
@@ -525,7 +503,7 @@ def gamesFunc(c,m,k,channel):
       else:
         floos = int(r.get(f'{m.from_user.id}:Floos'))
       if floos_to_trans < 200:
-        return m.reply(f'{k} الحد الادنى المسموح هو 200 ريال')
+        return m.reply(f'{k} الحد الادنى المسموح هو 200 دينار')
       else:
         if floos_to_trans > floos:
           return m.reply(f'{k} فلوسك ماتكفي')
@@ -561,14 +539,14 @@ def gamesFunc(c,m,k,channel):
            fls = floos_to_hz
            floos_com = floos+fls
            r.set(f'{m.from_user.id}:Floos', floos+fls)
-           return m.reply(f'{k} مبروك فزت بالحظ !\n{k} فلوسك قبل ↢ ( **{floos}** ريال 💸 )\n{k} فلوسك الحين ↢ ( **{floos_com}** ريال 💸 )')
+           return m.reply(f'{k} مبروك فزت بالحظ !\n{k} فلوسك قبل ↢ ( **{floos}** دينار 💸 )\n{k} فلوسك الحين ↢ ( **{floos_com}** دينار 💸 )')
          else:
            fls = floos-floos_to_hz
            if fls == 0:
               r.delete(f'{m.from_user.id}:Floos')
            else:
               r.set(f'{m.from_user.id}:Floos', fls)
-           return m.reply(f'{k} للأسف خسرت بالحظ !\n{k} فلوسك قبل ↢ ( **{floos}** ريال 💸 )\n{k} فلوسك الحين ↢ ( **{fls}** ريال 💸 )')
+           return m.reply(f'{k} للأسف خسرت بالحظ !\n{k} فلوسك قبل ↢ ( **{floos}** دينار 💸 )\n{k} فلوسك الحين ↢ ( **{fls}** دينار 💸 )')
    
    
    if text == "حظ فلوسي":
@@ -593,14 +571,14 @@ def gamesFunc(c,m,k,channel):
            fls = floos_to_hz
            floos_com = floos+fls
            r.set(f'{m.from_user.id}:Floos', floos+fls)
-           return m.reply(f'{k} مبروك فزت بالحظ !\n{k} فلوسك قبل ↢ ( **{floos}** ريال 💸 )\n{k} فلوسك الحين ↢ ( **{floos_com}** ريال 💸 )')
+           return m.reply(f'{k} مبروك فزت بالحظ !\n{k} فلوسك قبل ↢ ( **{floos}** دينار 💸 )\n{k} فلوسك الحين ↢ ( **{floos_com}** دينار 💸 )')
          else:
            fls = floos-floos_to_hz
            if fls == 0:
               r.delete(f'{m.from_user.id}:Floos')
            else:
               r.set(f'{m.from_user.id}:Floos', fls)
-           return m.reply(f'{k} للأسف خسرت بالحظ !\n{k} فلوسك قبل ↢ ( "**{floos}** ريال 💸 )\n{k} فلوسك الحين ↢ ( **{fls}** ريال 💸 )')
+           return m.reply(f'{k} للأسف خسرت بالحظ !\n{k} فلوسك قبل ↢ ( "**{floos}** دينار 💸 )\n{k} فلوسك الحين ↢ ( **{fls}** دينار 💸 )')
 
    if text == 'عجله' or text == 'عجلة':
      if not r.sismember('BankList', m.from_user.id):
@@ -651,7 +629,7 @@ def gamesFunc(c,m,k,channel):
               floos = 0
             else:
               floos = int(r.get(f'{m.from_user.id}:Floos'))
-            rep.edit_text(f'{k} فزت بعجلة الحظ!\n\n{k} مبلغ الربح ( {chance} ريال 💸 )\n{k} فلوسك قبل ( `{floos}` ريال 💸 )\n{k} فلوسك الحين ( `{floos+chance}` ريال 💸 )',reply_markup=reply_ma)
+            rep.edit_text(f'{k} فزت بعجلة الحظ!\n\n{k} مبلغ الربح ( {chance} دينار 💸 )\n{k} فلوسك قبل ( `{floos}` دينار 💸 )\n{k} فلوسك الحين ( `{floos+chance}` دينار 💸 )',reply_markup=reply_ma)
             r.set(f'{m.from_user.id}:Floos', floos+chance)
          else:
             chance = random.randint(100,1000)
@@ -659,7 +637,7 @@ def gamesFunc(c,m,k,channel):
               floos = 0
             else:
               floos = int(r.get(f'{m.from_user.id}:Floos'))
-            rep.edit_text(f'{k} للأسف خسرت بعجلة الحظ!\n\n{k} خذ {chance} ريال عشان ماتصيح\n{k} فلوسك قبل ( `{floos}` ريال 💸 )\n{k} فلوسك الحين ( `{floos+chance}` ريال 💸 )',reply_markup=reply_ma)
+            rep.edit_text(f'{k} للأسف خسرت بعجلة الحظ!\n\n{k} خذ {chance} دينار عشان ماتصيح\n{k} فلوسك قبل ( `{floos}` دينار 💸 )\n{k} فلوسك الحين ( `{floos+chance}` دينار 💸 )',reply_markup=reply_ma)
             r.set(f'{m.from_user.id}:Floos', floos+chance)
            
    if text.startswith('استثمار ') and len(text.split()) == 2 and re.findall('[0-9]+', text):
@@ -680,7 +658,7 @@ def gamesFunc(c,m,k,channel):
        if floos_to_est > floos:
          return m.reply(f'{k} فلوسك ماتكفي')
        if floos_to_est < 2000:
-         return m.reply(f'{k} للأسف لازم تستثمر ب 2000 ريال عالأقل')
+         return m.reply(f'{k} للأسف لازم تستثمر ب 2000 دينار عالأقل')
        else:
          r.set(f'{m.from_user.id}:BankWaitEST',1,ex=300)
          one = int(floos_to_est/random.randint(1,9))
@@ -689,8 +667,8 @@ def gamesFunc(c,m,k,channel):
          m.reply(f'''
 {k}  استثمار ناجح!
 {k} نسبة الربح ↢ {rb7}%
-{k} مبلغ الربح ↢ ( `{one}` ريال )
-{k} فلوسك صارت ↢ ( `{floos+one}` ريال 💸 )
+{k} مبلغ الربح ↢ ( `{one}` دينار )
+{k} فلوسك صارت ↢ ( `{floos+one}` دينار 💸 )
 ''')
    
    if text == "استثمار فلوسي":
@@ -709,7 +687,7 @@ def gamesFunc(c,m,k,channel):
        if floos_to_est == 0:
          return m.reply(f'{k} مايمدي تستثمر بالصفر')
        if floos_to_est < 2000:
-         return m.reply(f'{k} للأسف لازم تستثمر ب 2000 ريال عالأقل')
+         return m.reply(f'{k} للأسف لازم تستثمر ب 2000 دينار عالأقل')
        else:
          r.set(f'{m.from_user.id}:BankWaitEST',1,ex=300)
          one = int(floos_to_est/random.randint(1,9))
@@ -718,8 +696,8 @@ def gamesFunc(c,m,k,channel):
          m.reply(f'''
 {k}  استثمار ناجح!
 {k} نسبة الربح ↢ {rb7}%
-{k} مبلغ الربح ↢ ( `{one}` ريال )
-{k} فلوسك صارت ↢ ( `{floos+one}` ريال 💸 )
+{k} مبلغ الربح ↢ ( `{one}` دينار )
+{k} فلوسك صارت ↢ ( `{floos+one}` دينار 💸 )
 ''')
    
    if text == 'كنز':
@@ -740,7 +718,7 @@ def gamesFunc(c,m,k,channel):
        r.set(f'{m.from_user.id}:BankWaitKNZ',1, ex=600)
        r.set(f'{m.from_user.id}:Floos', floos+money)
        fls = floos+money
-       return m.reply(f'اشعار ايداع {m.from_user.mention(m.from_user.first_name[:10])}⁪⁬⁪⁬⁮⁪⁬⁪\nالمبلغ: **{money}** ريال\nالكنز: {name}\nنوع العملية: ربح كنز\nرصيدك الحين: **{fls}** ريال 💸')
+       return m.reply(f'اشعار ايداع {m.from_user.mention(m.from_user.first_name[:10])}⁪⁬⁪⁬⁮⁪⁬⁪\nالمبلغ: **{money}** دينار\nالكنز: {name}\nنوع العملية: ربح كنز\nرصيدك الحين: **{fls}** دينار 💸')
 
    if text == 'بخشيش':
      if not r.sismember('BankList', m.from_user.id):
@@ -757,7 +735,7 @@ def gamesFunc(c,m,k,channel):
        else:
           floos = int(r.get(f'{m.from_user.id}:Floos'))
        r.set(f'{m.from_user.id}:Floos', floos+b5)
-       m.reply(f'{k} دلعتك وعطيتك {b5} ريال 💸')
+       m.reply(f'{k} دلعتك وعطيتك {b5} دينار 💸')
        
    if text == 'راتب':
      if not r.sismember('BankList', m.from_user.id):
@@ -777,9 +755,9 @@ def gamesFunc(c,m,k,channel):
           floos = int(r.get(f'{m.from_user.id}:Floos'))
        r.set(f'{m.from_user.id}:Floos', floos+money)
        fls = floos+money
-       m.reply(f'اشعار ايداع⁪⁬⁪⁬⁮⁪⁬⁪ {m.from_user.mention(m.from_user.first_name[:10])}\nالمبلغ: **{money}** ريال\nوظيفتك: {name}\nنوع العملية: اضافة راتب\nرصيدك الحين: **{fls}** ريال 💸')
+       m.reply(f'اشعار ايداع⁪⁬⁪⁬⁮⁪⁬⁪ {m.from_user.mention(m.from_user.first_name[:10])}\nالمبلغ: **{money}** دينار\nوظيفتك: {name}\nنوع العملية: اضافة راتب\nرصيدك الحين: **{fls}** دينار 💸')
    
-   if text == 'زرف' and m.reply_to_message and m.reply_to_message.from_user:
+   if text in ('زرف') and m.reply_to_message and m.reply_to_message.from_user:
      if m.reply_to_message.from_user.id == int(Dev_Zaid):
        return m.reply('?')
      if not r.sismember('BankList', m.from_user.id):
@@ -797,16 +775,16 @@ def gamesFunc(c,m,k,channel):
        wait = time.strftime('%M:%S', time.gmtime(get))
        return m.reply(f'{k} ذا المسكين مزروف قبل شوي\n{k} يمديك تزرفه بعد {wait}')
      if not r.get(f'{m.reply_to_message.from_user.id}:Floos'):
-       return m.reply(f'{k} مطفر مامعه ولا ريال')
+       return m.reply(f'{k} مطفر مامعه ولا دينار')
      if int(r.get(f'{m.reply_to_message.from_user.id}:Floos')) < 2000:
-       return m.reply(f'{k} مايمديك تزرفه لان فلوسه اقل من 2000 ريال')
+       return m.reply(f'{k} مايمديك تزرفه لان فلوسه اقل من 2000 دينار')
      else:
        zrf = random.randint(50,1000)
        r.set(f'{m.from_user.id}:BankWaitZRF',1,ex=300)
        r.set(f'{m.reply_to_message.from_user.id}:BankWaitMZROF',1,ex=300)
        floos = int(r.get(f'{m.reply_to_message.from_user.id}:Floos'))
        r.set(f'{m.reply_to_message.from_user.id}:Floos',floos-zrf)
-       m.reply(f'{k} خذ يالحرامي زرفته {zrf} ريال 💸')
+       m.reply(f'{k} خذ يالحرامي زرفته {zrf} دينار 💸')
        if not r.get(f'{m.from_user.id}:Floos'):
          floos_from_user = 0
        else:
@@ -821,7 +799,7 @@ def gamesFunc(c,m,k,channel):
        try:
          c.send_message(
            m.reply_to_message.from_user.id,
-           f'الحق الحق حلالك!!\nذا الحرامي {m.from_user.mention}\nسرق منك ( {zrf} ريال 💸 )\n༄',
+           f'الحق الحق حلالك!!\nذا الحرامي {m.from_user.mention}\nسرق منك ( {zrf} دينار 💸 )\n༄',
            reply_markup=InlineKeyboardMarkup (
              [[
                InlineKeyboardButton (m.chat.title, url=m.link)
@@ -841,7 +819,7 @@ def gamesFunc(c,m,k,channel):
         m.reply(f'{k} ماعندك فلوس ارسل الالعاب وابدا جمع الفلوس')
      else:
         floos = int(r.get(f'{m.from_user.id}:Floos'))
-        return m.reply(f'{k} فلوسك `{floos}` ريال 💸')
+        return m.reply(f'{k} فلوسك `{floos}` دينار 💸')
    
    if text == 'فلوس':
      if not m.reply_to_message:
@@ -849,24 +827,24 @@ def gamesFunc(c,m,k,channel):
          return m.reply(f'{k} ماعندك فلوس ارسل الالعاب وابدا جمع الفلوس')
        else:
          floos = int(r.get(f'{m.from_user.id}:Floos'))
-       return m.reply(f'{k} فلوسك `{floos}` ريال 💸')
+       return m.reply(f'{k} فلوسك `{floos}` دينار 💸')
      else:
        if not r.get(f'{m.reply_to_message.from_user.id}:Floos'):
          floos = 0
        else:
          floos = int(r.get(f'{m.reply_to_message.from_user.id}:Floos'))
-       return m.reply(f'{k} فلوسه ↢ ( {floos} ريال 💸 )')
+       return m.reply(f'{k} فلوسه ↢ ( {floos} دينار 💸 )')
    
    if text.startswith('بيع فلوسي ') and len(text.split()) == 3 and re.findall('[0-9]+', text):
      if not r.get(f'{m.from_user.id}:Floos'):
-        m.reply(f'{k} للاسف انت مطفر عندك 0 ريال')
+        m.reply(f'{k} للاسف انت مطفر عندك 0 دينار')
      else:
         floos_to_sale = int(re.findall('[0-9]+', text)[0])
         floos = int(r.get(f'{m.from_user.id}:Floos'))
         if floos_to_sale == 0:
          return m.reply(f'{k} مايمدي تبيع صفر')
         if floos_to_sale > floos:
-          return m.reply(f'{k} للاسف انت مطفر عندك {floos} ريال')
+          return m.reply(f'{k} للاسف انت مطفر عندك {floos} دينار')
         if floos_to_sale == floos:
            r.delete(f'{m.from_user.id}:Floos')
         else:
@@ -874,7 +852,7 @@ def gamesFunc(c,m,k,channel):
         get = int(r.get(f'{m.chat.id}:TotalMsgs:{m.from_user.id}{Dev_Zaid}'))
         rsayl = floos_to_sale * 20
         r.set(f'{m.chat.id}:TotalMsgs:{m.from_user.id}{Dev_Zaid}', get+rsayl)
-        m.reply(f'{k} بعت ( {floos_to_sale} ريال 💸 ) من فلوسك\n{k} مجموع رسايلك الحين ( {get + rsayl} )\n☆')
+        m.reply(f'{k} بعت ( {floos_to_sale} دينار 💸 ) من فلوسك\n{k} مجموع رسايلك الحين ( {get + rsayl} )\n☆')
    
    if text.startswith('اضف فلوس ') and len(text.split()) == 3 and re.findall('[0-9]+', text):
      if dev2_pls(m.from_user.id,m.chat.id):
@@ -885,7 +863,7 @@ def gamesFunc(c,m,k,channel):
           else:
              floos = int(r.get(f'{m.reply_to_message.from_user.id}:Floos'))
              r.set(f'{m.reply_to_message.from_user.id}:Floos',floos_to_add+floos)
-          m.reply(f'「 {m.reply_to_message.from_user.mention} 」\n{k} ضفت له ( {floos_to_add} ) ريال 💸')
+          m.reply(f'「 {m.reply_to_message.from_user.mention} 」\n{k} ضفت له ( {floos_to_add} ) دينار 💸')
    
    
    if text == 'استخراج الاكواد':
@@ -923,10 +901,10 @@ def gamesFunc(c,m,k,channel):
        floos_from_user = int(r.get(f'{m.from_user.id}:Floos'))
      chance = random.choice([1000000000, 2000000000, 3000000000])
      r.set(f'{m.from_user.id}:Floos',floos_from_user+chance)
-     m.reply(f'{k} مبرووووك 🏆\n{k} كشطت الكود واخذت ( {chance} ريال 💸 )\n{k} فلوسك قبل ( `{floos_from_user}` ريال 💸 )\n{k} فلوسك الحين ( `{floos_from_user+chance}` ريال 💸 )')
+     m.reply(f'{k} مبرووووك 🏆\n{k} كشطت الكود واخذت ( {chance} دينار 💸 )\n{k} فلوسك قبل ( `{floos_from_user}` دينار 💸 )\n{k} فلوسك الحين ( `{floos_from_user+chance}` دينار 💸 )')
      r.set(f'{m.from_user.id}:BankWaitKSHT:{Dev_Zaid}',1,ex=7200)
      if r.get(f'DevGroup:{Dev_Zaid}'):
-       alert = f'𖡋 𝐍𝐀𝐌𝐄 ⌯ {m.from_user.mention}\n𖡋 𝐈𝐃 ⌯ `{m.from_user.id}`\n\nكشط الكود `{code}` وأخذ {chance} ريال 💸'
+       alert = f'𖡋 𝐍𝐀𝐌𝐄 ⌯ {m.from_user.mention}\n𖡋 𝐈𝐃 ⌯ `{m.from_user.id}`\n\nكشط الكود `{code}` وأخذ {chance} دينار 💸'
        c.send_message(int(r.get(f'DevGroup:{Dev_Zaid}')),alert)
    
    if text.startswith('زواج ') and re.findall('[0-9]+', text) and m.reply_to_message and m.reply_to_message.from_user and len(text.split()) == 2:
@@ -956,7 +934,7 @@ def gamesFunc(c,m,k,channel):
          return m.reply('「 {} 」 \n{} مو سنقل دورلك غيره\n༄'.format(m.reply_to_message.from_user.mention,k))
        else:
          if floos < 50000:
-           return m.reply('لازم المهر اقل شي 50 ألف ريال')
+           return m.reply('لازم المهر اقل شي 50 ألف دينار')
          else:
            if floos == floos_from_user:
              r.delete(f'{m.from_user.id}:Floos')
@@ -970,7 +948,7 @@ def gamesFunc(c,m,k,channel):
 {k} 👰 العروس ↢ ( {one} )
 {k} 🤵 العريس ↢ ( {two} )
 '''
-           to_marry += f'\n{k} 💸 المهر ↢ ( `{floos}` ريال )\n༄'
+           to_marry += f'\n{k} 💸 المهر ↢ ( `{floos}` دينار )\n༄'
            r.set(f'{m.from_user.id}:MARRYTEXT:{m.chat.id}{Dev_Zaid}',to_marry)
            r.set(f'{m.reply_to_message.from_user.id}:MARRYTEXT:{m.chat.id}{Dev_Zaid}',to_marry)
            r.set(f'{m.from_user.id}:MARRYMONEY:{m.chat.id}{Dev_Zaid}',floos)
@@ -982,7 +960,7 @@ def gamesFunc(c,m,k,channel):
 {k} 👰 العروس ↢ ( {m.reply_to_message.from_user.mention} )
 {k} 🤵 العريس ↢ ( {m.from_user.mention} )
 
-{k} 💸 المهر ↢ ( `{floos}` ريال )
+{k} 💸 المهر ↢ ( `{floos}` دينار )
 ☆
 ''')
            
@@ -1014,7 +992,7 @@ def gamesFunc(c,m,k,channel):
      r.delete(f'{m.from_user.id}:MARRYTEXT:{m.chat.id}{Dev_Zaid}')
      r.delete(f'{m.from_user.id}:MARRYMONEY:{m.chat.id}{Dev_Zaid}')
      r.delete(f'{getUser.id}:MARRYMONEY:{m.chat.id}{Dev_Zaid}')
-     return m.reply(f'{k} طلقتك من 「 {getUser.mention} 」\n{k} ضفت ( {floos} ريال 💸 ) لفلوسها')
+     return m.reply(f'{k} طلقتك من 「 {getUser.mention} 」\n{k} ضفت ( {floos} دينار 💸 ) لفلوسها')
      
    
    if text== 'خلع' and r.get(f'{m.from_user.id}:marriedWomen:{m.chat.id}{Dev_Zaid}'):
@@ -1032,7 +1010,7 @@ def gamesFunc(c,m,k,channel):
      r.delete(f'{m.from_user.id}:MARRYTEXT:{m.chat.id}{Dev_Zaid}')
      r.delete(f'{m.from_user.id}:MARRYMONEY:{m.chat.id}{Dev_Zaid}')
      r.delete(f'{getUser.id}:MARRYMONEY:{m.chat.id}{Dev_Zaid}')
-     return m.reply(f'{k} خلعتك من 「 {getUser.mention} 」\n{k} ورجعت له المهر ( {floos} ريال 💸 )')
+     return m.reply(f'{k} خلعتك من 「 {getUser.mention} 」\n{k} ورجعت له المهر ( {floos} دينار 💸 )')
 
    if text == 'كت' or text == 'تويت' or text == 'كت تويت':
       return m.reply(random.choice(cut))
@@ -1058,7 +1036,7 @@ def gamesFunc(c,m,k,channel):
         return m.reply(f'''
 صح عليك ⁪⁬⁪⁬⁮⁪⁬⁪⁬⁮✔
 ⏰الوقت: {timeo} ثانية
-💸فلوسك: {floos} ريال
+💸فلوسك: {floos} دينار
 ☆
 ''')
    
@@ -1079,7 +1057,7 @@ def gamesFunc(c,m,k,channel):
         return m.reply(f'''
 صح عليك ⁪⁬⁪⁬⁮⁪⁬⁪⁬⁮✔
 ⏰الوقت: {timeo} ثانية
-💸فلوسك: {floos} ريال
+💸فلوسك: {floos} دينار
 ☆
 ''')
      else:
@@ -1104,7 +1082,7 @@ def gamesFunc(c,m,k,channel):
         m.reply(f'''
 صح عليك ⁪⁬⁪⁬⁮⁪⁬⁪⁬⁮✔
 ⏰الوقت: {timeo} ثانية
-💸فلوسك: {floos} ريال
+💸فلوسك: {floos} دينار
 ☆
 ''')
         return True
@@ -1635,7 +1613,7 @@ def gamesFunc(c,m,k,channel):
            r.set(f'{m.from_user.id}:Floos',ra)
         return m.reply(f'''
 صح عليك فزت **[بالنرد]({dice.link})** ⁪⁬⁪⁬⁮⁪⁬⁪⁬⁮✔
-💸فلوسك: `{floos}` ريال
+💸فلوسك: `{floos}` دينار
 ☆
 ''', disable_web_page_preview=True)
      else:
