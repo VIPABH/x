@@ -595,13 +595,13 @@ def guardCommands(c, m, k, channel):
 {k} الفارسية ⇠ ( {x24} )
 {k} دخول الإيراني ⇠ ( {x25} )
 {k} الإباحي ⇠ ( {x26} )
-~ @{channel}""")
+""")
     if text == "الساعه" or text == "الساعة" or text == "الوقت":
         TIME_ZONE = "Asia/Riyadh"
         ZONE = pytz.timezone(TIME_ZONE)
         TIME = datetime.now(ZONE)
         clock = TIME.strftime("%I:%M %p")
-        return m.reply(f"{k} الساعة ( {clock} )")
+        return m.reply(f"{k} {text} ( {clock} )")
     if text == "القوانين":
         if r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}"):
             rules = r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}")
@@ -869,29 +869,6 @@ def guardCommands(c, m, k, channel):
         os.remove(f"zaid{id}.wav")
         return m.reply(f"يقول : {text}")
 
-    if (
-        (text == "zaid" or text == "زوز")
-        and m.reply_to_message
-        and m.reply_to_message.voice
-        and m.from_user.id == ABH
-    ):
-        if m.reply_to_message.voice.file_size > 20971520:
-            return m.reply("حجمه اكثر من ٢٠ ميجابايت، توكل")
-        id = random.randint(99, 1000)
-        voice = m.reply_to_message.download(f"./zaid{id}.wav")
-        s = sr.Recognizer()
-        sound = AudioSegment.from_ogg(voice)
-        wav_file = sound.export(voice, format="wav")
-        with sr.AudioFile(wav_file) as src:
-            audio_source = s.record(src)
-        try:
-            text = s.recognize_google(audio_source, language="en-US")
-        except Exception as e:
-            print(e)
-            os.remove(f"zaid{id}.wav")
-            return m.reply("عجزت افهم وش يقول ")
-        os.remove(f"zaid{id}.wav")
-        return m.reply(f"يقول : {text}")
     if text.startswith("منع "):
         if mod_pls(m.from_user.id, m.chat.id):
             noice = text.split(None, 1)[1]
@@ -2093,8 +2070,8 @@ def guardCommands(c, m, k, channel):
             if m.from_user.id == m.reply_to_message.from_user.id:
                 return m.reply("شفيك تبي تنزل نفسك")
             get = m.chat.get_member(m.reply_to_message.from_user.id)
-            if pre_pls(m.reply_to_message.from_user.id, m.chat.id):
-                rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
+            rank = _get_rank(m.reply_to_message.from_user.id, m.chat.id)
+            if rank:
                 return m.reply(f"{k} هييه مايمديك تقييد {rank} ياورع!")
             if get.status == ChatMemberStatus.RESTRICTED:
                 return m.reply(
@@ -2233,8 +2210,8 @@ def guardCommands(c, m, k, channel):
                 get = m.chat.get_member(user)
                 if m.from_user.id == get.user.id:
                     return m.reply("شفيك تبي تنزل نفسك")
-                if pre_pls(get.user.id, m.chat.id):
-                    rank = get_rank(get.user.id, m.chat.id)
+               rank = _get_rank(get.user.id, m.chat.id)
+                if rank:
                     return m.reply(f"{k} هييه مايمديك تحظر {rank} ياورع!")
                 if get.status == ChatMemberStatus.BANNED:
                     return m.reply(f"「 {get.user.mention} 」 \n{k} محظور من قبل\n☆")
@@ -2249,8 +2226,8 @@ def guardCommands(c, m, k, channel):
             if m.from_user.id == m.reply_to_message.from_user.id:
                 return m.reply("شفيك تبي تنزل نفسك")
             get = m.chat.get_member(m.reply_to_message.from_user.id)
-            if pre_pls(m.reply_to_message.from_user.id, m.chat.id):
-                rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
+            rank = _get_rank(m.reply_to_message.from_user.id, m.chat.id)
+            if rank:
                 return m.reply(f"{k} هييه مايمديك تحظر {rank} ياورع!")
             if get.status == ChatMemberStatus.BANNED:
                 return m.reply(
@@ -2289,8 +2266,8 @@ def guardCommands(c, m, k, channel):
                 get = m.chat.get_member(user)
                 if m.from_user.id == get.user.id:
                     return m.reply("شفيك تبي تنزل نفسك")
-                if pre_pls(get.user.id, m.chat.id):
-                    rank = get_rank(get.user.id, m.chat.id)
+               rank = _get_rank(get.user.id, m.chat.id)
+                if rank:
                     return m.reply(f"{k} هييه مايمديك تطرد {rank} ياورع!")
                 if get.status == ChatMemberStatus.BANNED:
                     return m.reply(f"「 {get.user.mention} 」 \n{k} مطرود من قبل\n☆")
@@ -2684,13 +2661,8 @@ def guardCommands(c, m, k, channel):
         or text.lower() == f"/commands@{botUsername.lower()}"
     ):
         if admin_pls(m.from_user.id, m.chat.id):
-            channel = (
-                r.get(f"{Dev_Zaid}:BotChannel")
-                if r.get(f"{Dev_Zaid}:BotChannel")
-                else "wfffp"
-            )
             return m.reply(
-                f"{k} اهلين فيك باوامر البوت\n\nللاستفسار - @{channel}",
+                f"{k} اهلين فيك باوامر البوت",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -2747,7 +2719,6 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands1:{m.from_user.id}":
         m.edit_message_text(
             f"""
-للاستفسار - @{channel}
 
 
 ❨ اوامر الرفع والتنزيل ❩
@@ -2860,7 +2831,6 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands2:{m.from_user.id}":
         m.edit_message_text(
             f"""
-للاستفسار - @{channel}
 
 
 ❨ اوامر الوضع ❩
@@ -2934,7 +2904,6 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands3:{m.from_user.id}":
         m.edit_message_text(
             f"""
-للاستفسار - @{channel}
 
 
 ❨ اوامر الردود ❩
@@ -3122,7 +3091,6 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands5:{m.from_user.id}":
         m.edit_message_text(
             f"""
-للاستفسار - @{channel}
 
 🍰 ⌯ رفع ↣ ↢ تنزيل كيكه
 🍯 ⌯ رفع ↣ ↢ تنزيل عسل
@@ -3684,7 +3652,7 @@ def CallbackQueryResponse(c, m, channel):
        m.edit_message_text(text, disable_web_page_preview=True,reply_markup=rep)
    """
 
-    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "رعد"
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "أكس گارد"
     if m.data == f"RPS:rock++{m.from_user.id}":
         RPS = ["paper", "scissors", "rock"]
         kk = random.choice(RPS)
