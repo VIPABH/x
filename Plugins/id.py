@@ -1,4 +1,4 @@
-import random, re, time, os
+import random, re, time, os, json
 from threading import Thread
 from pyrogram import *
 from pyrogram.enums import *
@@ -16,6 +16,27 @@ from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus
 from pyrogram.errors import PeerIdInvalid, UsernameInvalid, RPCError
 import re
+
+def save_unique_text(filepath="bio.json", text=None):
+    if os.path.exists(filepath):
+        try:
+            with open(filepath, "r", encoding="utf-8") as f:
+                data = json.load(f)
+                if not isinstance(data, list):
+                    data = []
+        except (json.JSONDecodeError, ValueError):
+            data = []
+    else:
+        data = []
+    if not text:
+      return data
+    if text in data:
+        return False
+    data.append(text)
+    with open(filepath, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=2)
+    return data
+data = save_unique_text()
 def get_top(users):
    users = [tuple(i.items()) for i in users]
    top = sorted(users, key=lambda i: i[-1][-1], reverse=True)
@@ -220,6 +241,8 @@ def get_my_rank(c,m,k):
       if not get.bio:
         return m.reply(f'{k} ماعنده بايو')
       else:
+        save_unique_text(text=get.bio)
+        data.append(get.bio)
         return m.reply(f'`{get.bio}`')
 
    if text == 'بايو' and not m.reply_to_message:
@@ -228,7 +251,10 @@ def get_my_rank(c,m,k):
       if not get.bio:
         return m.reply(f'{k} ماعندك بايو')
       else:
+        save_unique_text(text=get.bio)
+        data.append(get.bio)
         return m.reply(f'`{get.bio}`')
+        
 
 
 
@@ -282,6 +308,8 @@ def get_my_rank(c,m,k):
          caption=None
        else:
          caption = f'`{get_bio}`'
+         save_unique_text(text=get_bio)
+         data.append(get_bio)
        return m.reply_photo(photo,caption=caption)
 
    if text == 'افتار' and m.reply_to_message and m.reply_to_message.from_user:
@@ -299,6 +327,8 @@ def get_my_rank(c,m,k):
          caption=None
        else:
          caption = f'`{get_bio}`'
+         save_unique_text(text=get.bio)
+         data.append(get_bio)
        return m.reply_photo(photo,caption=caption)
 
    if text == 'ايديي':
@@ -317,6 +347,8 @@ def get_my_rank(c,m,k):
            photo = p.file_id
          if get.bio:
            caption = f'`{get.bio}`'
+           save_unique_text(text=get.bio)
+           data.append(get.bio)
          else:
            caption = None
          return m.reply_photo(photo,caption=caption)
