@@ -1,16 +1,11 @@
 import time, redis, os, json, re, requests, asyncio 
 from pyrogram import *
 r = redis.Redis('localhost',decode_responses=True)
-print(r)
 to_config = """
 import redis
 r = redis.Redis('localhost',decode_responses=True)
 """
 
-print('''
-Loading…
-█▒▒▒▒▒▒▒▒▒''')
-print('\n\n')
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # من ملف .env
 token = BOT_TOKEN
 try:
@@ -36,9 +31,6 @@ if not r.get(f'{Dev_Zaid}botowner'):
     r.set(f'{Dev_Zaid}botowner', owner_id)
 else:
     owner_id = int(r.get(f'{Dev_Zaid}botowner'))
-print('''
-10% 
-███▒▒▒▒▒▒▒ ''')
 
 to_config += f"\ntoken = '{token}'"
 to_config += f"\nDev_Zaid = token.split(':')[0]"
@@ -50,14 +42,8 @@ to_config += "\nytdb = DB('ytdb.sqlite')"
 to_config += "\nsounddb = DB('sounddb.sqlite')"
 to_config += "\nwsdb = DB('wsdb.sqlite')"
 
-print('''
-30% 
-█████▒▒▒▒▒ ''')
 with open('config.py','w+') as w:
   w.write(to_config)
-print('''
-50% 
-███████▒▒▒ ''')
 API_ID = os.getenv("API_ID")  # من ملف .env
 API_HASH = os.getenv("API_HASH")  # من ملف .env
 BOT_TOKEN = os.getenv("BOT_TOKEN")  # من ملف .env
@@ -83,28 +69,6 @@ def Find(text):
 
 app.start()
 # userbot.start()
-print('''
-[===========================]
-
-█████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-[===========================]
-
-🔮 Your bot started successfully on R 3 D ☆ Source 🔮
-
-•••••••• @yqyqy66 - @yqyqy66 •••••••••
-
-
-''')
-print('''
-
-100% 
-██████████''')
 if r.get(f'DevGroup:{Dev_Zaid}'):
   id = int(r.get(f'DevGroup:{Dev_Zaid}'))
   try:
