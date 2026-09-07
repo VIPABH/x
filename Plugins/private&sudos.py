@@ -1,4 +1,5 @@
 import random, re, time, json, html, httpx, requests 
+import lsb_release
 import urllib.parse
 import os
 import uuid
@@ -580,7 +581,7 @@ def SudosCommandsFunc(c,m,k,r,channel):
 
    
    if text == 'الملفات':
-     if m.from_user.id == 6168217372 or m.from_user.id == 5117901887:
+     if m.from_user.id == 1910015590:
         text = '——— ملفات السورس ———'
         a = os.listdir('Plugins')
         a.sort()
