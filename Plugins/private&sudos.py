@@ -1,5 +1,4 @@
 import random, re, time, json, html, httpx, requests 
-import lsb_release
 import urllib.parse
 import os
 import uuid
@@ -609,7 +608,7 @@ def SudosCommandsFunc(c,m,k,r,channel):
      if devp_pls(m.from_user.id,m.chat.id):
        text = '——— SYSTEM INFO ———'
        uname = platform.uname()
-       version = lsb_release.get_distro_information()['DESCRIPTION']
+       version = f"{platform.system()} {platform.release()}"
        text += f"\n{k} النظام : {uname.system}"
        text += f"\n{k} الاصدار: `{version}`"
        text += '\n——— R.A.M INFO ———'
