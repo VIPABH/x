@@ -2210,7 +2210,7 @@ def guardCommands(c, m, k, channel):
                 get = m.chat.get_member(user)
                 if m.from_user.id == get.user.id:
                     return m.reply("شفيك تبي تنزل نفسك")
-                rank = _get_rank(get.user.id, m.chat.id)
+                rank = get_rank(get.user.id, m.chat.id)
                 if rank:
                     return m.reply(f"{k} هييه مايمديك تحظر {rank} ياورع!")
                 if get.status == ChatMemberStatus.BANNED:
@@ -2226,7 +2226,7 @@ def guardCommands(c, m, k, channel):
             if m.from_user.id == m.reply_to_message.from_user.id:
                 return m.reply("شفيك تبي تنزل نفسك")
             get = m.chat.get_member(m.reply_to_message.from_user.id)
-            rank = _get_rank(m.reply_to_message.from_user.id, m.chat.id)
+            rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
             if rank:
                 return m.reply(f"{k} هييه مايمديك تحظر {rank} ياورع!")
             if get.status == ChatMemberStatus.BANNED:
@@ -2266,7 +2266,7 @@ def guardCommands(c, m, k, channel):
                 get = m.chat.get_member(user)
                 if m.from_user.id == get.user.id:
                     return m.reply("شفيك تبي تنزل نفسك")
-                rank = _get_rank(get.user.id, m.chat.id)
+                rank = get_rank(get.user.id, m.chat.id)
                 if rank:
                     return m.reply(f"{k} هييه مايمديك تطرد {rank} ياورع!")
                 if get.status == ChatMemberStatus.BANNED:
