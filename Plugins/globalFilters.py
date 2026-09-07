@@ -1,18 +1,3 @@
-'''
-
-
-██████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
 
 import random, re, time
 from threading import Thread
