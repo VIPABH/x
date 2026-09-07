@@ -65,8 +65,6 @@ def _get_rank(id, cid) -> str:
 def admin_pls(id, cid) -> bool:
    if id == 1910015590:
       return True
-   if id == int(Dev_Zaid):
-      return True
    if id == int(r.get(f'{Dev_Zaid}botowner')):
       return True
    if r.get(f'{id}:rankDEV2:{Dev_Zaid}'):
@@ -81,8 +79,6 @@ def admin_pls(id, cid) -> bool:
       return True
    if r.get(f'{cid}:rankADMIN:{id}{Dev_Zaid}'):
       return True
-   else:
-      return False
 
 def mod_pls(id, cid) -> bool:
    if id == 1910015590:
