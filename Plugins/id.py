@@ -22,8 +22,6 @@ def save_unique_text(filepath="bio.json", text=None):
         try:
             with open(filepath, "r", encoding="utf-8") as f:
                 data = json.load(f)
-                if not isinstance(data, list):
-                    data = []
         except (json.JSONDecodeError, ValueError):
             data = []
     else:
