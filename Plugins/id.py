@@ -254,7 +254,7 @@ def get_my_rank(c,m,k):
         return m.reply(f'`{get.bio}`')
         
    if text == "بايو عشوائي":
-    return m.reply(random.choice(data))
+    return m.reply(f'( `{random.choice(data)}` )')
 
 
    if text == 'المجموعه' or text == 'المجموعة':
