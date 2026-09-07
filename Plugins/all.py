@@ -2507,9 +2507,6 @@ def guardCommands(c, m, k, channel):
         else:
             return m.reply(get.mention)
 
-    if text == "بايو عشوائي":
-        return m.reply(f"{k} تحت الصيانة")
-
     if text == "مسح" and m.reply_to_message:
         if admin_pls(m.from_user.id, m.chat.id):
             m.reply_to_message.delete()
