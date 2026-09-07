@@ -1,18 +1,3 @@
-'''
-
-
-██████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
 
 import random, re, time
 from threading import Thread
@@ -355,33 +340,35 @@ def get_rngp(c,m):
    
    
    sb = [
-"عييييييييب","عيب","ياكلب عيب","يا قليل التربيه","يا قليل الادب","؟؟؟؟؟؟","ياليت تتأدب","بقص لسانك","حاضر","ياخي عيب","؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟","استغفر الله",
+"عييييييييب","عيب","ياكلبي عيب","يا قليل التربيه","يا قليل الادب","ياخي عيب"
    ]
    lovem = [
-"يلبيييه",
 "اكثر",
 "يعمري",
 "اعشقك",
-"بدينا كذب",
 "احلى من يحبني",
 "يحظي والله",
 "اكثر اكثر اكثرر",
 "يروحي",
 "اموت فيك",]
    zg = [
-"عييييييييب","عيب","زق بوجهك","يا قليل التربيه","يا قليل الادب","؟؟؟؟؟؟","ياليت تتأدب","بقص لسانك","حاضر","ياخي عيب","؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟؟",]
+"عييييييييب","عيب","ياكلبي عيب","يا قليل التربيه","يا قليل الادب","ياخي عيب"
+]
    mm = [
 "ابركها من ساعة","احبك","اكثر","ترا ازعجتنا","انقلع","طيب","مو اكثر مني","وبعدين ؟","جت من الله","توكل بس"]
    bot_r = [
-      "ها",
-      "جتريد",
+      "اهلا",
+      "يا هلا",
+      "ارحب",
+      "تفضل",
    ]   
    if text == 'بوت':
       m.reply(random.choice(bot_r))
    x = [
-      'انت بوت',
-      'lol',
-   ]
+      'تفضل',
+      'اسمعك',
+      'معك دائما',
+      ]
    if text == name:
      m.reply(random.choice(x))
      
@@ -433,7 +420,6 @@ def get_rngp(c,m):
          [InlineKeyboardButton ('🇸🇾',callback_data=f'{m.from_user.id}memes_sy'),InlineKeyboardButton ('🇪🇬',callback_data=f'{m.from_user.id}memes_eg')],
          [InlineKeyboardButton ('🇸🇦',callback_data=f'{m.from_user.id}memes_sa'),InlineKeyboardButton ('🇦🇪',callback_data=f'{m.from_user.id}memes_ae')],
          [InlineKeyboardButton ('🇺🇸',callback_data=f'{m.from_user.id}memes_us'),InlineKeyboardButton ('🇮🇶',callback_data=f'{m.from_user.id}memes_iq'),],
-         [InlineKeyboardButton ('🧚‍♀️',url='t.me/P_V_R')],
        ]
      )
      )
@@ -444,7 +430,6 @@ def get_rngp(c,m):
         title = random.choice(["﴿ سَبِّحِ اسمَ رَبِّكَ الأَعلَى ﴾","﴿ وَلَلآخِرَةُ خَيرٌ لَكَ مِنَ الأولى ﴾","﴿ وَكانَ ذلِكَ عَلَى اللَّهِ يَسيرًا ﴾","﴿ لِمَن شاءَ مِنكُم أَن يَتَقَدَّمَ أَو يَتَأَخَّرَ ﴾","﴿ فَمَن عَفا وَأَصلَحَ فَأَجرُهُ عَلَى اللَّهِ ﴾","﴿ هُوَ أَهلُ التَّقوى وَأَهلُ المَغفِرَةِ ﴾","﴿ هَل جَزاءُ الإِحسانِ إِلَّا الإِحسانُ ﴾","﴿ وَلا يَظلِمُ رَبُّكَ أَحَدًا ﴾","﴿ وَمَن يُؤمِن بِاللَّهِ يَهدِ قَلبَهُ ﴾","﴿ وَكانَ رَبُّكَ قَديرًا ﴾","﴿ وَتَطمَئِنُّ قُلوبُهُم بِذِكرِ اللَّهِ ﴾","﴿ سَيَهديهِم وَيُصلِحُ بالَهُم ﴾","﴿ وَوَجَدَكَ ضالًّا فَهَدى ﴾","﴿ فَاسعَوا إِلى ذِكرِ اللَّهِ ﴾","( إِنّ السّاعَةَ آتِيَةٌ أَكَادُ أُخْفِيهَا )","﴿وَلا تَكونوا كَالَّذينَ نَسُوا اللَّهَ فَأَنساهُم أَنفُسَهُم﴾."," ‏﴿أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ﴾ ","﴿ وَقُلْ رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا ﴾♡.","‏{وَعَسَىٰ أَن تَكْرَهُوا شَيْئًا وَهُوَ خَيْرٌ لَّكُمْ}","{ لاتحزَن إِنَّ الله مَعَنا }"])
         return m.reply_photo(f'https://raw.githubusercontent.com/maknon/Quran/main/pages-douri/{page}.png',reply_markup=InlineKeyboardMarkup (
           [[
-            InlineKeyboardButton (title,url='t.me/P_V_R')
           ]]
         ))
        
@@ -861,14 +846,11 @@ async def EnableAndDisablegroup(c,m):
                     pass
   
   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'رعد'
-  if text == f'{name} اطلعي' or text == f'{name} اطلع':
+  if text == f'{name} اطلع':
     leave_vids = [
-  {'vid':'https://t.me/D7BotResources/154','caption':'غدرتو فيني'},
-  {'vid':'https://t.me/D7BotResources/155','caption':':('},
-  {'vid':'https://t.me/D7BotResources/156','caption':'يلا خلي البوتات الثانيه تدلعكم'},
   {'vid':'https://t.me/D7BotResources/157','caption':'اسف لي'},
   {'vid':'https://t.me/D7BotResources/158','caption':'قلي منهو لجل عينه تغيرت'},
-  {'vid':'https://t.me/D7BotResources/159','caption':'واخيرا برتاح منكم يا نشبه العمر'},]
+  ]
     if owner_pls(m.from_user.id,m.chat.id):
       r.delete(f'{m.chat.id}:enable:{Dev_Zaid}', 1)
       r.srem(f'enablelist:{Dev_Zaid}', m.chat.id)
