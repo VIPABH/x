@@ -116,8 +116,8 @@ def yt_func(c, m, k, channel):
               performer=uploader,
               reply_markup=rep
           )
-          his_name = m.from_user.mention
-          sent_audio.reply(f"بحثك جهز عزيزي ( {his_name} )")
+          # his_name = m.from_user.mention
+          # sent_audio.reply(f"بحثك جهز عزيزي ( {his_name} )")
           link = f'https://t.me/c/{str(m.chat.id).replace("-100", "")}/{sent_audio.id}'
           msg.edit(f"تم التحميل ( [الرابط]({link}) )")
           if sent_audio and getattr(sent_audio, 'audio', None):
