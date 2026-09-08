@@ -1,6 +1,5 @@
 import yt_dlp, os, re, time, wget, json
 from youtube_search import YoutubeSearch as Y88F8
-from pyrogram.types import InputMediaAudio
 from threading import Thread
 from pyrogram import Client, filters
 from pyrogram.enums import *
@@ -108,25 +107,15 @@ def yt_func(c, m, k, channel):
                   thumb_file = wget.download(thumbnail, out=f"downloads/thumb_{video_id}.jpg")
               except Exception:
                   thumb_file = None
-        #   sent_audio = msg.reply_audio(
-        #       audio_file,
-        #       title=title,
-        #       thumb=thumb_file,
-        #       duration=duration,
-        #       caption=f'**enjoy dear** ~ {duration_string} ⏳',
-        #       performer=uploader,
-        #       reply_markup=rep
-        #   )
           sent_audio = msg.edit_media(
-            media=InputMediaAudio(
-                media=audio_file,
-                thumb=thumb_file,
-                caption=f"**enjoy dear** ~ {duration_string} ⏳",
-                title=title,
-                performer=uploader,
-                duration=duration
-            ),
-            reply_markup=rep)
+              audio_file,
+              title=title,
+              thumb=thumb_file,
+              duration=duration,
+              caption=f'**enjoy dear** ~ {duration_string} ⏳',
+              performer=uploader,
+              reply_markup=rep
+          )
           his_name = m.from_user.mention
           m.reply(f"بحثك جهز عزيزي ( {his_name} )")
           if sent_audio and getattr(sent_audio, 'audio', None):
