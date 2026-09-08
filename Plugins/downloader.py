@@ -108,14 +108,16 @@ def yt_func(c, m, k, channel):
               except Exception:
                   thumb_file = None
           sent_audio = msg.edit_media(
-              audio_file,
-              title=title,
-              thumb=thumb_file,
-              duration=duration,
-              caption=f'**enjoy dear** ~ {duration_string} ⏳',
-              performer=uploader,
-              reply_markup=rep
-          )
+            media=InputMediaAudio(
+            media=audio_file,
+            thumb=thumb_file,
+            caption=f'**enjoy dear** ~ {duration_string} ⏳',
+            title=title,
+            performer=uploader,
+            duration=duration
+        ),
+        reply_markup=rep
+    )          
           his_name = m.from_user.mention
           m.reply(f"بحثك جهز عزيزي ( {his_name} )")
           if sent_audio and getattr(sent_audio, 'audio', None):
