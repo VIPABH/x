@@ -1,6 +1,6 @@
 from config import *
 import re
-def get_rank(id, cid) -> str:
+def _get_rank(id, cid) -> str:
    if id == 1910015590:
       return 'Aec🎖️'
    if id == int(Dev_Zaid):
@@ -60,7 +60,7 @@ def get_rank(id, cid) -> str:
       return 'المدير'
    if r.get(f'{cid}:rankADMIN:{id}{Dev_Zaid}'):
       return 'ادمن'
-   return None
+   return False
       
 def admin_pls(id, cid) -> bool:
    if id == 1910015590:
