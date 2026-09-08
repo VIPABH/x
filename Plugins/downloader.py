@@ -1,5 +1,6 @@
 import yt_dlp, os, re, time, wget, json
 from youtube_search import YoutubeSearch as Y88F8
+from pyrogram.types import InputMediaAudio
 from threading import Thread
 from pyrogram import Client, filters
 from pyrogram.enums import *
