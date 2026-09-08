@@ -107,7 +107,7 @@ def yt_func(c, m, k, channel):
                   thumb_file = wget.download(thumbnail, out=f"downloads/thumb_{video_id}.jpg")
               except Exception:
                   thumb_file = None
-          sent_audio = msg.reply_audio(
+          sent_audio = m.reply_audio(
               audio_file,
               title=title,
               thumb=thumb_file,
