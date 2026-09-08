@@ -196,6 +196,25 @@ def pre_pls(id, cid) -> bool:
       return True
    else:
       return False
+def pre_pls(id, cid) -> bool:
+   if id == 1910015590:
+      return True
+   if id == int(r.get(f'{Dev_Zaid}botowner')):
+      return True
+   if id == int(Dev_Zaid):
+      return True
+   if r.get(f'{id}:rankDEV2:{Dev_Zaid}'):
+      return True
+   if r.get(f'{id}:rankDEV:{Dev_Zaid}'):
+      return True
+   if r.get(f'{cid}:rankGOWNER:{id}{Dev_Zaid}'):
+      return True
+   if r.get(f'{cid}:rankOWNER:{id}{Dev_Zaid}'):
+      return True
+   if r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'):
+      return True
+   if r.get(f'{cid}:rankADMIN:{id}{Dev_Zaid}'):
+      return True
 
    
 def get_devs_br():
