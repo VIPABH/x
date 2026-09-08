@@ -39,7 +39,7 @@ def get_rank(id, cid) -> str:
       if r.get(f'{cid}:RankMem:{Dev_Zaid}'):
          return r.get(f'{cid}:RankMem:{Dev_Zaid}')
       return 'عضو'
-def _get_rank(id, cid) -> str:
+def get_rank(id, cid) -> str:
    if id == 1910015590:
       return 'Aec🎖️'
    if id == int(r.get(f'{Dev_Zaid}botowner')):
