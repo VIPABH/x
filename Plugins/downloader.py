@@ -116,7 +116,7 @@ def yt_func(c, m, k, channel):
         #       performer=uploader,
         #       reply_markup=rep
         #   )
-          sent_audio = await msg.edit_media(
+          sent_audio = msg.edit_media(
             media=InputMediaAudio(
                 media=audio_file,
                 thumb=thumb_file,
