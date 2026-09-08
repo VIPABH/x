@@ -2070,7 +2070,7 @@ def guardCommands(c, m, k, channel):
             if m.from_user.id == m.reply_to_message.from_user.id:
                 return m.reply("شفيك تبي تنزل نفسك")
             get = m.chat.get_member(m.reply_to_message.from_user.id)
-            rank = _get_rank(m.reply_to_message.from_user.id, m.chat.id)
+            rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
             if rank:
                 return m.reply(f"{k} هييه مايمديك تقييد {rank} ياورع!")
             if get.status == ChatMemberStatus.RESTRICTED:
