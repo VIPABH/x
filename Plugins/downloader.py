@@ -118,7 +118,7 @@ def yt_func(c, m, k, channel):
           )
           his_name = m.from_user.mention
           sent_audio.reply(f"بحثك جهز عزيزي ( {his_name} )")
-          link = f'https://t.me/c/{str(m.chat_id).replace("-100", "")}/{sent_audio.id}'
+          link = f'https://t.me/c/{str(m.chat.id).replace("-100", "")}/{sent_audio.id}'
           msg.edit(f"تم التحميل ( [الرابط]({link}) )")
           if sent_audio and getattr(sent_audio, 'audio', None):
               ytdb.set(f'ytvideo{video_id}', {
