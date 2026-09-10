@@ -894,7 +894,7 @@ def get_my_rank(c,m,k):
       create = str(create_val) if create_val and not isinstance(create_val, bool) else 'غير متاح'
 
       try:
-          user_chat = await c.get_chat(user.id)
+          user_chat = c.get_chat(user.id)
           bio = user_chat.bio if user_chat.bio else 'مافي بايو'
       except Exception:
           bio = 'مافي بايو'
@@ -930,7 +930,7 @@ def get_my_rank(c,m,k):
       )
 
       if r.get(f'{m.chat.id}:disableIDPHOTO:{Dev_Zaid}'):
-          return await m.reply(text_out, disable_web_page_preview=True)
+          return m.reply(text_out, disable_web_page_preview=True)
       else:
          if m.from_user.photo:
            get_user = c.invoke(GetFullUser(id=(c.resolve_peer(m.from_user.id))))
