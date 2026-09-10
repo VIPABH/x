@@ -2318,38 +2318,7 @@ def guardCommands(c, m, k, channel):
             m.chat.ban_member(get.user.id)
             m.chat.unban_member(get.user.id)
             return m.reply(f"「 {get.user.mention} 」 \n{k} طردته\n☆")
-    if text == "اهمس" and m.reply_to_message and m.reply_to_message.from_user:
-        if r.get(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}"):
-            return m.reply(f"{k} امر اهمس معطل")
-        user_id = m.reply_to_message.from_user.id
-        if user_id == m.from_user.id:
-            return m.reply(f"{k} مافيك تهمس لنفسك ياغبي")
-        else:
-            import uuid
-
-            id = str(uuid.uuid4())[:6]
-            a = m.reply(
-                f"{k} تم تحديد الهمسة الى [ {m.reply_to_message.from_user.mention} ]",
-                reply_markup=InlineKeyboardMarkup(
-                    [
-                        [
-                            InlineKeyboardButton(
-                                f"اهمس الى [ {m.reply_to_message.from_user.first_name[:25]} ]",
-                                url=f"t.me/{c.me.username}?start=hmsa{id}",
-                            )
-                        ]
-                    ]
-                ),
-            )
-            data = {
-                "from": m.from_user.id,
-                "to": user_id,
-                "chat": m.chat.id,
-                "id": a.id,
-            }
-            # wsdb.set(str(id), data)
-            wsdb.setex(key=id, ttl=3600, value=data)
-            return True
+    
     if text == "تعطيل التنظيف":
         if not gowner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المالك الاساسي وفوق ) بس")
