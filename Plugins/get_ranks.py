@@ -8,7 +8,7 @@ from helpers.Ranks import isLockCommand
 @Client.on_message(filters.text & filters.group, group=12)
 def getRanksHandler(c,m):
     k = r.get(f'{Dev_Zaid}:botkey')
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'x04ou'
+    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'yqyqy66'
     Thread(target=get_ranks_func,args=(c,m,k,channel)).start()
     
 def get_ranks_func(c,m,k,channel):
@@ -21,7 +21,7 @@ def get_ranks_func(c,m,k,channel):
     
    if r.get(f'{m.chat.id}addCustomG:{m.from_user.id}{Dev_Zaid}'):  return 
    text = m.text
-   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'أكس گارد'
+   name = r.get(f'{Dev_Zaid}:BotName') if r.get(f'{Dev_Zaid}:BotName') else 'رعد'
    if text.startswith(f'{name} '):
       text = text.replace(f'{name} ','')
    if r.get(f'{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}'):
@@ -280,9 +280,48 @@ def get_ranks_func(c,m,k,channel):
                count += 1
           text += '\n☆'
           m.reply(text)
+   if text == 'كشف المجموعة':
+      if not admin_pls(m.from_user.id, m.chat.id):
+          return m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
+      cid = m.chat.id
+      ranks = [
+      ("المالكين الاساسيين", f"{cid}:listGOWNER:{Dev_Zaid}"),
+      ("المالكين", f"{cid}:listOWNER:{Dev_Zaid}"),
+      ("المدراء", f"{cid}:listMOD:{Dev_Zaid}"),
+      ("الادمنيه", f"{cid}:listADMIN:{Dev_Zaid}"),
+      ("المميزين", f"{cid}:listPRE:{Dev_Zaid}")
+  ]
+      text_output = ''
+      for rank_name, redis_key in ranks:
+          users = r.smembers(redis_key)
+          if users:
+              text_output += f'- {rank_name}:\n\n'
+              count = 1
+          for user_id in users:
+              if count == 101: 
+                  break
+              try:
+                  user = c.get_users(int(user_id))
+                  mention = user.mention
+                  uid = user.id
+                  username = user.username
+                  if username:
+                      text_output += f'{count} ➣ @{username} ࿓ ( `{uid}` )\n'
+                  else:
+                      text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
+                  count += 1
+              except:
+                  uid = int(user_id)
+                  mention = f'[@{channel}](tg://user?id={uid})'
+                  text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
+                  count += 1
+          text_output += '\n☆\n'
+      if not text_output:
+        text_output = f'{k} مافيه اعضاء مسجلين بالرتب المطلوبة'
+      m.reply(text_output)
 @Client.on_message(filters.regex(r"^كشف المجموع[هة]$"))
 async def check_group_info(client, m):
-    if not await admin_pls(m.from_user.id, m.chat.id):
+    if not admin_pls(m.from_user.id, m.chat.id):
         return await m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
 
     cid = m.chat.id
