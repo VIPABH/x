@@ -93,9 +93,9 @@ def Find(text):
 
 @Client.on_message(filters.group, group=-1111111111111)
 async def on_zbi(c: Client, m: Message):
-    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "العم جتو"
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "X"
     text = m.text
-    if text and text.startswith(f"{name} "):
+    if text.startswith(f"{name} "):
         text = text.replace(f"{name} ", "")
     if r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}"):
         text = r.get(f"{m.chat.id}:Custom:{m.chat.id}{Dev_Zaid}&text={text}")
@@ -230,6 +230,7 @@ def guardResponseFunction(c, m, k, channel):
             file_id = rep.audio.file_id
         if rep.document:
             file_id = rep.document.file_id
+        else print(rep)
         idd = file_id[-6:]
         if r.get(f"{idd}:NotAllow:{m.chat.id}{Dev_Zaid}"):
             if not admin_pls(id, m.chat.id):
@@ -595,13 +596,13 @@ def guardCommands(c, m, k, channel):
 {k} الفارسية ⇠ ( {x24} )
 {k} دخول الإيراني ⇠ ( {x25} )
 {k} الإباحي ⇠ ( {x26} )
-""")
+~ @{channel}""")
     if text == "الساعه" or text == "الساعة" or text == "الوقت":
         TIME_ZONE = "Asia/Riyadh"
         ZONE = pytz.timezone(TIME_ZONE)
         TIME = datetime.now(ZONE)
         clock = TIME.strftime("%I:%M %p")
-        return m.reply(f"{k} {text} ( {clock} )")
+        return m.reply(f"{k} الساعة ( {clock} )")
     if text == "القوانين":
         if r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}"):
             rules = r.get(f"{m.chat.id}:CustomRules:{Dev_Zaid}")
@@ -869,6 +870,29 @@ def guardCommands(c, m, k, channel):
         os.remove(f"zaid{id}.wav")
         return m.reply(f"يقول : {text}")
 
+    if (
+        (text == "zaid" or text == "زوز")
+        and m.reply_to_message
+        and m.reply_to_message.voice
+        and m.from_user.id == ABH
+    ):
+        if m.reply_to_message.voice.file_size > 20971520:
+            return m.reply("حجمه اكثر من ٢٠ ميجابايت، توكل")
+        id = random.randint(99, 1000)
+        voice = m.reply_to_message.download(f"./zaid{id}.wav")
+        s = sr.Recognizer()
+        sound = AudioSegment.from_ogg(voice)
+        wav_file = sound.export(voice, format="wav")
+        with sr.AudioFile(wav_file) as src:
+            audio_source = s.record(src)
+        try:
+            text = s.recognize_google(audio_source, language="en-US")
+        except Exception as e:
+            print(e)
+            os.remove(f"zaid{id}.wav")
+            return m.reply("عجزت افهم وش يقول ")
+        os.remove(f"zaid{id}.wav")
+        return m.reply(f"يقول : {text}")
     if text.startswith("منع "):
         if mod_pls(m.from_user.id, m.chat.id):
             noice = text.split(None, 1)[1]
@@ -1787,6 +1811,33 @@ def guardCommands(c, m, k, channel):
                 return m.reply(
                     f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت الانستا\n☆"
                 )
+    if text == "تعطيل اهمس":
+        if not mod_pls(m.from_user.id, m.chat.id):
+            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
+        else:
+            if r.get(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}"):
+                return m.reply(
+                    f"{k} من「 {m.from_user.mention} 」\n{k} اهمس معطل من قبل\n☆"
+                )
+            else:
+                r.set(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}", 1)
+                return m.reply(
+                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر عطلت اهمس\n☆"
+                )
+    if text == "تفعيل اهمس":
+        if not mod_pls(m.from_user.id, m.chat.id):
+            return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
+        else:
+            if not r.get(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}"):
+                return m.reply(
+                    f"{k} من「 {m.from_user.mention} 」\n{k} اهمس مفعل من قبل\n☆"
+                )
+            else:
+                r.delete(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}")
+                return m.reply(
+                    f"{k} من「 {m.from_user.mention} 」\n{k} ابشر فعلت اهمس\n☆"
+                )
+
     if text == "تعطيل التيك":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الامر يخص ( المدير وفوق ) بس")
@@ -2070,8 +2121,8 @@ def guardCommands(c, m, k, channel):
             if m.from_user.id == m.reply_to_message.from_user.id:
                 return m.reply("شفيك تبي تنزل نفسك")
             get = m.chat.get_member(m.reply_to_message.from_user.id)
-            rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
-            if rank:
+            if pre_pls(m.reply_to_message.from_user.id, m.chat.id):
+                rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
                 return m.reply(f"{k} هييه مايمديك تقييد {rank} ياورع!")
             if get.status == ChatMemberStatus.RESTRICTED:
                 return m.reply(
@@ -2210,8 +2261,8 @@ def guardCommands(c, m, k, channel):
                 get = m.chat.get_member(user)
                 if m.from_user.id == get.user.id:
                     return m.reply("شفيك تبي تنزل نفسك")
-                rank = get_rank(get.user.id, m.chat.id)
-                if rank:
+                if pre_pls(get.user.id, m.chat.id):
+                    rank = get_rank(get.user.id, m.chat.id)
                     return m.reply(f"{k} هييه مايمديك تحظر {rank} ياورع!")
                 if get.status == ChatMemberStatus.BANNED:
                     return m.reply(f"「 {get.user.mention} 」 \n{k} محظور من قبل\n☆")
@@ -2226,8 +2277,8 @@ def guardCommands(c, m, k, channel):
             if m.from_user.id == m.reply_to_message.from_user.id:
                 return m.reply("شفيك تبي تنزل نفسك")
             get = m.chat.get_member(m.reply_to_message.from_user.id)
-            rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
-            if rank:
+            if pre_pls(m.reply_to_message.from_user.id, m.chat.id):
+                rank = get_rank(m.reply_to_message.from_user.id, m.chat.id)
                 return m.reply(f"{k} هييه مايمديك تحظر {rank} ياورع!")
             if get.status == ChatMemberStatus.BANNED:
                 return m.reply(
@@ -2266,8 +2317,8 @@ def guardCommands(c, m, k, channel):
                 get = m.chat.get_member(user)
                 if m.from_user.id == get.user.id:
                     return m.reply("شفيك تبي تنزل نفسك")
-                rank = get_rank(get.user.id, m.chat.id)
-                if rank:
+                if pre_pls(get.user.id, m.chat.id):
+                    rank = get_rank(get.user.id, m.chat.id)
                     return m.reply(f"{k} هييه مايمديك تطرد {rank} ياورع!")
                 if get.status == ChatMemberStatus.BANNED:
                     return m.reply(f"「 {get.user.mention} 」 \n{k} مطرود من قبل\n☆")
@@ -2276,6 +2327,38 @@ def guardCommands(c, m, k, channel):
             m.chat.ban_member(get.user.id)
             m.chat.unban_member(get.user.id)
             return m.reply(f"「 {get.user.mention} 」 \n{k} طردته\n☆")
+    if text == "اهمس" and m.reply_to_message and m.reply_to_message.from_user:
+        if r.get(f"{m.chat.id}:disableWHISPER:{Dev_Zaid}"):
+            return m.reply(f"{k} امر اهمس معطل")
+        user_id = m.reply_to_message.from_user.id
+        if user_id == m.from_user.id:
+            return m.reply(f"{k} مافيك تهمس لنفسك ياغبي")
+        else:
+            import uuid
+
+            id = str(uuid.uuid4())[:6]
+            a = m.reply(
+                f"{k} تم تحديد الهمسة الى [ {m.reply_to_message.from_user.mention} ]",
+                reply_markup=InlineKeyboardMarkup(
+                    [
+                        [
+                            InlineKeyboardButton(
+                                f"اهمس الى [ {m.reply_to_message.from_user.first_name[:25]} ]",
+                                url=f"t.me/{c.me.username}?start=hmsa{id}",
+                            )
+                        ]
+                    ]
+                ),
+            )
+            data = {
+                "from": m.from_user.id,
+                "to": user_id,
+                "chat": m.chat.id,
+                "id": a.id,
+            }
+            # wsdb.set(str(id), data)
+            wsdb.setex(key=id, ttl=3600, value=data)
+            return True
     if text == "تعطيل التنظيف":
         if not gowner_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المالك الاساسي وفوق ) بس")
@@ -2507,6 +2590,9 @@ def guardCommands(c, m, k, channel):
         else:
             return m.reply(get.mention)
 
+    if text == "بايو عشوائي":
+        return m.reply(f"{k} تحت الصيانة")
+
     if text == "مسح" and m.reply_to_message:
         if admin_pls(m.from_user.id, m.chat.id):
             m.reply_to_message.delete()
@@ -2658,8 +2744,13 @@ def guardCommands(c, m, k, channel):
         or text.lower() == f"/commands@{botUsername.lower()}"
     ):
         if admin_pls(m.from_user.id, m.chat.id):
+            channel = (
+                r.get(f"{Dev_Zaid}:BotChannel")
+                if r.get(f"{Dev_Zaid}:BotChannel")
+                else "wfffp"
+            )
             return m.reply(
-                f"{k} اهلين فيك باوامر البوت",
+                f"{k} اهلين فيك باوامر البوت\n\nللاستفسار - @{channel}",
                 reply_markup=InlineKeyboardMarkup(
                     [
                         [
@@ -2716,6 +2807,7 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands1:{m.from_user.id}":
         m.edit_message_text(
             f"""
+للاستفسار - @{channel}
 
 
 ❨ اوامر الرفع والتنزيل ❩
@@ -2828,6 +2920,7 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands2:{m.from_user.id}":
         m.edit_message_text(
             f"""
+للاستفسار - @{channel}
 
 
 ❨ اوامر الوضع ❩
@@ -2901,6 +2994,7 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands3:{m.from_user.id}":
         m.edit_message_text(
             f"""
+للاستفسار - @{channel}
 
 
 ❨ اوامر الردود ❩
@@ -3088,6 +3182,7 @@ def CallbackQueryResponse(c, m, channel):
     if m.data == f"commands5:{m.from_user.id}":
         m.edit_message_text(
             f"""
+للاستفسار - @{channel}
 
 🍰 ⌯ رفع ↣ ↢ تنزيل كيكه
 🍯 ⌯ رفع ↣ ↢ تنزيل عسل
@@ -3649,7 +3744,7 @@ def CallbackQueryResponse(c, m, channel):
        m.edit_message_text(text, disable_web_page_preview=True,reply_markup=rep)
    """
 
-    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "أكس گارد"
+    name = r.get(f"{Dev_Zaid}:BotName") if r.get(f"{Dev_Zaid}:BotName") else "رعد"
     if m.data == f"RPS:rock++{m.from_user.id}":
         RPS = ["paper", "scissors", "rock"]
         kk = random.choice(RPS)
@@ -3808,6 +3903,7 @@ def CallbackQueryResponse(c, m, channel):
                 disable_web_page_preview=True,
                 reply_markup=rep,
             )
+
     if m.data == f"RPS:scissors++{m.from_user.id}":
         RPS = ["paper", "scissors", "rock"]
         kk = random.choice(RPS)
