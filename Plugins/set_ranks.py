@@ -342,7 +342,7 @@ def ranks_reply_promote(c,m,k):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
             r.srem(f'{m.chat.id}:listMUTE:{Dev_Zaid}', id)
           return 
-    target_rank = _get_rank(id, cid)
+    target_rank = get_rank_ABH(id, cid)
     ranks_value = {
       'المالك': 'RankOwner',
       'المدير': 'RankMod',
