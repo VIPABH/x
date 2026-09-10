@@ -345,7 +345,7 @@ def ranks_reply_promote(c,m,k):
     ranks_value = {
       'المالك': 'RankOwner',
       'المدير': 'RankMod',
-      'الادمن': 'rankADMIN',
+      'ادمن': 'rankADMIN',
       'مميز': 'rankPRE',
     }
     
