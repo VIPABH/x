@@ -944,7 +944,7 @@ def get_my_rank(c,m,k):
               file = BytesIO()
               hash = photo.access_hash
               if r.get(f"{hash}:{m.from_user.id}"):
-                return m.reply_animation(r.get(f"{hash}:{m.from_user.id}"), caption=text)
+                return m.reply_animation(r.get(f"{hash}:{m.from_user.id}"), caption=text_out)
               for byte in c.stream_media(
                 message=FileId(
                   file_type=FileType.PHOTO,
@@ -959,7 +959,7 @@ def get_my_rank(c,m,k):
               ):
                 file.write(byte)
               file.name = f'{m.from_user.id}vid{m.chat.id}.mp4'
-              send = m.reply_animation(file, caption=text)
+              send = m.reply_animation(file, caption=text_out)
               r.set(f"{hash}:{m.from_user.id}",send.animation.file_id,ex=3600)
               return True
            else:
@@ -975,9 +975,9 @@ def get_my_rank(c,m,k):
                         volume_id=0,
                         local_id=0
                     ).encode()
-              return m.reply_photo(file_id, caption=text)
+              return m.reply_photo(file_id, caption=text_out)
          else:
-           return m.reply(text, disable_web_page_preview=True)
+           return m.reply(text_out, disable_web_page_preview=True)
 
 
 @Client.on_message(filters.new_chat_members, group=1)
