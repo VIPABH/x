@@ -341,7 +341,7 @@ async def check_group_info(client, m):
     for rank_name, redis_key in ranks:
         users_set = r.smembers(redis_key)
         if users_set:
-            user_ids = [int(u) for u in list(users_set)[:100]]
+            user_ids = [int(u) for u in sorted(users_set)[:100]]
             all_user_ids.update(user_ids)
             ranks_data.append((rank_name, user_ids))
 
