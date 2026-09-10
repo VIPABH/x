@@ -1,18 +1,3 @@
-'''
-
-
-██████╗░██████╗░██████╗░
-██╔══██╗╚════██╗██╔══██╗
-██████╔╝░█████╔╝██║░░██║
-██╔══██╗░╚═══██╗██║░░██║
-██║░░██║██████╔╝██████╔╝
-╚═╝░░╚═╝╚═════╝░╚═════╝░
-
-
-[ = This plugin is a part from R3D Source code = ]
-{"Developer":"https://t.me/yqyqy66"}
-
-'''
 
 import random, re, time
 from threading import Thread
@@ -357,6 +342,13 @@ def ranks_reply_promote(c,m,k):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
             r.srem(f'{m.chat.id}:listMUTE:{Dev_Zaid}', id)
           return 
+    target_rank = _get_rank(id, cid)
+    ranks_value = {
+      'المالك': 'RankOwner',
+      'المدير': 'RankMod',
+      'الادمن': 'rankADMIN',
+      'المميز': 'rankPRE',
+    }
     
     if text.startswith('رفع مالك '):
         if not '@' in text and not re.findall('[0-9]+', text):
@@ -396,11 +388,12 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankOWNER:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listOWNER:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مالك\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
             r.srem(f'{m.chat.id}:listMUTE:{Dev_Zaid}', id)
-    
     if text == 'رفع مالك' and m.reply_to_message and m.reply_to_message.from_user:
         if not gowner_pls(m.from_user.id,m.chat.id):
           return m.reply(f'{k} هذا الامر يخص ( المالك الاساسي ) بس')
@@ -418,7 +411,12 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankOWNER:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listOWNER:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مالك\n☆')
+          rank_name = ranks_value[target_rank]
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
             r.srem(f'{m.chat.id}:listMUTE:{Dev_Zaid}', id)
@@ -461,6 +459,8 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankMOD:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listMOD:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مدير\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
@@ -482,6 +482,8 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankMOD:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listMOD:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مدير\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
@@ -525,6 +527,8 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankADMIN:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listADMIN:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار ادمن\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
@@ -590,6 +594,8 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankPRE:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listPRE:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مميز\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
@@ -612,6 +618,8 @@ def ranks_reply_promote(c,m,k):
         else:
           r.set(f'{cid}:rankPRE:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listPRE:{Dev_Zaid}', id)
+          r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
+          r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مميز\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
