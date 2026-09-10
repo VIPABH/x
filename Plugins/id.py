@@ -893,12 +893,11 @@ def get_my_rank(c,m,k):
       create_val = get_creation_date(user.id)
       create = str(create_val) if create_val and not isinstance(create_val, bool) else 'غير متاح'
 
-      try:
-          user_chat = c.get_chat(user.id)
-          bio = user_chat.bio if user_chat.bio else 'مافي بايو'
-      except Exception:
-          bio = 'مافي بايو'
-
+      get_chat = c.get_chat(m.from_user.id)
+      if get_chat.bio :
+         bio = get_chat.bio
+      else:
+         bio = 'مافي بايو'
       if msg > 10000:
           tfa3l = 'اسطورة التلي'
       elif msg > 5000:
