@@ -323,7 +323,7 @@ def get_ranks_func(c,m,k,channel):
 async def check_group_info(client, m):
     if not admin_pls(m.from_user.id, m.chat.id):
         return await m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
-
+    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'yqyqy66'
     cid = m.chat.id
     text_output = ""
     
