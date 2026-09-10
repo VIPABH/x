@@ -912,7 +912,17 @@ def get_my_rank(c,m,k):
       else:
         tfa3l = 'تفاعل صفر'
       comment = random.choice(comments)
-      text = id.replace('{الاسم}', name).replace('{اليوزر}', username).replace('{الرسائل}',str(msgs)).replace('{التعديل}', str(edits)).replace('{الانشاء}', create).replace('{البايو}', f'{bio}').replace('{الايدي}', iD).replace('{الرتبه}', rank).replace('{التفاعل}', tfa3l).replace('{تعليق}', comment)
+      text_out = (
+              id_template.replace('{الاسم}', str(name))
+              .replace('{اليوزر}', str(username))
+              .replace('{الرسائل}', str(msgs))
+              .replace('{التعديل}', str(edits))
+              .replace('{الانشاء}', str(create))
+              .replace('{البايو}', str(bio))
+              .replace('{الايدي}', str(iD))
+              .replace('{الرتبه}', str(rank))
+              .replace('{التفاعل}', str(tfa3l))
+              .replace('{تعليق}', str(comment)))
       if r.get(f'{m.chat.id}:disableIDPHOTO:{Dev_Zaid}'):
          return m.reply(text, disable_web_page_preview=True)
       else:
@@ -997,4 +1007,3 @@ def set_id(c,m,k):
        text = r.get(f'Custom:{Dev_Zaid}&text={text}')
 
 '''
-
