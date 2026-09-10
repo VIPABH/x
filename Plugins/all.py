@@ -2059,30 +2059,20 @@ def guardCommands(c, m, k, channel):
     if text == "مسح المقيدين":
         if not mod_pls(m.from_user.id, m.chat.id):
             return m.reply(f"{k} هذا الأمر يخص ( المدير وفوق ) بس")
+
+        co = 0
+        
+        for mm in c.get_chat_members(m.chat.id, filter=enums.ChatMembersFilter.RESTRICTED):
+            co += 1
+            try:
+                c.unban_chat_member(m.chat.id, mm.user.id)
+            except Exception:
+                pass
+
+        if co == 0:
+            return m.reply(f"{k} مافيه مقيديين")
         else:
-            co = 0
-            for mm in c.get_chat_members(
-                m.chat.id, filter=ChatMembersFilter.RESTRICTED
-            ):
-                co += 1
-                c.restrict_chat_member(
-                    m.chat.id,
-                    mm.user.id,
-                    ChatPermissions(
-                        can_send_messages=True,
-                        can_send_media_messages=True,
-                        can_send_other_messages=True,
-                        can_send_polls=True,
-                        can_invite_users=True,
-                        can_add_web_page_previews=True,
-                        can_change_info=True,
-                        can_pin_messages=True,
-                    ),
-                )
-            if co == 0:
-                return m.reply(f"{k} مافيه مقيديين")
-            else:
-                return m.reply(f"{k} ابشر مسحت ( {co} ) من المقيدين")
+            return m.reply(f"{k} ابشر مسحت ( {co} ) من المقيدين")
     if text == "تثبيت" and m.reply_to_message:
         if mod_pls(m.from_user.id, m.chat.id):
             m.reply_to_message.pin(disable_notification=False)
