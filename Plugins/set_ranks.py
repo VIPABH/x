@@ -346,7 +346,7 @@ def ranks_reply_promote(c,m,k):
       'المالك': 'RankOwner',
       'المدير': 'RankMod',
       'الادمن': 'rankADMIN',
-      'المميز': 'rankPRE',
+      'مميز': 'rankPRE',
     }
     
     if text.startswith('رفع مالك '):
