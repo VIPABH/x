@@ -35,10 +35,6 @@ def _get_rank(id, cid) -> str:
       if r.get(f'{cid}:RankPre:{Dev_Zaid}'):
          return r.get(f'{cid}:RankPre:{Dev_Zaid}')
       return 'مميز'
-   else:
-      if r.get(f'{cid}:RankMem:{Dev_Zaid}'):
-         return r.get(f'{cid}:RankMem:{Dev_Zaid}')
-      return 'عضو'
 def get_rank(id, cid) -> str:
    if id == 1910015590:
       return 'Aec🎖️'
