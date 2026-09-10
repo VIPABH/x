@@ -1,6 +1,6 @@
 from config import *
 import re
-def _get_rank(id, cid) -> str:
+def get_rank_ABH(id, cid) -> str:
    if id == 1910015590:
       return 'Aec🎖️'
    if id == int(Dev_Zaid):
