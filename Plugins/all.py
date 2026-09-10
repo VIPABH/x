@@ -231,7 +231,7 @@ def guardResponseFunction(c, m, k, channel):
         if rep.document:
             file_id = rep.document.file_id
         else:
-            print(rep)
+            pass
         idd = file_id[-6:]
         if r.get(f"{idd}:NotAllow:{m.chat.id}{Dev_Zaid}"):
             if not admin_pls(id, m.chat.id):
