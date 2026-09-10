@@ -592,6 +592,7 @@ def ranks_reply_promote(c,m,k):
         if r.get(f'{cid}:rankPRE:{id}{Dev_Zaid}'):
           return m.reply(f'「 {mention} 」\n{k} مميز من قبل\n☆')
         else:
+          print(id)
           target_rank = get_rank_ABH(id, cid)
           rank_name = ranks_value[target_rank]
           r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
