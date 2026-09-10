@@ -862,69 +862,75 @@ def get_my_rank(c,m,k):
        return m.reply(f'الايدي ↢ ( `{m.reply_to_message.from_user.id}` )')
 
    if (text == 'ايدي' or text.lower() == 'id') and not m.reply_to_message:
-      if r.get(f'{m.chat.id}:disableID:{Dev_Zaid}'):  return
+      if r.get(f'{m.chat.id}:disableID:{Dev_Zaid}'):
+          return
+
       if r.get(f'{m.chat.id}:customID:{Dev_Zaid}'):
-         id = r.get(f'{m.chat.id}:customID:{Dev_Zaid}')
+          id_template = r.get(f'{m.chat.id}:customID:{Dev_Zaid}')
+      elif r.get(f'customID:{Dev_Zaid}'):
+          id_template = r.get(f'customID:{Dev_Zaid}')
       else:
-         if r.get(f'customID:{Dev_Zaid}'):
-           id = r.get(f'customID:{Dev_Zaid}')
-         else:
-           id = '''
-𖡋 𝐔𝐒𝐄 ⌯  {اليوزر}
-𖡋 𝐌𝐒𝐆 ⌯  {الرسائل}
-𖡋 𝐒𝐓𝐀 ⌯  {الرتبه}
-𖡋 𝐈𝐃 ⌯  {الايدي}
-𖡋 𝐄𝐃𝐈𝐓 ⌯  {التعديل}
-𖡋 𝐂𝐑  ⌯  {الانشاء}
-{البايو}'''
-      if m.from_user.username:
-         username = f'@{m.from_user.username}'
-      else:
-         username = 'مافي يوزر'
-      rank = get_rank(m.from_user.id, m.chat.id)
-      msg = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{m.from_user.id}'))
-      msgs = f"{msg}"
-      iD = f'`{m.from_user.id}`'
-      if not r.get(f'{m.chat.id}:TotalEDMsgs:{m.from_user.id}{Dev_Zaid}'):
-         edits = 0
-      else:
-         edit= int(r.get(f'{m.chat.id}:TotalEDMsgs:{m.from_user.id}{Dev_Zaid}'))
-         edits = f"{edit}"
-      name = m.from_user.first_name
-      create = get_creation_date(m.from_user.id)
-      get_chat = c.get_chat(m.from_user.id)
-      if get_chat.bio :
-         bio = get_chat.bio
-      else:
-         bio = 'مافي بايو'
-      if msg > 50:
-        tfa3l = 'شد حيلك'
-      if msg > 500:
-        tfa3l = 'يجي منك'
-      if msg > 750:
-        tfa3l = 'تفاعل متوسط'
-      if msg > 2500:
-        tfa3l = 'متفاعل'
-      if msg > 5000:
-        tfa3l = 'اسطورة التفاعل'
+          id_template = '''
+  𖡋 𝐔𝐒𝐄 ⌯  {اليوزر}
+  𖡋 𝐌𝐒𝐆 ⌯  {الرسائل}
+  𖡋 𝐒𝐓𝐀 ⌯  {الرتبه}
+  𖡋 𝐈𝐃 ⌯  {الايدي}
+  𖡋 𝐄𝐃𝐈𝐓 ⌯  {التعديل}
+  𖡋 𝐂𝐑  ⌯  {الانشاء}
+  {البايو}'''
+      user = m.from_user
+      username = f'@{user.username}' if user.username else 'مافي يوزر'
+      name = user.first_name or ''
+      iD = f'`{user.id}`'
+      rank = get_rank(user.id, m.chat.id)
+
+      msg = int(r.get(f'{Dev_Zaid}{m.chat.id}:TotalMsgs:{user.id}') or 0)
+      msgs = str(msg)
+
+      edit_raw = r.get(f'{m.chat.id}:TotalEDMsgs:{user.id}{Dev_Zaid}')
+      edits = str(int(edit_raw)) if edit_raw else "0"
+
+      create_val = get_creation_date(user.id)
+      create = str(create_val) if create_val and not isinstance(create_val, bool) else 'غير متاح'
+
+      try:
+          user_chat = await c.get_chat(user.id)
+          bio = user_chat.bio if user_chat.bio else 'مافي بايو'
+      except Exception:
+          bio = 'مافي بايو'
+
       if msg > 10000:
-        tfa3l = 'اسطورة التلي'
+          tfa3l = 'اسطورة التلي'
+      elif msg > 5000:
+          tfa3l = 'اسطورة التفاعل'
+      elif msg > 2500:
+          tfa3l = 'متفاعل'
+      elif msg > 750:
+          tfa3l = 'تفاعل متوسط'
+      elif msg > 500:
+          tfa3l = 'يجي منك'
+      elif msg > 50:
+          tfa3l = 'شد حيلك'
       else:
-        tfa3l = 'تفاعل صفر'
-      comment = random.choice(comments)
+          tfa3l = 'تفاعل صفر'
+
+      comment = random.choice(comments) if 'comments' in globals() and comments else ''
+
       text_out = (
-              id_template.replace('{الاسم}', str(name))
-              .replace('{اليوزر}', str(username))
-              .replace('{الرسائل}', str(msgs))
-              .replace('{التعديل}', str(edits))
-              .replace('{الانشاء}', str(create))
-              .replace('{البايو}', str(bio))
-              .replace('{الايدي}', str(iD))
-              .replace('{الرتبه}', str(rank))
-              .replace('{التفاعل}', str(tfa3l))
-              .replace('{تعليق}', str(comment)))
+          id_template.replace('{الاسم}', str(name))
+          .replace('{اليوزر}', str(username))
+          .replace('{الرسائل}', str(msgs))
+          .replace('{التعديل}', str(edits))
+          .replace('{الانشاء}', str(create))
+          .replace('{البايو}', str(bio))
+          .replace('{الايدي}', str(iD))
+          .replace('{الرتبه}', str(rank))
+          .replace('{التفاعل}', str(tfa3l))
+          .replace('{تعليق}', str(comment))
+      )
+
       if r.get(f'{m.chat.id}:disableIDPHOTO:{Dev_Zaid}'):
-         return m.reply(text, disable_web_page_preview=True)
+          return await m.reply(text_out, disable_web_page_preview=True)
       else:
          if m.from_user.photo:
            get_user = c.invoke(GetFullUser(id=(c.resolve_peer(m.from_user.id))))
