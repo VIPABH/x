@@ -323,7 +323,7 @@ def get_ranks_func(c,m,k,channel):
 async def check_group_info(client, m):
     if not admin_pls(m.from_user.id, m.chat.id):
         return await m.reply(f'{k} هذا الامر يخص ( الادمن وفوق ) بس')
-    channel = r.get(f'{Dev_Zaid}:BotChannel') if r.get(f'{Dev_Zaid}:BotChannel') else 'yqyqy66'
+
     cid = m.chat.id
     text_output = ""
     
@@ -350,12 +350,13 @@ async def check_group_info(client, m):
 
     fetched_users = {}
     try:
-        users_list = await client.get_users(list(all_user_ids))
+        users_list = await client.get_users([*all_user_ids])
         if not isinstance(users_list, list):
             users_list = [users_list]
         fetched_users = {u.id: u for u in users_list if u}
     except Exception:
         pass  
+
     for rank_name, user_ids in ranks_data:
         text_output += f'• {rank_name}:\n\n'
         count = 1
@@ -368,10 +369,10 @@ async def check_group_info(client, m):
             elif user:
                 text_output += f'{count} ➣ {user.mention} ࿓ ( `{uid}` )\n'
             else:
-                mention = f'[{uid}](tg://user?id={uid})'
-                text_output += f'{count} ➣ {mention} ࿓ ( `{uid}` )\n'
+                text_output += f'{count} ➣ @{channel} ࿓ ( `{uid}` )\n'
             
             count += 1
       
         text_output += '\n☆\n'
+
     await m.reply(text_output)
