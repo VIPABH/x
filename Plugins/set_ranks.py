@@ -454,6 +454,7 @@ def ranks_reply_promote(c,m,k):
            return m.reply(f'{k} هطف تبي ترفع نفسك؟')
         if rank == get_rank(id, cid):
            return m.reply('نفس رتبتك ترا')           
+         print(r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'))
         if r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'):
           return m.reply(f'「 {mention} 」\n{k} مدير من قبل\n☆')
         else:
@@ -628,12 +629,12 @@ def ranks_reply_promote(c,m,k):
         if r.get(f'{cid}:rankPRE:{id}{Dev_Zaid}'):
           return m.reply(f'「 {mention} 」\n{k} مميز من قبل\n☆')
         else:
+          target_rank = get_rank_ABH(id, cid)
           rank_name = ranks_value[target_rank]
           r.delete(f'{cid}:{rank_name}:{id}{Dev_Zaid}')
           r.srem(f'{cid}:{rank_name}:{Dev_Zaid}', id)
           r.set(f'{cid}:rankPRE:{id}{Dev_Zaid}', 1)
           r.sadd(f'{cid}:listPRE:{Dev_Zaid}', id)
-          target_rank = get_rank_ABH(id, cid)
           m.reply(f'{k} الحلو 「 {mention} 」\n{k} رفعته صار مميز\n☆')
           if r.get(f'{id}:mute:{m.chat.id}{Dev_Zaid}'):
             r.delete(f'{id}:mute:{m.chat.id}{Dev_Zaid}')
