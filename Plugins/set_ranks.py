@@ -454,7 +454,7 @@ def ranks_reply_promote(c,m,k):
            return m.reply(f'{k} هطف تبي ترفع نفسك؟')
         if rank == get_rank(id, cid):
            return m.reply('نفس رتبتك ترا')           
-        print(r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'))
+        m.reply(r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'))
         if r.get(f'{cid}:rankMOD:{id}{Dev_Zaid}'):
           return m.reply(f'「 {mention} 」\n{k} مدير من قبل\n☆')
         else:
