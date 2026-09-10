@@ -230,7 +230,8 @@ def guardResponseFunction(c, m, k, channel):
             file_id = rep.audio.file_id
         if rep.document:
             file_id = rep.document.file_id
-        else print(rep)
+        else:
+            print(rep)
         idd = file_id[-6:]
         if r.get(f"{idd}:NotAllow:{m.chat.id}{Dev_Zaid}"):
             if not admin_pls(id, m.chat.id):
